@@ -194,8 +194,26 @@
     
     <div class="contact-info">
         <a href="mailto:contact@halfnomad.com" class="contact-item">📧 contact@halfnomad.com</a>
-        <a href="https://litt.ly/half_nomad" class="contact-item" target="_blank">🌐 halfnomad.kr</a>
+        <a href="https://litt.ly/half_nomad" class="contact-item" target="_blank" onclick="handleLinkClick()">🌐 halfnomad.kr</a>
     </div>
+
+    <script>
+        // 🔥 링크 클릭 후 포커스 복구 시스템
+        function handleLinkClick() {
+            console.log('🔥 외부 링크 클릭 - 포커스 복구 시스템 활성화');
+            
+            // 부모 윈도우로 포커스 복구 요청
+            setTimeout(() => {
+                if (window.parent && window.parent !== window) {
+                    window.parent.postMessage({
+                        type: 'linkOpened',
+                        action: 'restoreFocus'
+                    }, window.location.origin);
+                    console.log('🔥 부모 윈도우로 포커스 복구 요청 전송');
+                }
+            }, 100);
+        }
+    </script>
     
     <p class="subtitle">2025년 6월 8일 · 꿈도 환승이 되나요</p>
 </body>

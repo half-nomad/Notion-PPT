@@ -369,7 +369,7 @@
             </div>
             
             <div class="action-buttons">
-                <a href="https://half-nomad.github.io/Sun-sin-path/index.html" target="_blank" class="btn-primary">
+                <a href="https://half-nomad.github.io/Sun-sin-path/index.html" target="_blank" class="btn-primary" onclick="handleLinkClick()">
                     🔗 웹사이트 확인하기
                 </a>
             </div>
@@ -391,6 +391,22 @@
 
         function closeModal() {
             document.getElementById('imageModal').style.display = 'none';
+        }
+
+        // 🔥 링크 클릭 후 포커스 복구 시스템
+        function handleLinkClick() {
+            console.log('🔥 순신의 길 웹사이트 링크 클릭 - 포커스 복구 시스템 활성화');
+            
+            // 부모 윈도우로 포커스 복구 요청
+            setTimeout(() => {
+                if (window.parent && window.parent !== window) {
+                    window.parent.postMessage({
+                        type: 'linkOpened',
+                        action: 'restoreFocus'
+                    }, window.location.origin);
+                    console.log('🔥 부모 윈도우로 포커스 복구 요청 전송');
+                }
+            }, 100);
         }
 
         // ESC 키로 모달 닫기

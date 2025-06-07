@@ -306,7 +306,7 @@
         <div class="slide-container">
         <h1 class="main-title">임베드 기능의 강력함</h1>
         
-        <a href="https://www.notion.so/help/embed-and-connect-other-apps" target="_blank" class="intro-text">
+        <a href="https://www.notion.so/help/embed-and-connect-other-apps" target="_blank" class="intro-text" onclick="handleLinkClick()">
             하나의 페이지에서 모든 것을:
             <span class="clip-icon">📎</span>
         </a>
@@ -368,7 +368,23 @@
         </div>
         </div>
     </div>
-</body>
-</html>
+
+    <script>
+        // 🔥 링크 클릭 후 포커스 복구 시스템
+        function handleLinkClick() {
+            console.log('🔥 노션 도움말 링크 클릭 - 포커스 복구 시스템 활성화');
+            
+            // 부모 윈도우로 포커스 복구 요청
+            setTimeout(() => {
+                if (window.parent && window.parent !== window) {
+                    window.parent.postMessage({
+                        type: 'linkOpened',
+                        action: 'restoreFocus'
+                    }, window.location.origin);
+                    console.log('🔥 부모 윈도우로 포커스 복구 요청 전송');
+                }
+            }, 100);
+        }
+    </script>
 </body>
 </html>
