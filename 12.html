@@ -366,10 +366,14 @@
             document.getElementById('imageModal').style.display = 'none';
         }
 
-        // 🔥 웹 클리퍼 링크 열기 (포커스 복구 포함)
+        // 🔥 웹 클리퍼 링크 열기 (포커스 복구 강화)
         function openWebClipperLink() {
+            console.log('🔥 수정된 클립 아이콘 클릭 테스트');
+            
             // 새 창 열기
-            const newWindow = window.open('https://blog.naver.com/royce249/223851160703', '_blank');
+            window.open('https://blog.naver.com/royce249/223851160703', '_blank');
+            
+            console.log('✅ 클립 아이콘 클릭됨 - 포커스 복구 시스템 작동');
             
             // 부모 윈도우(slides.html)로 포커스 복구 메시지 전송
             setTimeout(() => {
@@ -380,7 +384,15 @@
                         action: 'restoreFocus'
                     }, window.location.origin);
                     
-                    console.log('🔥 링크 열림 - 부모 윈도우로 포커스 복구 요청');
+                    console.log('🔥 부모 윈도우로 포커스 복구 요청 전송');
+                } else {
+                    // 일반 페이지에서 열렸을 경우 직접 포커스 복구
+                    setTimeout(() => {
+                        document.body.focus();
+                        if (!document.body.hasAttribute('tabindex')) {
+                            document.body.setAttribute('tabindex', '-1');
+                        }
+                    }, 200);
                 }
             }, 100);
         }

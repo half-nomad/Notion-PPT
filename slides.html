@@ -459,17 +459,19 @@
             }
         });
         
-        // 🔥 window.open 후 포커스 손실 문제 해결
+        // 🔥 window.open 후 포커스 손실 문제 해결 (강화버전)
         // 새 창에서 돌아올 때 키보드 네비게이션 복구
         window.addEventListener('focus', function() {
             console.log('🔥 윈도우 포커스 복구 - 키보드 네비게이션 재활성화');
             
-            // document에 다시 포커스 설정
-            if (document.activeElement !== document.body) {
-                document.body.focus();
+            // document.body에 포커스 강제 설정
+            document.body.focus();
+            
+            // 추가 안전장치: tabindex 설정으로 포커스 가능하게 만들기
+            if (!document.body.hasAttribute('tabindex')) {
+                document.body.setAttribute('tabindex', '-1');
             }
             
-            // 키보드 이벤트 리스너가 정상 작동하는지 확인용 로그
             console.log('✅ 키보드 네비게이션 준비 완료');
         });
         
@@ -480,6 +482,13 @@
                 setTimeout(() => {
                     document.body.focus();
                 }, 100);
+            }
+        });
+        
+        // 🔥 추가: 클릭 이벤트로도 포커스 복구 (안전장치)
+        document.addEventListener('click', function() {
+            if (document.activeElement !== document.body) {
+                document.body.focus();
             }
         });
         
@@ -665,6 +674,11 @@
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🔥 통합 슬라이드 뷰어 시작!');
             
+            // 🔥 초기 로드 시 body에 포커스 설정
+            document.body.setAttribute('tabindex', '-1');
+            document.body.focus();
+            console.log('🔥 초기 키보드 네비게이션 활성화');
+            
             // 1. 슬라이드 생성 및 로딩 시작
             createSlides();
             updateUI();
@@ -800,15 +814,34 @@
                         toggleFullscreen();
                         break;
                     case 'linkOpened':
-                        // 🔥 iframe에서 링크를 열었을 때 포커스 복구
+                        // 🔥 iframe에서 링크를 열었을 때 포커스 복구 (강화)
                         if (data.action === 'restoreFocus') {
                             console.log('🔥 iframe에서 링크 열림 - 포커스 복구 중...');
                             
-                            // 약간의 지연 후 포커스 복구
+                            // 즉시 포커스 복구 시도
+                            document.body.focus();
+                            
+                            // tabindex 속성 확인 및 설정
+                            if (!document.body.hasAttribute('tabindex')) {
+                                document.body.setAttribute('tabindex', '-1');
+                            }
+                            
+                            // 약간의 지연 후 한 번 더 포커스 복구 (안전장치)
                             setTimeout(() => {
                                 document.body.focus();
                                 console.log('✅ 메인 윈도우 포커스 복구 완료');
+                                
+                                // 키보드 이벤트 테스트
+                                console.log('🧪 키보드 이벤트 활성화 테스트 - 이제 ←/→ 키를 사용해보세요');
                             }, 200);
+                            
+                            // 추가 안전장치: 1초 후에도 한 번 더
+                            setTimeout(() => {
+                                if (document.activeElement !== document.body) {
+                                    document.body.focus();
+                                    console.log('🔥 추가 포커스 복구 완료');
+                                }
+                            }, 1000);
                         }
                         break;
                 }
