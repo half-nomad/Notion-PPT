@@ -306,7 +306,7 @@
                 <div class="step-icon">🔍</div>
                 <div class="step-title">수집</div>
                 <div class="step-description">웹 클리퍼를 통한<br>원클릭 저장</div>
-                <div class="clip-icon" onclick="window.open('https://blog.naver.com/royce249/223851160703', '_blank')" title="웹 클리퍼 사용법 보기">
+                <div class="clip-icon" onclick="openWebClipperLink()" title="웹 클리퍼 사용법 보기">
                     📎
                 </div>
             </div>
@@ -364,6 +364,25 @@
 
         function closeModal() {
             document.getElementById('imageModal').style.display = 'none';
+        }
+
+        // 🔥 웹 클리퍼 링크 열기 (포커스 복구 포함)
+        function openWebClipperLink() {
+            // 새 창 열기
+            const newWindow = window.open('https://blog.naver.com/royce249/223851160703', '_blank');
+            
+            // 부모 윈도우(slides.html)로 포커스 복구 메시지 전송
+            setTimeout(() => {
+                if (window.parent && window.parent !== window) {
+                    // iframe 내부에서 부모로 메시지 전송
+                    window.parent.postMessage({
+                        type: 'linkOpened',
+                        action: 'restoreFocus'
+                    }, window.location.origin);
+                    
+                    console.log('🔥 링크 열림 - 부모 윈도우로 포커스 복구 요청');
+                }
+            }, 100);
         }
 
         // ESC 키로 모달 닫기
