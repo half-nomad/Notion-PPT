@@ -28,6 +28,26 @@
             position: relative;
         }
         
+        /* 터치 오버레이 - iframe 위에 투명한 터치 캐치 레이어 */
+        .touch-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 999; /* iframe(950)보다 높지만 UI(1000)보다 낮게 */
+            background: transparent;
+            pointer-events: auto;
+            cursor: none;
+        }
+        
+        /* 모바일에서는 터치 오버레이 커서 표시 */
+        @media (max-width: 768px) {
+            .touch-overlay {
+                cursor: auto;
+            }
+        }
+        
         /* 개별 슬라이드 iframe */
         .slide {
             width: 100%;
@@ -257,7 +277,10 @@
         <!-- 로딩 표시 -->
         <div class="loading">노션 강의를 준비하는 중... (3초 후 자동 시작)</div>
         
-        <!-- 32개 슬라이드 동적 생성될 예정 -->
+        <!-- 터치 오버레이 (iframe 위에 투명한 터치 캐치 레이어) -->
+        <div class="touch-overlay"></div>
+        
+        <!-- 33개 슬라이드 동적 생성될 예정 -->
     </div>
     
     <!-- UI 요소들 -->
@@ -414,33 +437,6 @@
             }
         });
         
-        // 터치 이벤트 리스너들
-        document.addEventListener('touchstart', function(e) {
-            if (isTransitioning) return;
-            
-            const touch = e.touches[0];
-            touchStartX = touch.clientX;
-            touchStartY = touch.clientY;
-            
-            // 터치 시작 시 UI 표시 (3초 후 숨김)
-            showUITemporarily();
-        }, { passive: true });
-        
-        document.addEventListener('touchmove', function(e) {
-            // 스크롤 방지 (슬라이드 뷰어에서는 스크롤 불필요)
-            e.preventDefault();
-        }, { passive: false });
-        
-        document.addEventListener('touchend', function(e) {
-            if (isTransitioning) return;
-            
-            const touch = e.changedTouches[0];
-            touchEndX = touch.clientX;
-            touchEndY = touch.clientY;
-            
-            handleTouchGesture();
-        }, { passive: true });
-        
         // 터치 피드백 표시
         function showTouchFeedback() {
             const container = document.querySelector('.slide-container');
@@ -472,49 +468,54 @@
             }, 3000);
         }
         
-        // 터치 제스처 처리 (개선된 버전)
+        // 터치 제스처 처리 (단순화된 버전)
         function handleTouchGesture() {
             const deltaX = touchEndX - touchStartX;
             const deltaY = touchEndY - touchStartY;
             const absDeltaX = Math.abs(deltaX);
             const absDeltaY = Math.abs(deltaY);
             
+            console.log('터치 제스처:', { deltaX, deltaY, absDeltaX, absDeltaY });
+            
             // 터치 피드백 표시
             showTouchFeedback();
             
-            // 스와이프 제스처 감지 (가로 스와이프가 세로보다 클 때)
-            if (absDeltaX > SWIPE_THRESHOLD && absDeltaX > absDeltaY) {
+            // 수평 움직임이 세로보다 크면 스와이프로 판단
+            if (absDeltaX > absDeltaY && absDeltaX > SWIPE_THRESHOLD) {
                 if (deltaX > 0) {
                     // 오른쪽 스와이프 → 이전 슬라이드
-                    console.log('오른쪽 스와이프: 이전 슬라이드');
+                    console.log('🔥 오른쪽 스와이프: 이전 슬라이드');
                     previousSlide();
                 } else {
                     // 왼쪽 스와이프 → 다음 슬라이드
-                    console.log('왼쪽 스와이프: 다음 슬라이드');
+                    console.log('🔥 왼쪽 스와이프: 다음 슬라이드');
                     nextSlide();
                 }
                 return;
             }
             
-            // 탭 제스처 감지 (이동거리가 작을 때)
+            // 움직임이 작으면 탭으로 판단
             if (absDeltaX < TAP_THRESHOLD && absDeltaY < TAP_THRESHOLD) {
                 const screenWidth = window.innerWidth;
-                const tapX = touchEndX;
+                const tapX = touchStartX; // touchEndX 대신 touchStartX 사용
                 
-                // 화면을 좌우 40%씩, 중앙 20%로 분할해서 탭 위치 판단
+                console.log('탭 위치:', tapX, '/', screenWidth);
+                
                 if (tapX < screenWidth * 0.4) {
                     // 왼쪽 40% 영역 탭 → 이전 슬라이드
-                    console.log('왼쪽 탭: 이전 슬라이드');
+                    console.log('🔥 왼쪽 탭: 이전 슬라이드');
                     previousSlide();
                 } else if (tapX > screenWidth * 0.6) {
                     // 오른쪽 40% 영역 탭 → 다음 슬라이드
-                    console.log('오른쪽 탭: 다음 슬라이드');
+                    console.log('🔥 오른쪽 탭: 다음 슬라이드');
                     nextSlide();
                 } else {
                     // 중앙 20% 영역 탭 → UI 토글
-                    console.log('중앙 탭: UI 표시');
+                    console.log('🔥 중앙 탭: UI 표시');
                     showUITemporarily();
                 }
+            } else {
+                console.log('❌ 제스처 인식 실패 (움직임이 애매함)');
             }
         }
         
@@ -610,11 +611,16 @@
         
         // 초기화
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('통합 슬라이드 뷰어 시작!');
+            console.log('🔥 통합 슬라이드 뷰어 시작!');
+            
+            // 1. 터치 이벤트 즉시 활성화 (로딩과 무관)
+            setupTouchEvents();
+            
+            // 2. 슬라이드 생성 및 로딩 시작
             createSlides();
             updateUI();
             
-            // iframe과의 메시지 통신 설정
+            // 3. iframe과의 메시지 통신 설정
             setupMessageListener();
             
             // 🚨 Firefox 호환성: 3초 후 강제 로딩 해제
@@ -635,6 +641,48 @@
                 }
             }, 6000);
         });
+        
+        // 터치 이벤트 설정 (별도 함수로 분리)
+        function setupTouchEvents() {
+            const touchOverlay = document.querySelector('.touch-overlay');
+            
+            if (!touchOverlay) {
+                console.error('❌ 터치 오버레이를 찾을 수 없습니다!');
+                return;
+            }
+            
+            console.log('🔥 터치 이벤트 설정 완료!');
+            
+            touchOverlay.addEventListener('touchstart', function(e) {
+                if (isTransitioning) return;
+                
+                const touch = e.touches[0];
+                touchStartX = touch.clientX;
+                touchStartY = touch.clientY;
+                
+                console.log('터치 시작:', touchStartX, touchStartY);
+                
+                // 터치 시작 시 UI 표시 (3초 후 숨김)
+                showUITemporarily();
+            }, { passive: false });
+            
+            touchOverlay.addEventListener('touchmove', function(e) {
+                // 스크롤 방지 (슬라이드 뷰어에서는 스크롤 불필요)
+                e.preventDefault();
+            }, { passive: false });
+            
+            touchOverlay.addEventListener('touchend', function(e) {
+                if (isTransitioning) return;
+                
+                const touch = e.changedTouches[0];
+                touchEndX = touch.clientX;
+                touchEndY = touch.clientY;
+                
+                console.log('터치 종료:', touchEndX, touchEndY);
+                
+                handleTouchGesture();
+            }, { passive: false });
+        }
         
         // iframe 메시지 리스너 설정
         function setupMessageListener() {
