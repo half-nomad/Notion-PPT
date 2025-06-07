@@ -32,11 +32,17 @@
             background: linear-gradient(135deg, var(--bg-black) 0%, var(--bg-dark) 100%);
             color: var(--text-white);
             min-height: 100vh;
+            padding: 40px;
+            overflow-y: auto; /* 세로 스크롤 허용 */
+        }
+        
+        /* 전체 컨테이너를 중앙 정렬하되 스크롤 허용 */
+        .body-wrapper {
+            min-height: calc(100vh - 80px);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 40px;
         }
 
         .header {
@@ -276,51 +282,53 @@
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1 class="main-title">IDEA 프레임워크</h1>
-        <p class="subtitle">"미래→현재→과거→미래의 순환"</p>
-    </div>
-    
-    <div class="content-container">
-        <div class="idea-container">
-            <div class="idea-circle initiative">
-                <div class="idea-icon">🎯</div>
-                <div class="idea-name">Initiative</div>
-                <div class="idea-desc">(미래 준비)</div>
-            </div>
-            
-            <div class="idea-circle diary">
-                <div class="idea-icon">📝</div>
-                <div class="idea-name">Diary</div>
-                <div class="idea-desc">(현재 관리)</div>
-            </div>
-            
-            <div class="idea-circle explore">
-                <div class="idea-icon">🔍</div>
-                <div class="idea-name">Explore</div>
-                <div class="idea-desc">(지식 구축)</div>
-            </div>
-            
-            <div class="idea-circle amplify">
-                <div class="idea-icon">🚀</div>
-                <div class="idea-name">Amplify</div>
-                <div class="idea-desc">(완성 확장)</div>
-            </div>
-            
-            <div class="arrow arrow-1">↘</div>
-            <div class="arrow arrow-2">↙</div>
-            <div class="arrow arrow-3">↖</div>
-            <div class="arrow arrow-4">↗</div>
+    <div class="body-wrapper">
+        <div class="header">
+            <h1 class="main-title">IDEA 프레임워크</h1>
+            <p class="subtitle">"미래→현재→과거→미래의 순환"</p>
         </div>
         
-        <div class="philosophy">
-            <h2 class="philosophy-title">핵심 철학</h2>
-            <ul class="philosophy-list">
-                <li><span class="highlight">Initiative:</span> 앞으로 할 실험들 (미래)</li>
-                <li><span class="highlight">Diary:</span> 꾸준히 할 루틴들 (현재)</li>
-                <li><span class="highlight">Explore:</span> 도메인 지식 쌓기 (과거→현재)</li>
-                <li><span class="highlight">Amplify:</span> 완성된 결과물들 (완성→확산)</li>
-            </ul>
+        <div class="content-container">
+            <div class="idea-container">
+                <div class="idea-circle initiative">
+                    <div class="idea-icon">🎯</div>
+                    <div class="idea-name">Initiative</div>
+                    <div class="idea-desc">(미래 준비)</div>
+                </div>
+                
+                <div class="idea-circle diary">
+                    <div class="idea-icon">📝</div>
+                    <div class="idea-name">Diary</div>
+                    <div class="idea-desc">(현재 관리)</div>
+                </div>
+                
+                <div class="idea-circle explore">
+                    <div class="idea-icon">🔍</div>
+                    <div class="idea-name">Explore</div>
+                    <div class="idea-desc">(지식 구축)</div>
+                </div>
+                
+                <div class="idea-circle amplify">
+                    <div class="idea-icon">🚀</div>
+                    <div class="idea-name">Amplify</div>
+                    <div class="idea-desc">(완성 확장)</div>
+                </div>
+                
+                <div class="arrow arrow-1">↘</div>
+                <div class="arrow arrow-2">↙</div>
+                <div class="arrow arrow-3">↖</div>
+                <div class="arrow arrow-4">↗</div>
+            </div>
+            
+            <div class="philosophy">
+                <h2 class="philosophy-title">핵심 철학</h2>
+                <ul class="philosophy-list">
+                    <li><span class="highlight">Initiative:</span> 앞으로 할 실험들 (미래)</li>
+                    <li><span class="highlight">Diary:</span> 꾸준히 할 루틴들 (현재)</li>
+                    <li><span class="highlight">Explore:</span> 도메인 지식 쌓기 (과거→현재)</li>
+                    <li><span class="highlight">Amplify:</span> 완성된 결과물들 (완성→확산)</li>
+                </ul>
+            </div>
         </div>
     </div>
 </body>

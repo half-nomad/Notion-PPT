@@ -16,9 +16,16 @@
         
         body {
             font-family: 'Pretendard Variable', 'Pretendard', sans-serif;
-            overflow: hidden;
+            overflow: auto; /* hidden → auto로 변경하여 세로 스크롤 허용 */
             background: #000;
             cursor: auto; /* 기본적으로 커서 표시 */
+        }
+        
+        /* 데스크톱에서는 스크롤 방지, 모바일에서는 세로 스크롤 허용 */
+        @media (min-width: 769px) {
+            body {
+                overflow: hidden; /* 데스크톱에서만 스크롤 방지 */
+            }
         }
         
         /* 슬라이드 컨테이너 */
@@ -26,6 +33,16 @@
             width: 100vw;
             height: 100vh;
             position: relative;
+            overflow: hidden; /* 데스크톱에서는 스크롤 방지 */
+        }
+        
+        /* 모바일에서 세로 스크롤 허용 */
+        @media (max-width: 768px) {
+            .slide-container {
+                overflow-y: auto; /* 모바일에서는 세로 스크롤 허용 */
+                overflow-x: hidden; /* 가로 스크롤은 여전히 방지 */
+                -webkit-overflow-scrolling: touch; /* iOS 부드러운 스크롤 */
+            }
         }
         
         /* 터치 오버레이 - iframe 위에 투명한 터치 캐치 레이어 */
@@ -473,7 +490,7 @@
             }, 3000);
         }
         
-        // 터치 제스처 처리 (단순화된 버전)
+        // 터치 제스처 처리 (세로 스크롤 우선 처리)
         function handleTouchGesture() {
             const deltaX = touchEndX - touchStartX;
             const deltaY = touchEndY - touchStartY;
@@ -482,11 +499,17 @@
             
             console.log('터치 제스처:', { deltaX, deltaY, absDeltaX, absDeltaY });
             
-            // 터치 피드백 표시
+            // 🔥 세로 움직임이 수평보다 크면 스크롤로 판단하고 즉시 종료
+            if (absDeltaY > absDeltaX && absDeltaY > 15) {
+                console.log('📱 세로 스크롤 감지 - 자연스러운 스크롤 허용');
+                return; // 아무것도 하지 않고 브라우저의 기본 스크롤 동작 허용
+            }
+            
+            // 터치 피드백 표시 (스크롤이 아닌 경우에만)
             showTouchFeedback();
             
             // 수평 움직임이 세로보다 크고 임계값을 넘으면 스와이프로 판단
-            if (absDeltaX > SWIPE_THRESHOLD && absDeltaX > absDeltaY) {
+            if (absDeltaX > SWIPE_THRESHOLD && absDeltaX >= absDeltaY) {
                 if (deltaX > 0) {
                     // 오른쪽 스와이프 → 이전 슬라이드
                     console.log('🔥 오른쪽 스와이프: 이전 슬라이드');
@@ -520,7 +543,7 @@
                     showUITemporarily();
                 }
             } else {
-                console.log('❌ 제스처 인식 실패 (움직임이 애매함)');
+                console.log('🤷 애매한 제스처 - 무시');
             }
         }
         
@@ -677,7 +700,7 @@
                 showUITemporarily();
             }, { passive: true });
             
-            // 터치 이동 - 조건부 preventDefault
+            // 터치 이동 - 조건부 preventDefault (세로 스크롤 우선 허용)
             touchOverlay.addEventListener('touchmove', function(e) {
                 if (isTransitioning) return;
                 
@@ -690,12 +713,19 @@
                 const absDeltaX = Math.abs(deltaX);
                 const absDeltaY = Math.abs(deltaY);
                 
-                // 수평 움직임이 세로보다 크면 스와이프로 판단하고 스크롤 방지
-                if (absDeltaX > absDeltaY && absDeltaX > 10) {
+                // 🔥 세로 움직임이 수평보다 크면 즉시 스크롤 허용 (preventDefault 하지 않음)
+                if (absDeltaY >= absDeltaX && absDeltaY > 10) {
+                    console.log('세로 스크롤 허용 - preventDefault 없음');
+                    return; // preventDefault 하지 않고 자연스러운 스크롤 허용
+                }
+                
+                // 수평 움직임이 세로보다 명확히 크면 스와이프로 판단하고 스크롤 방지
+                if (absDeltaX > absDeltaY && absDeltaX > 15) {
                     console.log('수평 스와이프 감지 - 스크롤 방지');
                     e.preventDefault();
                 }
-                // 세로 움직임이 더 크면 스크롤 허용 (preventDefault 하지 않음)
+                
+                // 움직임이 애매하면 기본 동작 허용 (preventDefault 하지 않음)
             }, { passive: false });
             
             // 터치 종료
