@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IDEA 프레임워크</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-purple: #673AB7;
+            --secondary-purple: #9C27B0;
+            --accent-purple: #B388FF;
+            --tertiary-indigo: #3F51B5;
+            --bg-black: #000000;
+            --bg-dark: #1a1a1a;
+            --text-white: #FFFFFF;
+            --text-gray: #CCCCCC;
+            --text-light: #E0E0E0;
+            --gradient-title: linear-gradient(135deg, var(--primary-purple) 0%, var(--secondary-purple) 100%);
+            --gradient-text: linear-gradient(90deg, var(--text-white) 0%, var(--accent-purple) 100%);
+            --gradient-box: linear-gradient(90deg, var(--primary-purple) 0%, var(--secondary-purple) 50%, var(--tertiary-indigo) 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--bg-black) 0%, var(--bg-dark) 100%);
+            color: var(--text-white);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .main-title {
+            font-size: 3rem;
+            font-weight: 800;
+            background: var(--gradient-title);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-gray);
+        }
+
+        .content-container {
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .idea-container {
+            position: relative;
+            width: 500px;
+            height: 500px;
+            flex-shrink: 0;
+        }
+
+        .idea-circle {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border: 3px solid transparent;
+            background: linear-gradient(var(--bg-dark), var(--bg-dark)) padding-box,
+                       var(--gradient-box) border-box;
+            box-shadow: 0 10px 30px rgba(103, 58, 183, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .idea-circle:hover {
+            transform: scale(1.08);
+            box-shadow: 0 15px 40px rgba(103, 58, 183, 0.5);
+        }
+
+        /* 올바른 순환 배치: 상->우->하->좌 */
+        .initiative {
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .diary {
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+        }
+
+        .explore {
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .amplify {
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+        }
+
+        .idea-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .idea-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent-purple);
+            margin-bottom: 0.2rem;
+        }
+
+        .idea-desc {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-gray);
+        }
+
+        /* 순환 화살표 배치 */
+        .arrow {
+            position: absolute;
+            font-size: 1.8rem;
+            color: var(--secondary-purple);
+            font-weight: bold;
+            animation: pulse 2s infinite;
+            z-index: 10;
+        }
+
+        /* Initiative → Diary (상단 → 우측) */
+        .arrow-1 {
+            top: 25%;
+            right: 25%;
+        }
+
+        /* Diary → Explore (우측 → 하단) */
+        .arrow-2 {
+            bottom: 25%;
+            right: 25%;
+        }
+
+        /* Explore → Amplify (하단 → 좌측) */
+        .arrow-3 {
+            bottom: 25%;
+            left: 25%;
+        }
+
+        /* Amplify → Initiative (좌측 → 상단) */
+        .arrow-4 {
+            top: 25%;
+            left: 25%;
+        }
+
+        @keyframes pulse {
+            0%, 100% { 
+                opacity: 0.7; 
+                transform: scale(1);
+            }
+            50% { 
+                opacity: 1; 
+                transform: scale(1.2);
+            }
+        }
+
+        .philosophy {
+            background: rgba(26, 26, 26, 0.8);
+            padding: 2rem;
+            border-radius: 20px;
+            border-left: 5px solid var(--primary-purple);
+            max-width: 500px;
+            flex-shrink: 0;
+        }
+
+        .philosophy-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-purple);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .philosophy-list {
+            list-style: none;
+            padding-left: 0;
+            display: grid;
+            gap: 1rem;
+        }
+
+        .philosophy-list li {
+            background: rgba(103, 58, 183, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            color: var(--text-light);
+            font-size: 1rem;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .philosophy-list .highlight {
+            color: var(--accent-purple);
+            font-weight: 700;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 30px;
+            }
+            
+            .main-title {
+                font-size: 2.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1.3rem;
+            }
+            
+            .content-container {
+                flex-direction: column;
+                gap: 2rem;
+            }
+            
+            .idea-container {
+                width: 400px;
+                height: 400px;
+            }
+            
+            .idea-circle {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .idea-icon {
+                font-size: 2rem;
+            }
+            
+            .idea-name {
+                font-size: 1rem;
+            }
+            
+            .idea-desc {
+                font-size: 0.8rem;
+            }
+            
+            .arrow {
+                font-size: 1.5rem;
+            }
+            
+            .philosophy {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 class="main-title">IDEA 프레임워크</h1>
+        <p class="subtitle">"미래→현재→과거→미래의 순환"</p>
+    </div>
+    
+    <div class="content-container">
+        <div class="idea-container">
+            <div class="idea-circle initiative">
+                <div class="idea-icon">🎯</div>
+                <div class="idea-name">Initiative</div>
+                <div class="idea-desc">(미래 준비)</div>
+            </div>
+            
+            <div class="idea-circle diary">
+                <div class="idea-icon">📝</div>
+                <div class="idea-name">Diary</div>
+                <div class="idea-desc">(현재 관리)</div>
+            </div>
+            
+            <div class="idea-circle explore">
+                <div class="idea-icon">🔍</div>
+                <div class="idea-name">Explore</div>
+                <div class="idea-desc">(지식 구축)</div>
+            </div>
+            
+            <div class="idea-circle amplify">
+                <div class="idea-icon">🚀</div>
+                <div class="idea-name">Amplify</div>
+                <div class="idea-desc">(완성 확장)</div>
+            </div>
+            
+            <div class="arrow arrow-1">↘</div>
+            <div class="arrow arrow-2">↙</div>
+            <div class="arrow arrow-3">↖</div>
+            <div class="arrow arrow-4">↗</div>
+        </div>
+        
+        <div class="philosophy">
+            <h2 class="philosophy-title">핵심 철학</h2>
+            <ul class="philosophy-list">
+                <li><span class="highlight">Initiative:</span> 앞으로 할 실험들 (미래)</li>
+                <li><span class="highlight">Diary:</span> 꾸준히 할 루틴들 (현재)</li>
+                <li><span class="highlight">Explore:</span> 도메인 지식 쌓기 (과거→현재)</li>
+                <li><span class="highlight">Amplify:</span> 완성된 결과물들 (완성→확산)</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>우리의 공통 고민 - 노션 강의 슬라이드 3</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-purple: #673AB7;
+            --secondary-purple: #9C27B0;
+            --accent-purple: #B388FF;
+            --tertiary-indigo: #3F51B5;
+            
+            --bg-black: #000000;
+            --bg-dark: #1a1a1a;
+            --text-white: #FFFFFF;
+            --text-gray: #CCCCCC;
+            --text-light: #E0E0E0;
+            
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 2rem;
+            --spacing-lg: 3rem;
+            --spacing-xl: 4rem;
+            
+            --gradient-title: linear-gradient(135deg, var(--primary-purple) 0%, var(--secondary-purple) 100%);
+            --gradient-text: linear-gradient(90deg, var(--text-white) 0%, var(--accent-purple) 100%);
+            --gradient-box: linear-gradient(90deg, var(--primary-purple) 0%, var(--secondary-purple) 50%, var(--tertiary-indigo) 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--bg-black) 0%, var(--bg-dark) 100%);
+            color: var(--text-white);
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px;
+            overflow: hidden;
+        }
+
+        .main-title {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1.2;
+            background: var(--gradient-title);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--spacing-xl);
+            text-align: center;
+        }
+
+        .content-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-xl);
+            width: 100%;
+            max-width: 1200px;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .section-box {
+            background: rgba(26, 26, 26, 0.8);
+            padding: var(--spacing-lg);
+            border-radius: 20px;
+            border-left: 5px solid var(--primary-purple);
+            backdrop-filter: blur(10px);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-md);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .section-title.sustainability {
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-title.resources {
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-quote {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--accent-purple);
+            font-style: italic;
+            margin-bottom: var(--spacing-md);
+            text-align: center;
+        }
+
+        .content-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .content-list li {
+            padding-left: 1.5rem;
+            position: relative;
+            margin-bottom: var(--spacing-sm);
+            color: var(--text-light);
+            font-size: 1.3rem;
+            font-weight: 600;
+            line-height: 1.6;
+        }
+
+        .content-list li::before {
+            content: '•';
+            color: var(--secondary-purple);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            font-size: 1.5rem;
+        }
+
+        .highlight {
+            color: var(--accent-purple);
+            font-weight: 700;
+        }
+
+        .final-question {
+            background: var(--gradient-box);
+            padding: var(--spacing-lg);
+            border-radius: 20px;
+            text-align: center;
+            width: 100%;
+            max-width: 800px;
+            box-shadow: 0 10px 30px rgba(103, 58, 183, 0.3);
+        }
+
+        .question-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-white);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .question-text {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--text-white);
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 30px; }
+            .main-title { font-size: 2.5rem; }
+            
+            .content-section {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-md);
+            }
+            
+            .section-title { font-size: 1.8rem; }
+            .section-quote { font-size: 1.3rem; }
+            .content-list li { font-size: 1.1rem; }
+            .question-title { font-size: 1.6rem; }
+            .question-text { font-size: 1.7rem; }
+        }
+
+        .slide-number {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            font-size: 1rem;
+            color: var(--text-gray);
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="main-title">우리의 공통 고민</h1>
+    
+    <div class="content-section">
+        <div class="section-box">
+            <h2 class="section-title sustainability">🔄 지속가능성</h2>
+            <div class="section-quote">"지금 하는 일이 미래에도 의미가 있을까?"</div>
+            <ul class="content-list">
+                <li>업계 변화 속도 <span class="highlight">vs</span> 내 적응 속도</li>
+                <li>경쟁 심화 <span class="highlight">vs</span> 차별화 포인트</li>
+                <li>체력적 한계 <span class="highlight">vs</span> 성장 욕구</li>
+            </ul>
+        </div>
+
+        <div class="section-box">
+            <h2 class="section-title resources">⚡ 자원부족</h2>
+            <div class="section-quote">"시간/돈/사람이 부족한데 어떻게 성장하지?"</div>
+            <ul class="content-list">
+                <li>해야 할 일은 많은데 시간은 <span class="highlight">24시간</span></li>
+                <li>투자할 여력은 <span class="highlight">제한적</span></li>
+                <li>모든 걸 <span class="highlight">혼자</span> 해야 하는 상황</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="final-question">
+        <h3 class="question-title">❓ 그래서 던진 질문</h3>
+        <div class="question-text">"도구와 시스템으로 이 문제를 해결할 수 있을까?"</div>
+    </div>
+
+    <div class="slide-number">3 / 32</div>
+</body>
+</html>

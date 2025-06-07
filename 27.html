@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[D] Diary - 현재를 관리하는 루틴들</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-purple: #673AB7;
+            --secondary-purple: #9C27B0;
+            --accent-purple: #B388FF;
+            --tertiary-indigo: #3F51B5;
+            --bg-black: #000000;
+            --bg-dark: #1a1a1a;
+            --text-white: #FFFFFF;
+            --text-gray: #CCCCCC;
+            --text-light: #E0E0E0;
+            --spacing-md: 2rem;
+            --spacing-lg: 3rem;
+            --spacing-xl: 4rem;
+            --gradient-title: linear-gradient(135deg, var(--primary-purple) 0%, var(--secondary-purple) 100%);
+            --gradient-text: linear-gradient(90deg, var(--text-white) 0%, var(--accent-purple) 100%);
+            --gradient-box: linear-gradient(90deg, var(--primary-purple) 0%, var(--secondary-purple) 50%, var(--tertiary-indigo) 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--bg-black) 0%, var(--bg-dark) 100%);
+            color: var(--text-white);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .main-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: var(--gradient-title);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--text-gray);
+        }
+
+        .content-container {
+            max-width: 1000px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-lg);
+        }
+
+        .section {
+            background: rgba(26, 26, 26, 0.8);
+            padding: var(--spacing-lg);
+            border-radius: 20px;
+            border-left: 5px solid var(--secondary-purple);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-purple);
+            margin-bottom: var(--spacing-md);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-icon {
+            font-size: 2rem;
+        }
+
+        .item-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .item-list li {
+            padding-left: 1.8rem;
+            position: relative;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+            font-size: 1.2rem;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+
+        .item-list li::before {
+            content: '📝';
+            position: absolute;
+            left: 0;
+            font-size: 1rem;
+        }
+
+        .examples-section .item-list li::before {
+            content: '•';
+            color: var(--secondary-purple);
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .management-section {
+            grid-column: 1 / -1;
+            background: var(--gradient-box);
+            border: none;
+            text-align: center;
+        }
+
+        .management-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-white);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .management-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .management-item {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 1.2rem;
+            border-radius: 15px;
+            color: var(--text-white);
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .management-label {
+            color: var(--accent-purple);
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 30px;
+            }
+            
+            .main-title {
+                font-size: 2.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1.4rem;
+            }
+            
+            .content-container {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-md);
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .item-list li {
+                font-size: 1.1rem;
+            }
+            
+            .management-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 class="main-title">[D] Diary</h1>
+        <p class="subtitle">"꾸준히 할 필요가 있는 루틴들"</p>
+    </div>
+    
+    <div class="content-container">
+        <div class="section">
+            <h2 class="section-title">
+                <span class="section-icon">📋</span>
+                무엇을 넣나요?
+            </h2>
+            <ul class="item-list">
+                <li>일일/주간 할일 관리</li>
+                <li>습관 트래커</li>
+                <li>KPI 모니터링 대시보드</li>
+                <li>회고 및 개선점 기록</li>
+            </ul>
+        </div>
+
+        <div class="section examples-section">
+            <h2 class="section-title">
+                <span class="section-icon">✨</span>
+                실제 예시:
+            </h2>
+            <ul class="item-list">
+                <li>요모조모 뉴스레터 주간 발행</li>
+                <li>하프노마드 SNS 콘텐츠 업로드</li>
+                <li>독서 기록 및 인사이트 정리</li>
+                <li>프로젝트 진행률 체크</li>
+            </ul>
+        </div>
+
+        <div class="management-section">
+            <h2 class="management-title">관리 방식:</h2>
+            <div class="management-grid">
+                <div class="management-item">
+                    <span class="management-label">빈도:</span>
+                    매일/주간/월간
+                </div>
+                <div class="management-item">
+                    <span class="management-label">중요도:</span>
+                    반드시/가급적/옵션
+                </div>
+                <div class="management-item">
+                    <span class="management-label">연결:</span>
+                    Initiative 프로젝트와 연계
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

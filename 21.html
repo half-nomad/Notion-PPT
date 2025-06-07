@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>21. 영수증 리뷰 생성기 - 노션 강의</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* 색상 */
+            --primary-purple: #673AB7;
+            --secondary-purple: #9C27B0;
+            --accent-purple: #B388FF;
+            --tertiary-indigo: #3F51B5;
+            
+            /* 배경 */
+            --bg-white: #FFFFFF;
+            --bg-light: #F5F5F5;
+            
+            /* 텍스트 */
+            --text-dark: #212121;
+            --text-gray: #424242;
+            --text-light-gray: #757575;
+            
+            /* 간격 */
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 2rem;
+            --spacing-lg: 3rem;
+            --spacing-xl: 4rem;
+            
+            /* 그라데이션 */
+            --gradient-title: linear-gradient(135deg, var(--primary-purple) 0%, var(--secondary-purple) 100%);
+            --gradient-text: linear-gradient(90deg, var(--text-dark) 0%, var(--accent-purple) 100%);
+            --gradient-box: linear-gradient(90deg, var(--primary-purple) 0%, var(--secondary-purple) 50%, var(--tertiary-indigo) 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--bg-white) 0%, var(--bg-light) 100%);
+            color: var(--text-dark);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px;
+            overflow: hidden;
+        }
+
+        .slide-container {
+            width: 100%;
+            max-width: 1400px;
+            text-align: center;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .main-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: var(--gradient-title);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .subtitle {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .business-context {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .fnb-insights {
+            background: rgba(76, 175, 80, 0.1);
+            padding: var(--spacing-lg);
+            border-radius: 20px;
+            border-left: 5px solid #4CAF50;
+            text-align: left;
+        }
+
+        .ai-solution {
+            background: linear-gradient(135deg, rgba(103, 58, 183, 0.1) 0%, rgba(156, 39, 176, 0.1) 100%);
+            padding: var(--spacing-lg);
+            border-radius: 20px;
+            border-left: 5px solid var(--primary-purple);
+            text-align: left;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-sm);
+            color: var(--text-dark);
+        }
+
+        .fnb-insights .section-title {
+            color: #388E3C;
+        }
+
+        .ai-solution .section-title {
+            background: var(--gradient-title);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .insight-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .insight-list li {
+            font-size: 1.3rem;
+            font-weight: 600;
+            line-height: 1.6;
+            margin-bottom: var(--spacing-sm);
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .fnb-insights .insight-list li::before {
+            content: '📊';
+            position: absolute;
+            left: 0;
+            color: #4CAF50;
+        }
+
+        .ai-solution .insight-list li::before {
+            content: '🔍';
+            position: absolute;
+            left: 0;
+            color: var(--secondary-purple);
+        }
+
+        .demo-workflow {
+            background: var(--gradient-box);
+            padding: var(--spacing-lg);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(103, 58, 183, 0.3);
+            color: white;
+        }
+
+        .demo-workflow h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .workflow-steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-md);
+        }
+
+        .workflow-step {
+            background: rgba(255, 255, 255, 0.2);
+            padding: var(--spacing-md);
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .workflow-icon {
+            font-size: 2.5rem;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .workflow-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        /* 반응형 */
+        @media (max-width: 768px) {
+            body { padding: 30px; }
+            .main-title { font-size: 2.5rem; }
+            .subtitle { font-size: 1.5rem; }
+            .business-context { 
+                grid-template-columns: 1fr; 
+                gap: var(--spacing-md);
+            }
+            .workflow-steps { 
+                grid-template-columns: 1fr; 
+                gap: var(--spacing-sm);
+            }
+            .insight-list li { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <h1 class="main-title"># 영수증 리뷰 생성기</h1>
+        <p class="subtitle">## "매장 방문 경험을 자동으로 콘텐츠화"</p>
+
+        <div class="business-context">
+            <div class="fnb-insights">
+                <h3 class="section-title">F&B 업계 인사이트 수집 고민</h3>
+                <ul class="insight-list">
+                    <li>매장 방문할 때마다 메모하기 번거로움</li>
+                    <li>영수증은 쌓이는데 정보는 활용 못함</li>
+                    <li>트렌드 분석을 위한 체계적 데이터 부족</li>
+                </ul>
+            </div>
+
+            <div class="ai-solution">
+                <h3 class="section-title">영수증 스캔 + AI 분석</h3>
+                <ul class="insight-list">
+                    <li>영수증 사진 촬영 → OCR로 정보 추출</li>
+                    <li>매장 정보 + 메뉴 + 가격 자동 파싱</li>
+                    <li>AI가 매장 특징과 트렌드 분석 리뷰 생성</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="demo-workflow">
+            <h3>🎬 [영상 시연 포인트]</h3>
+            <div class="workflow-steps">
+                <div class="workflow-step">
+                    <div class="workflow-icon">📱</div>
+                    <p class="workflow-text">스마트폰으로 영수증 촬영<br>→ 노션에 자동 업로드</p>
+                </div>
+                <div class="workflow-step">
+                    <div class="workflow-icon">🤖</div>
+                    <p class="workflow-text">AI가 생성한<br>매장 분석 리포트 확인</p>
+                </div>
+                <div class="workflow-step">
+                    <div class="workflow-icon">📰</div>
+                    <p class="workflow-text">요모조모 뉴스레터<br>소재로 활용하는 과정</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

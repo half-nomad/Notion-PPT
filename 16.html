@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>슬라이드 16: 프로젝트 관리의 3단계</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-purple: #673AB7;
+            --secondary-purple: #9C27B0;
+            --accent-purple: #B388FF;
+            --tertiary-indigo: #3F51B5;
+            --bg-white: #FFFFFF;
+            --bg-light: #F5F5F5;
+            --text-dark: #212121;
+            --text-gray: #424242;
+            --text-light-gray: #757575;
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 2rem;
+            --spacing-lg: 3rem;
+            --spacing-xl: 4rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--bg-white) 0%, var(--bg-light) 100%);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            line-height: 1.6;
+        }
+
+        .slide-container {
+            max-width: 1400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .main-title {
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-purple) 0%, var(--secondary-purple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--spacing-lg);
+            line-height: 1.2;
+        }
+
+        .steps-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .step-section {
+            background: rgba(255, 255, 255, 0.9);
+            padding: var(--spacing-md);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(103, 58, 183, 0.1);
+            border: 3px solid var(--primary-purple);
+            text-align: center;
+            min-height: 280px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .step-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .step-number {
+            background: linear-gradient(90deg, var(--primary-purple) 0%, var(--secondary-purple) 100%);
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 800;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .step-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--primary-purple);
+            text-align: center;
+        }
+
+        .step-description {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: var(--spacing-sm);
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        .examples-section {
+            background: linear-gradient(90deg, var(--primary-purple) 0%, var(--secondary-purple) 50%, var(--tertiary-indigo) 100%);
+            padding: var(--spacing-md);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(103, 58, 183, 0.3);
+        }
+
+        .examples-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .examples-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--spacing-sm);
+        }
+
+        .example-item {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: white;
+            text-align: left;
+            padding: var(--spacing-sm) var(--spacing-md);
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            border-left: 4px solid white;
+        }
+
+        .step-flow {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            font-style: italic;
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 30px;
+            }
+            
+            .main-title {
+                font-size: 2.5rem;
+            }
+            
+            .steps-container {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-md);
+            }
+            
+            .step-section {
+                text-align: left;
+                min-height: auto;
+            }
+            
+            .step-header {
+                flex-direction: row;
+                align-items: center;
+                justify-content: flex-start;
+            }
+            
+            .step-number {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+                margin-right: var(--spacing-sm);
+                margin-bottom: 0;
+            }
+            
+            .step-title {
+                font-size: 1.7rem;
+                text-align: left;
+            }
+            
+            .step-description {
+                font-size: 1.2rem;
+                text-align: left;
+            }
+            
+            .step-flow {
+                text-align: left;
+            }
+            
+            .example-item {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <h1 class="main-title">프로젝트 관리의 3단계</h1>
+        
+        <div class="steps-container">
+            <div class="step-section">
+                <div class="step-header">
+                    <div class="step-number">1</div>
+                    <div class="step-title">프로젝트 분해</div>
+                </div>
+                <div class="step-description">
+                    큰 목표 → 월간 목표 → 주간 태스크 → 일일 액션
+                </div>
+                <div class="step-flow">
+                    복잡한 프로젝트를 관리 가능한 단위로 나누어 명확한 실행 계획 수립
+                </div>
+            </div>
+            
+            <div class="step-section">
+                <div class="step-header">
+                    <div class="step-number">2</div>
+                    <div class="step-title">캘린더 동기화</div>
+                </div>
+                <div class="step-description">
+                    노션 DB 변경 → 구글 캘린더 자동 업데이트
+                </div>
+                <div class="step-flow">
+                    계획 변경사항이 실시간으로 캘린더에 반영되어 일정 관리 자동화
+                </div>
+            </div>
+            
+            <div class="step-section">
+                <div class="step-header">
+                    <div class="step-number">3</div>
+                    <div class="step-title">진행률 추적</div>
+                </div>
+                <div class="step-description">
+                    완료율 시각화 + 병목 구간 파악
+                </div>
+                <div class="step-flow">
+                    데이터 기반으로 프로젝트 상태를 객관적으로 모니터링하고 개선점 도출
+                </div>
+            </div>
+        </div>
+        
+        <div class="examples-section">
+            <div class="examples-title">실제 적용 사례</div>
+            <div class="examples-list">
+                <div class="example-item">
+                    노션 강의 준비 (4주 프로젝트)
+                </div>
+                <div class="example-item">
+                    하프노마드 웹사이트 리뉴얼 (6주 프로젝트)
+                </div>
+                <div class="example-item">
+                    요모조모 뉴스레터 런칭 (8주 프로젝트)
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

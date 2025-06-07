@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>슬라이드 6: 일반적인 노션 사용법</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-purple: #673AB7;
+            --secondary-purple: #9C27B0;
+            --accent-purple: #B388FF;
+            --tertiary-indigo: #3F51B5;
+            --bg-black: #000000;
+            --bg-dark: #1a1a1a;
+            --text-white: #FFFFFF;
+            --text-gray: #CCCCCC;
+            --text-light: #E0E0E0;
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 2rem;
+            --spacing-lg: 3rem;
+            --spacing-xl: 4rem;
+            --gradient-title: linear-gradient(135deg, var(--primary-purple) 0%, var(--secondary-purple) 100%);
+            --gradient-text: linear-gradient(90deg, var(--text-white) 0%, var(--accent-purple) 100%);
+            --gradient-box: linear-gradient(90deg, var(--primary-purple) 0%, var(--secondary-purple) 50%, var(--tertiary-indigo) 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--bg-black) 0%, var(--bg-dark) 100%);
+            color: var(--text-white);
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 25px;
+            overflow: hidden;
+        }
+
+        .slide-container {
+            width: 100%;
+            max-width: 1200px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+
+        .main-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            color: var(--text-white);
+            background: var(--gradient-title);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .usage-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .usage-box {
+            background: rgba(26, 26, 26, 0.8);
+            padding: var(--spacing-md);
+            border-radius: 20px;
+            border: 2px solid var(--primary-purple);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .usage-box:hover {
+            border-color: var(--secondary-purple);
+            box-shadow: 0 10px 30px rgba(103, 58, 183, 0.3);
+        }
+
+        .emoji {
+            font-size: 2.5rem;
+            margin-bottom: var(--spacing-xs);
+            display: block;
+        }
+
+        .usage-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .usage-description {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-light);
+            line-height: 1.4;
+            font-style: italic;
+        }
+
+        .problem-section {
+            background: var(--gradient-box);
+            padding: var(--spacing-md);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(103, 58, 183, 0.3);
+        }
+
+        .problem-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-white);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .alternatives-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-sm);
+        }
+
+        .alternative-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: var(--spacing-sm);
+            border-radius: 15px;
+            text-align: left;
+        }
+
+        .alternative-category {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent-purple);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .alternative-tools {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-white);
+            line-height: 1.4;
+        }
+
+        .slide-number {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(26, 26, 26, 0.8);
+            color: var(--accent-purple);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: 1px solid var(--primary-purple);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 30px;
+            }
+            
+            .main-title {
+                font-size: 2.5rem;
+            }
+            
+            .usage-grid {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-md);
+            }
+            
+            .alternatives-grid {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-sm);
+            }
+            
+            .usage-title {
+                font-size: 1.5rem;
+            }
+            
+            .usage-description {
+                font-size: 1.1rem;
+            }
+            
+            .problem-title {
+                font-size: 1.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <h1 class="main-title">일반적인 노션 사용법</h1>
+        
+        <div class="usage-grid">
+            <div class="usage-box">
+                <span class="emoji">📝</span>
+                <h2 class="usage-title">메모장으로 사용하기</h2>
+                <p class="usage-description">"오늘 할 일, 아이디어 적어두기"</p>
+            </div>
+            
+            <div class="usage-box">
+                <span class="emoji">📤</span>
+                <h2 class="usage-title">페이지를 공유하기</h2>
+                <p class="usage-description">"팀원들과 문서 공유, 협업하기"</p>
+            </div>
+            
+            <div class="usage-box">
+                <span class="emoji">📅</span>
+                <h2 class="usage-title">일정 관리</h2>
+                <p class="usage-description">"캘린더 기능으로 스케줄 관리"</p>
+            </div>
+            
+            <div class="usage-box">
+                <span class="emoji">💰</span>
+                <h2 class="usage-title">가계부 쓰기</h2>
+                <p class="usage-description">"수입/지출 기록하고 분석하기"</p>
+            </div>
+        </div>
+        
+        <div class="problem-section">
+            <h3 class="problem-title">문제: 이런 용도라면 굳이 노션이어야 할까?</h3>
+            
+            <div class="alternatives-grid">
+                <div class="alternative-item">
+                    <div class="alternative-category">메모 →</div>
+                    <div class="alternative-tools">애플 메모, 구글 킵</div>
+                </div>
+                
+                <div class="alternative-item">
+                    <div class="alternative-category">공유 →</div>
+                    <div class="alternative-tools">구글 독스, 슬랙</div>
+                </div>
+                
+                <div class="alternative-item">
+                    <div class="alternative-category">일정 →</div>
+                    <div class="alternative-tools">구글 캘린더, 아웃룩</div>
+                </div>
+                
+                <div class="alternative-item">
+                    <div class="alternative-category">가계부 →</div>
+                    <div class="alternative-tools">토스, 뱅크샐러드</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="slide-number">6 / 32</div>
+</body>
+</html>

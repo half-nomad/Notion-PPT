@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>정체성 정의가 먼저다</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-purple: #673AB7;
+            --secondary-purple: #9C27B0;
+            --accent-purple: #B388FF;
+            --tertiary-indigo: #3F51B5;
+            --bg-black: #000000;
+            --bg-dark: #1a1a1a;
+            --text-white: #FFFFFF;
+            --text-gray: #CCCCCC;
+            --text-light: #E0E0E0;
+            --spacing-sm: 1rem;
+            --spacing-md: 2rem;
+            --spacing-lg: 3rem;
+            --gradient-title: linear-gradient(135deg, var(--primary-purple) 0%, var(--secondary-purple) 100%);
+            --gradient-text: linear-gradient(90deg, var(--text-white) 0%, var(--accent-purple) 100%);
+            --gradient-box: linear-gradient(90deg, var(--primary-purple) 0%, var(--secondary-purple) 50%, var(--tertiary-indigo) 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--bg-black) 0%, var(--bg-dark) 100%);
+            color: var(--text-white);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px;
+            line-height: 1.6;
+        }
+
+        .slide {
+            width: 100%;
+            max-width: 1200px;
+            text-align: center;
+        }
+
+        .main-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: var(--spacing-lg);
+            color: var(--text-white);
+            background: var(--gradient-title);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .questions-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .question-box {
+            padding: var(--spacing-md);
+            border-radius: 20px;
+            text-align: left;
+        }
+
+        .wrong-box {
+            background: rgba(139, 69, 19, 0.2);
+            border: 2px solid #CD853F;
+        }
+
+        .right-box {
+            background: rgba(103, 58, 183, 0.2);
+            border: 2px solid var(--primary-purple);
+        }
+
+        .question-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .wrong-title {
+            color: #CD853F;
+        }
+
+        .right-title {
+            color: var(--accent-purple);
+        }
+
+        .question-content {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .question-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .question-list li {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .question-list li::before {
+            content: '•';
+            color: var(--accent-purple);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            font-size: 1.3rem;
+        }
+
+        .process-section {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .process-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-purple);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .process-steps {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .step-item {
+            flex: 1;
+            background: rgba(26, 26, 26, 0.8);
+            padding: 1rem;
+            border-radius: 15px;
+            border: 2px solid var(--primary-purple);
+            text-align: center;
+        }
+
+        .step-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-purple);
+            margin-bottom: 0.5rem;
+        }
+
+        .step-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-white);
+            margin-bottom: 0.5rem;
+        }
+
+        .step-desc {
+            font-size: 1rem;
+            color: var(--text-gray);
+        }
+
+        .conclusion-box {
+            background: var(--gradient-box);
+            padding: 1.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(103, 58, 183, 0.3);
+        }
+
+        .conclusion-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-white);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .conclusion-text {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-white);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 30px;
+            }
+
+            .main-title {
+                font-size: 2.5rem;
+            }
+
+            .questions-section {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-md);
+            }
+
+            .process-steps {
+                flex-direction: column;
+                gap: var(--spacing-sm);
+            }
+
+            .question-title {
+                font-size: 1.5rem;
+            }
+
+            .process-title {
+                font-size: 1.7rem;
+            }
+
+            .conclusion-title {
+                font-size: 1.7rem;
+            }
+
+            .conclusion-text {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide">
+        <h1 class="main-title">정체성 정의가 먼저다</h1>
+        
+        <div class="questions-section">
+            <div class="question-box wrong-box">
+                <h2 class="question-title wrong-title">잘못된 질문</h2>
+                <p class="question-content">"노션을 왜 써야 하는가?"</p>
+            </div>
+
+            <div class="question-box right-box">
+                <h2 class="question-title right-title">올바른 질문</h2>
+                <ul class="question-list">
+                    <li>"내가 해결하고자 하는 문제는 무엇인가?"</li>
+                    <li>"우리에게 왜 좋은가?"</li>
+                    <li>"그러면 어떻게 해야 하는가?"</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="process-section">
+            <h2 class="process-title">정체성 정의 과정</h2>
+            <div class="process-steps">
+                <div class="step-item">
+                    <div class="step-number">1️⃣</div>
+                    <div class="step-title">현재 상황 파악</div>
+                    <div class="step-desc">어떤 비효율이 있는가?</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">2️⃣</div>
+                    <div class="step-title">원하는 상태 정의</div>
+                    <div class="step-desc">어떻게 되고 싶은가?</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">3️⃣</div>
+                    <div class="step-title">도구 역할 설정</div>
+                    <div class="step-desc">노션이 어떤 역할을 할 것인가?</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="conclusion-box">
+            <h3 class="conclusion-title">그 다음에야 도구 선택</h3>
+            <p class="conclusion-text">문제가 명확해야 → 해결책도 명확해진다</p>
+        </div>
+    </div>
+</body>
+</html>

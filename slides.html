@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>노션: 지식을 실행하는 캔버스</title>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable.css">
+    <style>
+        /* 전체 화면 설정 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Pretendard Variable', 'Pretendard', sans-serif;
+            overflow: hidden;
+            background: #000;
+            cursor: none; /* 발표 모드 느낌 */
+        }
+        
+        /* 슬라이드 컨테이너 */
+        .slide-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+        
+        /* 개별 슬라이드 iframe */
+        .slide {
+            width: 100%;
+            height: 100%;
+            border: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateZ(0); /* 하드웨어 가속 */
+        }
+        
+        .slide.active {
+            opacity: 1;
+            z-index: 950;  /* UI 요소들(900)보다 높지만 1000보다 낮게 */
+        }
+        
+        /* 로딩 표시 */
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #673AB7;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        /* 진행률 바 - 우측 하단 모서리로 이동 */
+        .progress-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;  /* 중앙에서 우측으로 이동 */
+            z-index: 900;  /* 슬라이드보다 낮게 설정 */
+            transition: opacity 0.3s ease;
+            backdrop-filter: blur(15px);  /* 블러 효과 강화 */
+            background: rgba(0, 0, 0, 0.4);  /* 배경 투명도 추가 */
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .progress-bar {
+            width: 200px;  /* 너비 축소 */
+            height: 3px;   /* 높이 축소 */
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 2px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #673AB7, #9C27B0, #B388FF);
+            border-radius: 2px;
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 8px rgba(103, 58, 183, 0.4);
+        }
+        
+        .progress-text {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.8rem;  /* 폰트 크기 축소 */
+            text-align: center;
+            margin-top: 6px;
+            font-weight: 600;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* 키보드 가이드 - 우측 상단 모서리 강화 */
+        .keyboard-guide {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            color: rgba(255, 255, 255, 0.8);  /* 투명도 증가 */
+            font-size: 0.75rem;  /* 폰트 크기 축소 */
+            z-index: 900;  /* 슬라이드보다 낮게 */
+            background: rgba(0, 0, 0, 0.4);  /* 배경 투명도 증가 */
+            padding: 10px 14px;  /* 패딩 축소 */
+            border-radius: 8px;
+            backdrop-filter: blur(15px);  /* 블러 효과 강화 */
+            transition: opacity 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        }
+        
+        .keyboard-guide .key {
+            color: #B388FF;
+            font-weight: 700;
+            text-shadow: 0 0 5px rgba(179, 136, 255, 0.3);
+        }
+        
+        /* 슬라이드 제목 - 좌측 하단으로 이동 */
+        .slide-title {
+            position: fixed;
+            bottom: 20px;  /* 상단에서 하단으로 이동 */
+            left: 20px;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.9rem;  /* 폰트 크기 축소 */
+            z-index: 900;  /* 슬라이드보다 낮게 */
+            background: rgba(0, 0, 0, 0.4);  /* 배경 투명도 증가 */
+            padding: 10px 14px;  /* 패딩 축소 */
+            border-radius: 8px;
+            backdrop-filter: blur(15px);  /* 블러 효과 강화 */
+            font-weight: 700;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+            transition: opacity 0.3s ease;
+        }
+        
+        /* UI 요소 호버 효과 */
+        .progress-container:hover,
+        .keyboard-guide:hover,
+        .slide-title:hover {
+            background: rgba(0, 0, 0, 0.7);  /* 호버시 더 진한 배경 */
+            backdrop-filter: blur(20px);     /* 블러 효과 강화 */
+            transform: scale(1.02);          /* 살짝 확대 */
+            transition: all 0.2s ease;
+        }
+        
+        /* 전체화면 모드에서 UI 숨김 - 기존 유지하되 투명도만 조정 */
+        .fullscreen-mode .keyboard-guide,
+        .fullscreen-mode .progress-container,
+        .fullscreen-mode .slide-title {
+            opacity: 0.1;  /* 완전히 숨기지 말고 살짝 보이게 */
+            pointer-events: none;
+        }
+        
+        /* 모바일 대응 */
+        @media (max-width: 768px) {
+            .progress-container {
+                bottom: 15px;
+                right: 15px;
+                padding: 12px;
+            }
+            
+            .progress-bar {
+                width: 150px;  /* 모바일에서 더 작게 */
+            }
+            
+            .keyboard-guide {
+                top: 15px;
+                right: 15px;
+                font-size: 0.7rem;
+                padding: 8px 12px;
+            }
+            
+            .slide-title {
+                bottom: 15px;
+                left: 15px;
+                font-size: 0.8rem;
+                padding: 8px 12px;
+            }
+            
+            body {
+                cursor: auto; /* 모바일에서는 커서 표시 */
+            }
+        }
+        
+        /* 로딩 애니메이션 */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .loading {
+            animation: pulse 1.5s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <!-- 로딩 표시 -->
+        <div class="loading">슬라이드를 불러오는 중...</div>
+        
+        <!-- 32개 슬라이드 동적 생성될 예정 -->
+    </div>
+    
+    <!-- UI 요소들 -->
+    <div class="progress-container">
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+        <div class="progress-text">1 / 33</div>
+    </div>
+    
+    <div class="keyboard-guide">
+        <span class="key">←→</span> 이동 | <span class="key">F</span> 전체화면 | <span class="key">ESC</span> 종료
+    </div>
+    
+    <div class="slide-title">
+        START
+    </div>
+
+    <script>
+        // 슬라이드 설정 - 0번 슬라이드 추가 반영
+        const SLIDE_CONFIG = {
+            totalSlides: 33,        // 0~32번 슬라이드 (총 33개)
+            slidePrefix: '',        // 루트 디렉토리에 있음
+            slideSuffix: '.html',
+            titles: [
+                'START',                                              // 0번 (새로 추가)
+                'INTRO', 'INTRO', 'INTRO', 'INTRO',                  // 1-4
+                'Chapter 1', 'Chapter 1', 'Chapter 1', 'Chapter 1', // 5-8
+                'Chapter 2', 'Chapter 2', 'Chapter 2', 'Chapter 2', // 9-12
+                'Chapter 2', 'Chapter 2', 'Chapter 2', 'Chapter 2', // 13-16
+                'Chapter 2', 'Chapter 2', 'Chapter 2', 'Chapter 2', // 17-20
+                'Chapter 2', 'Chapter 2', 'Chapter 2',              // 21-23
+                'Chapter 3', 'Chapter 3', 'Chapter 3', 'Chapter 3', // 24-27
+                'Chapter 3', 'Chapter 3', 'Chapter 3',              // 28-30
+                'OUTRO', 'OUTRO'                                    // 31-32
+            ]
+        };
+        
+        // 전역 변수
+        let currentSlide = 0;
+        let slidesLoaded = 0;
+        let isTransitioning = false;
+        
+        // DOM 요소 참조
+        const slideContainer = document.querySelector('.slide-container');
+        const progressFill = document.querySelector('.progress-fill');
+        const progressText = document.querySelector('.progress-text');
+        const slideTitle = document.querySelector('.slide-title');
+        const loading = document.querySelector('.loading');
+        
+        // 슬라이드 동적 생성 - 0번부터 시작하도록 수정
+        function createSlides() {
+            for (let i = 0; i < SLIDE_CONFIG.totalSlides; i++) {
+                const iframe = document.createElement('iframe');
+                
+                iframe.className = 'slide';
+                // 실제 파일명: 0.html, 1.html, 2.html... 
+                iframe.src = `${SLIDE_CONFIG.slidePrefix}${i}${SLIDE_CONFIG.slideSuffix}`;
+                iframe.setAttribute('data-slide', i);
+                iframe.style.display = 'block';
+                
+                // 첫 번째 슬라이드(0번)만 active
+                if (i === 0) {
+                    iframe.classList.add('active');
+                }
+                
+                // 로드 완료 이벤트
+                iframe.onload = function() {
+                    slidesLoaded++;
+                    console.log(`슬라이드 ${i} 로드 완료 (${slidesLoaded}/${SLIDE_CONFIG.totalSlides})`);
+                    if (slidesLoaded === SLIDE_CONFIG.totalSlides) {
+                        hideLoading();
+                    }
+                };
+                
+                // 에러 처리
+                iframe.onerror = function() {
+                    console.error(`슬라이드 ${i} 로드 실패: ${iframe.src}`);
+                };
+                
+                slideContainer.appendChild(iframe);
+            }
+        }
+        
+        // 로딩 숨기기
+        function hideLoading() {
+            console.log('모든 슬라이드 로드 완료!');
+            loading.style.opacity = '0';
+            setTimeout(() => {
+                loading.style.display = 'none';
+            }, 300);
+        }
+        
+        // 키보드 이벤트 리스너
+        document.addEventListener('keydown', function(e) {
+            if (isTransitioning) return;
+            
+            switch(e.key) {
+                case 'ArrowLeft':
+                case 'ArrowUp':
+                    e.preventDefault();
+                    previousSlide();
+                    break;
+                case 'ArrowRight':
+                case 'ArrowDown':
+                case ' ': // 스페이스바
+                    e.preventDefault();
+                    nextSlide();
+                    break;
+                case 'Home':
+                    e.preventDefault();
+                    goToSlide(0);
+                    break;
+                case 'End':
+                    e.preventDefault();
+                    goToSlide(SLIDE_CONFIG.totalSlides - 1);
+                    break;
+                case 'Escape':
+                    exitPresentation();
+                    break;
+                case 'f':
+                case 'F':
+                    toggleFullscreen();
+                    break;
+            }
+        });
+        
+        // 다음 슬라이드
+        function nextSlide() {
+            if (currentSlide < SLIDE_CONFIG.totalSlides - 1) {
+                goToSlide(currentSlide + 1);
+            }
+        }
+        
+        // 이전 슬라이드
+        function previousSlide() {
+            if (currentSlide > 0) {
+                goToSlide(currentSlide - 1);
+            }
+        }
+        
+        // 특정 슬라이드로 이동
+        function goToSlide(slideIndex) {
+            if (slideIndex === currentSlide || isTransitioning) return;
+            
+            isTransitioning = true;
+            console.log(`슬라이드 이동: ${currentSlide} → ${slideIndex} (${currentSlide + 1} → ${slideIndex + 1}번째)`);
+            
+            // 현재 슬라이드 숨기기
+            const currentSlideElement = document.querySelector('.slide.active');
+            if (currentSlideElement) {
+                currentSlideElement.classList.remove('active');
+            }
+            
+            // 새 슬라이드 보여주기
+            const slides = document.querySelectorAll('.slide');
+            const newSlide = slides[slideIndex];
+            
+            if (newSlide) {
+                newSlide.classList.add('active');
+                currentSlide = slideIndex;
+                updateUI();
+            }
+            
+            // 전환 완료 후 플래그 해제
+            setTimeout(() => {
+                isTransitioning = false;
+            }, 600);
+        }
+        
+        // UI 업데이트
+        function updateUI() {
+            // 진행률 바
+            const progress = ((currentSlide + 1) / SLIDE_CONFIG.totalSlides) * 100;
+            progressFill.style.width = progress + '%';
+            
+            // 진행률 텍스트
+            progressText.textContent = `${currentSlide + 1} / ${SLIDE_CONFIG.totalSlides}`;
+            
+            // 슬라이드 제목
+            if (SLIDE_CONFIG.titles[currentSlide]) {
+                slideTitle.textContent = SLIDE_CONFIG.titles[currentSlide];
+            }
+        }
+        
+        // 전체화면 토글
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().then(() => {
+                    document.body.classList.add('fullscreen-mode');
+                });
+            } else {
+                document.exitFullscreen().then(() => {
+                    document.body.classList.remove('fullscreen-mode');
+                });
+            }
+        }
+        
+        // 프레젠테이션 종료
+        function exitPresentation() {
+            if (document.fullscreenElement) {
+                document.exitFullscreen();
+            }
+            if (confirm('프레젠테이션을 종료하시겠습니까?')) {
+                window.close();
+            }
+        }
+        
+        // 초기화
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('통합 슬라이드 뷰어 시작!');
+            createSlides();
+            updateUI();
+        });
+        
+        // 마우스 움직임 감지로 UI 토글 (프레젠테이션 모드)
+        let hideUITimer;
+        document.addEventListener('mousemove', function() {
+            document.body.style.cursor = 'auto';
+            clearTimeout(hideUITimer);
+            
+            hideUITimer = setTimeout(() => {
+                if (!document.fullscreenElement) {
+                    document.body.style.cursor = 'none';
+                }
+            }, 3000);
+        });
+    </script>
+</body>
+</html>

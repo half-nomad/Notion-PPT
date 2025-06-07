@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>슬라이드 17: 강의 대시보드 구축</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-purple: #673AB7;
+            --secondary-purple: #9C27B0;
+            --accent-purple: #B388FF;
+            --tertiary-indigo: #3F51B5;
+            --bg-white: #FFFFFF;
+            --bg-light: #F5F5F5;
+            --text-dark: #212121;
+            --text-gray: #424242;
+            --text-light-gray: #757575;
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 2rem;
+            --spacing-lg: 3rem;
+            --spacing-xl: 4rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--bg-white) 0%, var(--bg-light) 100%);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            line-height: 1.6;
+        }
+
+        .slide-container {
+            max-width: 1400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .main-title {
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-purple) 0%, var(--secondary-purple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--spacing-sm);
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--text-dark) 0%, var(--accent-purple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .info-sections {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .info-section {
+            background: rgba(255, 255, 255, 0.9);
+            padding: var(--spacing-md);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(103, 58, 183, 0.1);
+            border: 3px solid var(--primary-purple);
+        }
+
+        .section-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--primary-purple) 0%, var(--secondary-purple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .info-list {
+            list-style: none;
+            text-align: left;
+        }
+
+        .info-list li {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm);
+            padding-left: 2.5rem;
+            position: relative;
+            color: var(--text-dark);
+            line-height: 1.5;
+        }
+
+        .manage-list li:nth-child(1)::before { content: '📅'; position: absolute; left: 0; top: 0; font-size: 1.5rem; }
+        .manage-list li:nth-child(2)::before { content: '👥'; position: absolute; left: 0; top: 0; font-size: 1.5rem; }
+        .manage-list li:nth-child(3)::before { content: '📊'; position: absolute; left: 0; top: 0; font-size: 1.5rem; }
+        .manage-list li:nth-child(4)::before { content: '💰'; position: absolute; left: 0; top: 0; font-size: 1.5rem; }
+        .manage-list li:nth-child(5)::before { content: '📝'; position: absolute; left: 0; top: 0; font-size: 1.5rem; }
+
+        .embed-list li:nth-child(1)::before { content: '🔗'; position: absolute; left: 0; top: 0; font-size: 1.5rem; }
+        .embed-list li:nth-child(2)::before { content: '📊'; position: absolute; left: 0; top: 0; font-size: 1.5rem; }
+        .embed-list li:nth-child(3)::before { content: '🎥'; position: absolute; left: 0; top: 0; font-size: 1.5rem; }
+        .embed-list li:nth-child(4)::before { content: '📋'; position: absolute; left: 0; top: 0; font-size: 1.5rem; }
+
+        .highlight-box {
+            background: linear-gradient(90deg, var(--primary-purple) 0%, var(--secondary-purple) 50%, var(--tertiary-indigo) 100%);
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(103, 58, 183, 0.3);
+            margin-top: var(--spacing-md);
+        }
+
+        .highlight-text {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: white;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 30px;
+            }
+            
+            .main-title {
+                font-size: 2.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1.5rem;
+            }
+            
+            .info-sections {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-md);
+            }
+            
+            .section-title {
+                font-size: 1.7rem;
+            }
+            
+            .info-list li {
+                font-size: 1.1rem;
+                padding-left: 2rem;
+            }
+            
+            .highlight-text {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <h1 class="main-title">강의 대시보드 구축</h1>
+        <h2 class="subtitle">"모든 강의 정보를 한 화면에"</h2>
+        
+        <div class="info-sections">
+            <div class="info-section">
+                <div class="section-title">관리해야 할 정보들</div>
+                <ul class="info-list manage-list">
+                    <li>강의 일정 및 커리큘럼</li>
+                    <li>수강생 정보 및 피드백</li>
+                    <li>출석률 및 과제 제출 현황</li>
+                    <li>수익 및 정산 정보</li>
+                    <li>강의 자료 및 녹화 영상</li>
+                </ul>
+            </div>
+            
+            <div class="info-section">
+                <div class="section-title">임베드 기능 활용</div>
+                <ul class="info-list embed-list">
+                    <li>구글 시트 → 실시간 데이터 연동</li>
+                    <li>유튜브 → 강의 영상 바로 재생</li>
+                    <li>폼 → 피드백 수집 자동화</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="highlight-box">
+            <div class="highlight-text">
+                노션 임베드 = 여러 도구를 하나의 대시보드로 통합
+            </div>
+        </div>
+    </div>
+</body>
+</html>

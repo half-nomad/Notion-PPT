@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>슬라이드 5: 노션을 왜 쓰는가?</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-purple: #673AB7;
+            --secondary-purple: #9C27B0;
+            --accent-purple: #B388FF;
+            --tertiary-indigo: #3F51B5;
+            --bg-black: #000000;
+            --bg-dark: #1a1a1a;
+            --text-white: #FFFFFF;
+            --text-gray: #CCCCCC;
+            --text-light: #E0E0E0;
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 2rem;
+            --spacing-lg: 3rem;
+            --spacing-xl: 4rem;
+            --gradient-title: linear-gradient(135deg, var(--primary-purple) 0%, var(--secondary-purple) 100%);
+            --gradient-text: linear-gradient(90deg, var(--text-white) 0%, var(--accent-purple) 100%);
+            --gradient-box: linear-gradient(90deg, var(--primary-purple) 0%, var(--secondary-purple) 50%, var(--tertiary-indigo) 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--bg-black) 0%, var(--bg-dark) 100%);
+            color: var(--text-white);
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px;
+            overflow: hidden;
+        }
+
+        .slide-container {
+            width: 100%;
+            max-width: 1200px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xl);
+        }
+
+        .main-title {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1.2;
+            color: var(--text-white);
+            background: var(--gradient-title);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .content-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: var(--spacing-lg);
+            align-items: start;
+        }
+
+        .section-box {
+            background: rgba(26, 26, 26, 0.8);
+            padding: var(--spacing-lg);
+            border-radius: 20px;
+            border: 2px solid var(--primary-purple);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .section-box:hover {
+            border-color: var(--secondary-purple);
+            box-shadow: 0 10px 30px rgba(103, 58, 183, 0.3);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .section-content {
+            font-size: 1.3rem;
+            font-weight: 600;
+            line-height: 1.6;
+            color: var(--text-white);
+        }
+
+        .emoji {
+            font-size: 2rem;
+            margin-bottom: var(--spacing-sm);
+            display: block;
+        }
+
+        .content-list {
+            list-style: none;
+            padding-left: 0;
+            margin-top: var(--spacing-md);
+        }
+
+        .content-list li {
+            padding: var(--spacing-sm) 0;
+            position: relative;
+            font-size: 1.1rem;
+            color: var(--text-light);
+            line-height: 1.5;
+        }
+
+        .content-list li::before {
+            content: '•';
+            color: var(--secondary-purple);
+            font-weight: bold;
+            position: absolute;
+            left: -1rem;
+        }
+
+        .highlight-box {
+            background: var(--gradient-box);
+            padding: var(--spacing-md);
+            border-radius: 15px;
+            margin-top: var(--spacing-md);
+            box-shadow: 0 10px 30px rgba(103, 58, 183, 0.3);
+        }
+
+        .highlight-text {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-white);
+            line-height: 1.4;
+        }
+
+        .slide-number {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(26, 26, 26, 0.8);
+            color: var(--accent-purple);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: 1px solid var(--primary-purple);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 30px;
+            }
+            
+            .main-title {
+                font-size: 2.5rem;
+            }
+            
+            .content-section {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-md);
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .section-content {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <h1 class="main-title">노션을 왜 쓰는가?</h1>
+        
+        <div class="content-section">
+            <div class="section-box">
+                <span class="emoji">👥</span>
+                <h2 class="section-title">대부분의 시작점</h2>
+                <p class="section-content">"노션이 좋다더라..."</p>
+            </div>
+            
+            <div class="section-box">
+                <span class="emoji">🤔</span>
+                <h2 class="section-title">오프닝 이유</h2>
+                <p class="section-content">AI뿐만 아니라 모든 것은 '왜'에서 출발해야 합니다.</p>
+                <ul class="content-list">
+                    <li>도구를 선택하는 이유</li>
+                    <li>그 도구로 해결하려는 문제</li>
+                    <li>기대하는 결과와 변화</li>
+                </ul>
+            </div>
+            
+            <div class="section-box">
+                <span class="emoji">⚠️</span>
+                <h2 class="section-title">잘못된 시작의 결과</h2>
+                <p class="section-content">도구에 내가 맞춰가는 상황 발생</p>
+            </div>
+        </div>
+        
+        <div class="highlight-box">
+            <p class="highlight-text">핵심 질문: "내게 정말 필요한 도구일까?"</p>
+        </div>
+    </div>
+    
+    <div class="slide-number">5 / 32</div>
+</body>
+</html>

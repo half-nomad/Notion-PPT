@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>노션은 팔방미인이 아니다</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-purple: #673AB7;
+            --secondary-purple: #9C27B0;
+            --accent-purple: #B388FF;
+            --tertiary-indigo: #3F51B5;
+            --bg-black: #000000;
+            --bg-dark: #1a1a1a;
+            --text-white: #FFFFFF;
+            --text-gray: #CCCCCC;
+            --text-light: #E0E0E0;
+            --spacing-md: 2rem;
+            --spacing-lg: 3rem;
+            --spacing-xl: 4rem;
+            --gradient-title: linear-gradient(135deg, var(--primary-purple) 0%, var(--secondary-purple) 100%);
+            --gradient-text: linear-gradient(90deg, var(--text-white) 0%, var(--accent-purple) 100%);
+            --gradient-box: linear-gradient(90deg, var(--primary-purple) 0%, var(--secondary-purple) 50%, var(--tertiary-indigo) 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--bg-black) 0%, var(--bg-dark) 100%);
+            color: var(--text-white);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+        }
+
+        .main-title {
+            font-size: 3rem;
+            font-weight: 800;
+            background: var(--gradient-title);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .content-container {
+            max-width: 1000px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .limitations-section {
+            background: rgba(139, 69, 19, 0.2);
+            padding: 1.5rem;
+            border-radius: 20px;
+            border-left: 5px solid #FF6B6B;
+        }
+
+        .advantages-section {
+            background: rgba(34, 139, 34, 0.2);
+            padding: 1.5rem;
+            border-radius: 20px;
+            border-left: 5px solid #4CAF50;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-purple);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .limitations-title {
+            color: #FF6B6B;
+        }
+
+        .advantages-title {
+            color: #4CAF50;
+        }
+
+        .item-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .item-list li {
+            padding-left: 2rem;
+            position: relative;
+            margin-bottom: 0.8rem;
+            color: var(--text-light);
+            font-size: 1.1rem;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .limitations-section .item-list li::before {
+            content: '❌';
+            position: absolute;
+            left: 0;
+            font-size: 1.1rem;
+        }
+
+        .advantages-section .item-list li::before {
+            content: '✅';
+            position: absolute;
+            left: 0;
+            font-size: 1.1rem;
+        }
+
+        .advice-section {
+            background: rgba(255, 193, 7, 0.2);
+            padding: 1.5rem;
+            border-radius: 20px;
+            border-left: 5px solid #FFC107;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .advice-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #FFC107;
+            margin-bottom: 1rem;
+        }
+
+        .advice-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-light);
+            line-height: 1.5;
+        }
+
+        .advice-points {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .advice-point {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.8rem;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .conclusion {
+            background: var(--gradient-box);
+            padding: 2rem;
+            border-radius: 25px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 15px 35px rgba(103, 58, 183, 0.3);
+        }
+
+        .conclusion-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .conclusion-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 30px;
+            }
+            
+            .main-title {
+                font-size: 2.5rem;
+            }
+            
+            .content-container {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-md);
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .item-list li {
+                font-size: 1.1rem;
+            }
+            
+            .advice-points {
+                grid-template-columns: 1fr;
+            }
+            
+            .conclusion-title {
+                font-size: 1.6rem;
+            }
+            
+            .conclusion-text {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1 class="main-title">노션은 팔방미인이 아니다</h1>
+    
+    <div class="content-container">
+        <div class="limitations-section">
+            <h2 class="section-title limitations-title">노션으로 안 되는 것들</h2>
+            <ul class="item-list">
+                <li>전문적인 디자인 툴 (피그마, 포토샵)</li>
+                <li>고급 데이터 분석 (엑셀, 구글 시트)</li>
+                <li>실시간 소통 (슬랙, 디스코드)</li>
+                <li>전문 개발 환경 (VS Code, GitHub)</li>
+            </ul>
+        </div>
+
+        <div class="advantages-section">
+            <h2 class="section-title advantages-title">그럼에도 노션이 좋은 이유</h2>
+            <ul class="item-list">
+                <li>베이스캠프: 모든 지식과 업무의 시작점</li>
+                <li>대시보드: 여러 활동의 통합 현황판</li>
+                <li>고향: 이것도 저것도 모르겠을 때 돌아갈 곳</li>
+                <li>연결고리: 앱 간의 연동과 자동화 허브</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="advice-section">
+        <h2 class="advice-title">더 좋은 앱들 발견하면 갈아타세요</h2>
+        <p class="advice-text">
+            완벽한 도구는 없습니다. 상황에 따라 최적의 도구는 달라집니다.<br>
+            도구에 대한 집착은 오히려 독이 됩니다.
+        </p>
+        <div class="advice-points">
+            <div class="advice-point">완벽한 도구는 없습니다</div>
+            <div class="advice-point">상황에 따라 최적의 도구는 달라집니다</div>
+            <div class="advice-point">도구에 대한 집착은 오히려 독이 됩니다</div>
+        </div>
+    </div>
+
+    <div class="conclusion">
+        <h2 class="conclusion-title">그럼에도 노션을 추천하는 이유</h2>
+        <p class="conclusion-text">
+            프로토타이핑 도구로서의 탁월함<br>
+            + 아이디어를 빠르게 검증하는 캔버스<br>
+            + 여러 도구들을 연결하는 허브 역할
+        </p>
+    </div>
+</body>
+</html>

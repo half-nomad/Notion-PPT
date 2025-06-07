@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>노션: 지식을 실행하는 캔버스</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-purple: #673AB7;
+            --secondary-purple: #9C27B0;
+            --accent-purple: #B388FF;
+            --tertiary-indigo: #3F51B5;
+            --bg-black: #000000;
+            --bg-dark: #1a1a1a;
+            --text-white: #FFFFFF;
+            --text-gray: #CCCCCC;
+            --text-light: #E0E0E0;
+            --spacing-md: 2rem;
+            --spacing-lg: 3rem;
+            --spacing-xl: 4rem;
+            --gradient-title: linear-gradient(135deg, var(--primary-purple) 0%, var(--secondary-purple) 100%);
+            --gradient-text: linear-gradient(90deg, var(--text-white) 0%, var(--accent-purple) 100%);
+            --gradient-box: linear-gradient(90deg, var(--primary-purple) 0%, var(--secondary-purple) 50%, var(--tertiary-indigo) 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--bg-black) 0%, var(--bg-dark) 100%);
+            color: var(--text-white);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px;
+            text-align: center;
+        }
+
+        .main-title {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1.2;
+            background: var(--gradient-title);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--spacing-xl);
+            text-shadow: 0 0 50px rgba(103, 58, 183, 0.3);
+        }
+
+        .presenter-info {
+            background: rgba(26, 26, 26, 0.8);
+            padding: var(--spacing-lg);
+            border-radius: 25px;
+            border: 2px solid var(--primary-purple);
+            box-shadow: 0 20px 40px rgba(103, 58, 183, 0.2);
+            margin-bottom: var(--spacing-xl);
+            max-width: 800px;
+        }
+
+        .presenter-name {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .presenter-role {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: var(--spacing-md);
+            line-height: 1.4;
+        }
+
+        .presenter-description {
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: var(--text-gray);
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-lg);
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent-purple);
+            text-decoration: none;
+            padding: 0.8rem 1.5rem;
+            border: 1px solid var(--accent-purple);
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            background: var(--accent-purple);
+            color: var(--bg-black);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(179, 136, 255, 0.3);
+        }
+
+        .subtitle {
+            position: absolute;
+            bottom: 180px;  /* 100px → 180px (UI 요소 피하기) */
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.8rem;  /* 1.1rem → 1.8rem (크기 증가) */
+            font-weight: 700;    /* 500 → 700 (굵게) */
+            background: linear-gradient(135deg, #FF6B6B, #4ECDC4, #FFE66D);  /* 하이라이트 그라데이션 */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 20px rgba(255, 107, 107, 0.3);  /* 글로우 효과 */
+            animation: glow 2s ease-in-out infinite alternate;  /* 애니메이션 추가 */
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background-color: rgba(0, 0, 0, 0.2);  /* 살짝 배경 */
+        }
+        
+        /* 글로우 애니메이션 */
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+                transform: translateX(-50%) scale(1);
+            }
+            to {
+                text-shadow: 0 0 30px rgba(78, 205, 196, 0.5);
+                transform: translateX(-50%) scale(1.02);
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 30px;
+            }
+            
+            .main-title {
+                font-size: 2.5rem;
+            }
+            
+            .presenter-name {
+                font-size: 2rem;
+            }
+            
+            .presenter-role {
+                font-size: 1.2rem;
+            }
+            
+            .presenter-description {
+                font-size: 1.1rem;
+            }
+            
+            .contact-info {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+            
+            .subtitle {
+                bottom: 120px;  /* 모바일에서도 UI 요소 피하기 */
+                font-size: 1.4rem;  /* 모바일 크기 조정 */
+                padding: 0.3rem 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1 class="main-title">노션: 지식을 실행하는 캔버스</h1>
+    
+    <div class="presenter-info">
+        <h2 class="presenter-name">하프노마드 이석호(이모카)</h2>
+        <p class="presenter-role">AI 활용 비즈니스 운영 최적화 제품 기획자</p>
+        <p class="presenter-description">"AI와 노코드 자동화 기술로 소규모 서비스업의 운영을 최적화하는 일을 합니다"</p>
+    </div>
+    
+    <div class="contact-info">
+        <a href="mailto:contact@halfnomad.com" class="contact-item">📧 contact@halfnomad.com</a>
+        <a href="https://litt.ly/half_nomad" class="contact-item" target="_blank">🌐 halfnomad.kr</a>
+    </div>
+    
+    <p class="subtitle">2025년 6월 8일 · 꿈도 환승이 되나요</p>
+</body>
+</html>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>전환점: 도구로 문제 해결하기 - 노션 강의 슬라이드 4</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-purple: #673AB7;
+            --secondary-purple: #9C27B0;
+            --accent-purple: #B388FF;
+            --tertiary-indigo: #3F51B5;
+            
+            --bg-black: #000000;
+            --bg-dark: #1a1a1a;
+            --text-white: #FFFFFF;
+            --text-gray: #CCCCCC;
+            --text-light: #E0E0E0;
+            
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 2rem;
+            --spacing-lg: 3rem;
+            --spacing-xl: 4rem;
+            
+            --gradient-title: linear-gradient(135deg, var(--primary-purple) 0%, var(--secondary-purple) 100%);
+            --gradient-text: linear-gradient(90deg, var(--text-white) 0%, var(--accent-purple) 100%);
+            --gradient-box: linear-gradient(90deg, var(--primary-purple) 0%, var(--secondary-purple) 50%, var(--tertiary-indigo) 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--bg-black) 0%, var(--bg-dark) 100%);
+            color: var(--text-white);
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px;
+            overflow: hidden;
+        }
+
+        .main-title {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1.2;
+            background: var(--gradient-title);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--spacing-xl);
+            text-align: center;
+        }
+
+        .content-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-xl);
+            width: 100%;
+            max-width: 1200px;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .section-box {
+            background: rgba(26, 26, 26, 0.8);
+            padding: var(--spacing-lg);
+            border-radius: 20px;
+            border-left: 5px solid var(--primary-purple);
+            backdrop-filter: blur(10px);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-md);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .tool-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            margin: var(--spacing-md) 0;
+        }
+
+        .tool-tag {
+            background: var(--gradient-box);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-white);
+        }
+
+        .section-quote {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--accent-purple);
+            font-style: italic;
+            margin-bottom: var(--spacing-md);
+            text-align: center;
+        }
+
+        .content-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .content-list li {
+            padding-left: 1.5rem;
+            position: relative;
+            margin-bottom: var(--spacing-sm);
+            color: var(--text-light);
+            font-size: 1.3rem;
+            font-weight: 600;
+            line-height: 1.6;
+        }
+
+        .content-list li::before {
+            content: '•';
+            color: var(--secondary-purple);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            font-size: 1.5rem;
+        }
+
+        .highlight {
+            color: var(--accent-purple);
+            font-weight: 700;
+        }
+
+        .key-discovery {
+            background: var(--gradient-box);
+            padding: var(--spacing-lg);
+            border-radius: 20px;
+            text-align: center;
+            width: 100%;
+            max-width: 900px;
+            box-shadow: 0 10px 30px rgba(103, 58, 183, 0.3);
+        }
+
+        .discovery-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-white);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .discovery-quote {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--text-white);
+            font-style: italic;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 30px; }
+            .main-title { font-size: 2.5rem; }
+            
+            .content-section {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-md);
+            }
+            
+            .section-title { font-size: 1.8rem; }
+            .section-quote { font-size: 1.3rem; }
+            .content-list li { font-size: 1.1rem; }
+            .discovery-title { font-size: 1.6rem; }
+            .discovery-quote { font-size: 1.7rem; }
+            
+            .tool-list {
+                justify-content: center;
+            }
+        }
+
+        .slide-number {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            font-size: 1rem;
+            color: var(--text-gray);
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="main-title">전환점: 도구로 문제 해결하기</h1>
+    
+    <div class="content-section">
+        <div class="section-box">
+            <h2 class="section-title">🔧 처음에는 툴 자체에 집중</h2>
+            <div class="tool-list">
+                <span class="tool-tag">노션</span>
+                <span class="tool-tag">자포이어</span>
+                <span class="tool-tag">Make</span>
+                <span class="tool-tag">버블</span>
+                <span class="tool-tag">...</span>
+            </div>
+            <div class="section-quote">"이 도구로 뭘 할 수 있을까?"</div>
+        </div>
+
+        <div class="section-box">
+            <h2 class="section-title">🏗️ 작은 프로덕트를 만들면서 깨달음</h2>
+            <ul class="content-list">
+                <li>도구는 수단, <span class="highlight">문제 해결이 목적</span></li>
+                <li>작은 비즈니스 문제를 <span class="highlight">정의하고 해결</span>하는 것</li>
+                <li>AI와 도구는 그 과정을 <span class="highlight">효율화하는 방법</span></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="key-discovery">
+        <h3 class="discovery-title">💡 핵심 발견</h3>
+        <div class="discovery-quote">
+            "완벽한 도구는 없다.<br>
+            하지만 내 문제에 맞는 조합은 만들 수 있다."
+        </div>
+    </div>
+
+    <div class="slide-number">4 / 32</div>
+</body>
+</html>

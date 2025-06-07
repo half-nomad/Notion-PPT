@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>슬라이드 13: 독서 기록 시스템</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-purple: #673AB7;
+            --secondary-purple: #9C27B0;
+            --accent-purple: #B388FF;
+            --tertiary-indigo: #3F51B5;
+            --bg-white: #FFFFFF;
+            --bg-light: #F5F5F5;
+            --text-dark: #212121;
+            --text-gray: #424242;
+            --text-light-gray: #757575;
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 2rem;
+            --spacing-lg: 3rem;
+            --spacing-xl: 4rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--bg-white) 0%, var(--bg-light) 100%);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            line-height: 1.6;
+        }
+
+        .slide-container {
+            max-width: 1400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .main-title {
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-purple) 0%, var(--secondary-purple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--spacing-sm);
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--text-dark) 0%, var(--accent-purple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .content-section {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: var(--spacing-sm);
+            padding: var(--spacing-xs) var(--spacing-md);
+            border-radius: 15px;
+            color: white;
+            display: inline-block;
+        }
+
+        .problem-title {
+            background: linear-gradient(90deg, var(--tertiary-indigo) 0%, #5C6BC0 100%);
+        }
+
+        .solution-title {
+            background: linear-gradient(90deg, var(--primary-purple) 0%, var(--secondary-purple) 100%);
+        }
+
+        .points-container {
+            background: rgba(255, 255, 255, 0.8);
+            padding: var(--spacing-md);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(103, 58, 183, 0.1);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .problem-container {
+            border: 3px solid var(--tertiary-indigo);
+        }
+
+        .solution-container {
+            border: 3px solid var(--primary-purple);
+        }
+
+        .point-list {
+            list-style: none;
+            text-align: left;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .point-list li {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm);
+            padding-left: 2.5rem;
+            position: relative;
+            color: var(--text-dark);
+            line-height: 1.5;
+        }
+
+        .problem-container .point-list li::before {
+            content: '😟';
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 1.5rem;
+        }
+
+        .solution-container .point-list li::before {
+            content: '💡';
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 1.5rem;
+        }
+
+        .divider {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: var(--spacing-md) 0;
+        }
+
+        .divider-line {
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-purple), var(--secondary-purple));
+            border-radius: 2px;
+        }
+
+        .divider-arrow {
+            font-size: 2rem;
+            color: var(--primary-purple);
+            margin: 0 var(--spacing-md);
+        }
+
+        .clip-icon {
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-left: var(--spacing-xs);
+            padding: 4px 8px;
+            background: var(--primary-purple);
+            color: white;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            display: inline-block;
+            box-shadow: 0 2px 10px rgba(103, 58, 183, 0.3);
+        }
+
+        .clip-icon:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(103, 58, 183, 0.5);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 90%;
+            max-height: 90%;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal img {
+            max-width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: var(--primary-purple);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 30px;
+            }
+            
+            .main-title {
+                font-size: 2.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1.5rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .point-list li {
+                font-size: 1.2rem;
+                padding-left: 2rem;
+            }
+            
+            .divider-arrow {
+                font-size: 2rem;
+            }
+
+            .clip-icon {
+                font-size: 1rem;
+                padding: 3px 6px;
+            }
+
+            .modal-content {
+                max-width: 95%;
+                max-height: 95%;
+                padding: 15px;
+            }
+
+            .modal img {
+                max-height: 70vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <h1 class="main-title">독서 기록 시스템</h1>
+        <h2 class="subtitle">"책 정보와 내 생각을 하나로"</h2>
+        
+        <div class="content-section">
+            <div class="section-title problem-title">문제상황</div>
+            <div class="points-container problem-container">
+                <ul class="point-list">
+                    <li>읽은 책은 많은데 기억나는 건 별로 없음</li>
+                    <li>책 내용과 내 프로젝트를 연결하기 어려움</li>
+                    <li>같은 주제 책들을 비교하기 힘듦</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="divider">
+            <div class="divider-line"></div>
+            <div class="divider-arrow">↓</div>
+            <div class="divider-line"></div>
+        </div>
+        
+        <div class="content-section">
+            <div class="section-title solution-title">해결방법</div>
+            <div class="points-container solution-container">
+                <ul class="point-list">
+                    <li>
+                        YES24 도서 정보 자동 수집
+                        <span class="clip-icon" onclick="openModal('modal1')" title="YES24 연동 화면 보기">📎</span>
+                    </li>
+                    <li>
+                        독서 진행률 + 핵심 인사이트 기록
+                        <span class="clip-icon" onclick="openModal('modal3')" title="진행률 화면 보기">📎</span>
+                    </li>
+                    <li>
+                        프로젝트/업무와 연결점 표시
+                        <span class="clip-icon" onclick="openModal('modal2')" title="연결점 화면 보기">📎</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- 이미지 모달들 -->
+    <div id="modal1" class="modal" onclick="closeModal('modal1')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close" onclick="closeModal('modal1')">&times;</span>
+            <img src="assets/images/personal/13-1.png" alt="YES24 도서 정보 자동 수집">
+        </div>
+    </div>
+
+    <div id="modal2" class="modal" onclick="closeModal('modal2')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close" onclick="closeModal('modal2')">&times;</span>
+            <img src="assets/images/personal/13-2.png" alt="프로젝트/업무 연결점 표시">
+        </div>
+    </div>
+
+    <div id="modal3" class="modal" onclick="closeModal('modal3')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close" onclick="closeModal('modal3')">&times;</span>
+            <img src="assets/images/personal/13-3.png" alt="독서 진행률 + 핵심 인사이트">
+        </div>
+    </div>
+
+    <script>
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // ESC 키로 모든 모달 닫기
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal('modal1');
+                closeModal('modal2');
+                closeModal('modal3');
+            }
+        });
+    </script>
+</body>
+</html>

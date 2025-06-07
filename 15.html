@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>슬라이드 15: 프로젝트 관리 시스템</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-purple: #673AB7;
+            --secondary-purple: #9C27B0;
+            --accent-purple: #B388FF;
+            --tertiary-indigo: #3F51B5;
+            --bg-white: #FFFFFF;
+            --bg-light: #F5F5F5;
+            --text-dark: #212121;
+            --text-gray: #424242;
+            --text-light-gray: #757575;
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 2rem;
+            --spacing-lg: 3rem;
+            --spacing-xl: 4rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--bg-white) 0%, var(--bg-light) 100%);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            line-height: 1.6;
+        }
+
+        .slide-container {
+            max-width: 1400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .main-title {
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-purple) 0%, var(--secondary-purple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--spacing-sm);
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--text-dark) 0%, var(--accent-purple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .content-section {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: var(--spacing-sm);
+            padding: var(--spacing-xs) var(--spacing-md);
+            border-radius: 15px;
+            color: white;
+            display: inline-block;
+        }
+
+        .problem-title {
+            background: linear-gradient(90deg, var(--tertiary-indigo) 0%, #5C6BC0 100%);
+        }
+
+        .solution-title {
+            background: linear-gradient(90deg, var(--primary-purple) 0%, var(--secondary-purple) 100%);
+        }
+
+        .points-container {
+            background: rgba(255, 255, 255, 0.8);
+            padding: var(--spacing-md);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(103, 58, 183, 0.1);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .problem-container {
+            border: 3px solid var(--tertiary-indigo);
+        }
+
+        .solution-container {
+            border: 3px solid var(--primary-purple);
+        }
+
+        .point-list {
+            list-style: none;
+            text-align: left;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .point-list li {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm);
+            padding-left: 2.5rem;
+            position: relative;
+            color: var(--text-dark);
+            line-height: 1.5;
+        }
+
+        .problem-container .point-list li::before {
+            content: '⚠️';
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 1.5rem;
+        }
+
+        .solution-container .point-list li::before {
+            content: '🚀';
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 1.5rem;
+        }
+
+        .divider {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: var(--spacing-md) 0;
+        }
+
+        .divider-line {
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-purple), var(--secondary-purple));
+            border-radius: 2px;
+        }
+
+        .divider-arrow {
+            font-size: 2rem;
+            color: var(--primary-purple);
+            margin: 0 var(--spacing-md);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 30px;
+            }
+            
+            .main-title {
+                font-size: 2.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1.5rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .point-list li {
+                font-size: 1.2rem;
+                padding-left: 2rem;
+            }
+            
+            .divider-arrow {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <h1 class="main-title">프로젝트 관리 시스템</h1>
+        <h2 class="subtitle">"큰 프로젝트를 작은 단위로"</h2>
+        
+        <div class="content-section">
+            <div class="section-title problem-title">기존 문제</div>
+            <div class="points-container problem-container">
+                <ul class="point-list">
+                    <li>프로젝트는 크고, 시간은 부족하고</li>
+                    <li>데드라인만 정해두고 중간 체크 없음</li>
+                    <li>여러 프로젝트 동시 진행 시 혼란</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="divider">
+            <div class="divider-line"></div>
+            <div class="divider-arrow">↓</div>
+            <div class="divider-line"></div>
+        </div>
+        
+        <div class="content-section">
+            <div class="section-title solution-title">노션 + 구글 캘린더 솔루션</div>
+            <div class="points-container solution-container">
+                <ul class="point-list">
+                    <li>프로젝트를 주 단위 태스크로 분할</li>
+                    <li>각 태스크를 캘린더 일정으로 자동 등록</li>
+                    <li>진행률 시각화 + 지연 시 알림</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

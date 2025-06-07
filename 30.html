@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>실제 IDEA 구조 화면</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-purple: #673AB7;
+            --secondary-purple: #9C27B0;
+            --accent-purple: #B388FF;
+            --tertiary-indigo: #3F51B5;
+            --bg-white: #FFFFFF;
+            --bg-light: #F5F5F5;
+            --text-dark: #212121;
+            --text-gray: #757575;
+            --text-light-gray: #BDBDBD;
+            --spacing-md: 2rem;
+            --spacing-lg: 3rem;
+            --spacing-xl: 4rem;
+            --gradient-title: linear-gradient(135deg, var(--primary-purple) 0%, var(--secondary-purple) 100%);
+            --gradient-text: linear-gradient(90deg, var(--primary-purple) 0%, var(--accent-purple) 100%);
+            --gradient-box: linear-gradient(90deg, var(--primary-purple) 0%, var(--secondary-purple) 50%, var(--tertiary-indigo) 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--bg-white) 0%, var(--bg-light) 100%);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px;
+        }
+
+        .main-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: var(--gradient-title);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--spacing-xl);
+            text-align: center;
+        }
+
+        .content-container {
+            max-width: 1000px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-lg);
+        }
+
+        .screenshot-section {
+            background: white;
+            padding: var(--spacing-lg);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 2px solid var(--primary-purple);
+        }
+
+        .screenshot-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--spacing-md);
+            text-align: center;
+        }
+
+        .folder-structure {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary-purple);
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .folder-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        .folder-icon {
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .folder-name {
+            font-weight: 600;
+            color: var(--primary-purple);
+        }
+
+        .folder-count {
+            margin-left: auto;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            background: var(--bg-light);
+            padding: 0.2rem 0.5rem;
+            border-radius: 10px;
+        }
+
+        .workflow-section {
+            background: white;
+            padding: var(--spacing-lg);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 2px solid var(--secondary-purple);
+        }
+
+        .workflow-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--spacing-md);
+            text-align: center;
+        }
+
+        .workflow-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .workflow-list li {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem;
+            margin-bottom: 0.5rem;
+            background: var(--bg-light);
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .workflow-arrow {
+            margin: 0 0.5rem;
+            color: var(--secondary-purple);
+            font-weight: bold;
+        }
+
+        .highlight-section {
+            grid-column: 1 / -1;
+            background: var(--gradient-box);
+            padding: var(--spacing-lg);
+            border-radius: 25px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 15px 35px rgba(103, 58, 183, 0.3);
+        }
+
+        .highlight-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .highlight-text {
+            font-size: 1.3rem;
+            font-weight: 600;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 30px;
+            }
+            
+            .main-title {
+                font-size: 2.5rem;
+            }
+            
+            .content-container {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-md);
+            }
+            
+            .screenshot-title,
+            .workflow-title {
+                font-size: 1.5rem;
+            }
+            
+            .folder-structure {
+                font-size: 1rem;
+            }
+            
+            .highlight-title {
+                font-size: 1.6rem;
+            }
+            
+            .highlight-text {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1 class="main-title">실제 IDEA 구조 화면</h1>
+    
+    <div class="content-container">
+        <div class="screenshot-section">
+            <h2 class="screenshot-title">📁 IDEA Framework</h2>
+            <div class="folder-structure">
+                <div class="folder-item">
+                    <span class="folder-icon">📁</span>
+                    <span class="folder-name">IDEA Framework</span>
+                </div>
+                <div class="folder-item" style="margin-left: 1rem;">
+                    <span class="folder-icon">🎯</span>
+                    <span class="folder-name">Initiative</span>
+                    <span class="folder-count">진행중 8개</span>
+                </div>
+                <div class="folder-item" style="margin-left: 1rem;">
+                    <span class="folder-icon">📝</span>
+                    <span class="folder-name">Diary</span>
+                    <span class="folder-count">루틴 12개</span>
+                </div>
+                <div class="folder-item" style="margin-left: 1rem;">
+                    <span class="folder-icon">🔍</span>
+                    <span class="folder-name">Explore</span>
+                    <span class="folder-count">도메인 지식 156개</span>
+                </div>
+                <div class="folder-item" style="margin-left: 1rem;">
+                    <span class="folder-icon">🚀</span>
+                    <span class="folder-name">Amplify</span>
+                    <span class="folder-count">완료 프로젝트 23개</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="workflow-section">
+            <h2 class="workflow-title">연결된 워크플로우:</h2>
+            <ul class="workflow-list">
+                <li>
+                    Initiative <span class="workflow-arrow">→</span> Diary 작업 일정 자동 생성
+                </li>
+                <li>
+                    Explore <span class="workflow-arrow">→</span> Initiative 아이디어 소스 제공
+                </li>
+                <li>
+                    Diary <span class="workflow-arrow">→</span> Amplify 성과 데이터 축적
+                </li>
+                <li>
+                    Amplify <span class="workflow-arrow">→</span> Initiative 재활용 아이디어 도출
+                </li>
+            </ul>
+        </div>
+
+        <div class="highlight-section">
+            <h2 class="highlight-title">핵심: 단순히 저장이 아닌 '순환'</h2>
+            <p class="highlight-text">
+                각 폴더가 독립적으로 존재하는 것이 아니라,<br>
+                서로 연결되어 지식과 프로젝트가 순환하며 발전하는 구조
+            </p>
+        </div>
+    </div>
+</body>
+</html>

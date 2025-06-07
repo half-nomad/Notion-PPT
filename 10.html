@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>노션이 내게 주는 가치</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-purple: #673AB7;
+            --secondary-purple: #9C27B0;
+            --accent-purple: #B388FF;
+            --tertiary-indigo: #3F51B5;
+            --bg-black: #000000;
+            --bg-dark: #1a1a1a;
+            --text-white: #FFFFFF;
+            --text-gray: #CCCCCC;
+            --text-light: #E0E0E0;
+            --spacing-sm: 1rem;
+            --spacing-md: 2rem;
+            --spacing-lg: 3rem;
+            --gradient-title: linear-gradient(135deg, var(--primary-purple) 0%, var(--secondary-purple) 100%);
+            --gradient-text: linear-gradient(90deg, var(--text-white) 0%, var(--accent-purple) 100%);
+            --gradient-box: linear-gradient(90deg, var(--primary-purple) 0%, var(--secondary-purple) 50%, var(--tertiary-indigo) 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--bg-black) 0%, var(--bg-dark) 100%);
+            color: var(--text-white);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px;
+            line-height: 1.6;
+        }
+
+        .slide {
+            width: 100%;
+            max-width: 1200px;
+            text-align: center;
+        }
+
+        .main-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: var(--spacing-sm);
+            color: var(--text-white);
+            background: var(--gradient-title);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--accent-purple);
+            margin-bottom: var(--spacing-lg);
+            font-style: italic;
+        }
+
+        .process-flow {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: var(--spacing-lg);
+            flex-wrap: wrap;
+        }
+
+        .process-item {
+            background: rgba(26, 26, 26, 0.8);
+            border: 2px solid var(--primary-purple);
+            border-radius: 20px;
+            padding: 1.5rem;
+            text-align: center;
+            min-width: 180px;
+            flex: 1;
+            max-width: 200px;
+            transition: all 0.3s ease;
+        }
+
+        .process-item:hover {
+            border-color: var(--secondary-purple);
+            box-shadow: 0 10px 30px rgba(103, 58, 183, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .process-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .process-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent-purple);
+            margin-bottom: 0.3rem;
+        }
+
+        .process-desc {
+            font-size: 1rem;
+            color: var(--text-gray);
+        }
+
+        .arrow {
+            font-size: 2rem;
+            color: var(--secondary-purple);
+            font-weight: bold;
+        }
+
+        .insights-section {
+            background: var(--gradient-box);
+            padding: var(--spacing-md);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(103, 58, 183, 0.3);
+            text-align: left;
+        }
+
+        .insights-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-white);
+            margin-bottom: var(--spacing-sm);
+            text-align: center;
+        }
+
+        .insights-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .insights-list li {
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: var(--text-white);
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            position: relative;
+            line-height: 1.4;
+        }
+
+        .insights-list li::before {
+            content: '•';
+            color: var(--accent-purple);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 30px;
+            }
+
+            .main-title {
+                font-size: 2.5rem;
+            }
+
+            .subtitle {
+                font-size: 1.4rem;
+            }
+
+            .process-flow {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .process-item {
+                min-width: auto;
+                max-width: none;
+            }
+
+            .arrow {
+                transform: rotate(90deg);
+            }
+
+            .insights-title {
+                font-size: 1.7rem;
+            }
+
+            .insights-list li {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide">
+        <h1 class="main-title">노션이 내게 주는 가치</h1>
+        <p class="subtitle">"복잡한 일들을 한 곳에서 관리하고 싶었어요"</p>
+        
+        <div class="process-flow">
+            <div class="process-item">
+                <div class="process-icon">📝</div>
+                <h3 class="process-title">데이터 수집</h3>
+                <p class="process-desc">외부 정보 체계적 분류</p>
+            </div>
+            
+            <div class="arrow">→</div>
+            
+            <div class="process-item">
+                <div class="process-icon">🔄</div>
+                <h3 class="process-title">빌드업 과정</h3>
+                <p class="process-desc">아이디어 구체화, 프로젝트 기획</p>
+            </div>
+            
+            <div class="arrow">→</div>
+            
+            <div class="process-item">
+                <div class="process-icon">🎯</div>
+                <h3 class="process-title">프로젝트 실행</h3>
+                <p class="process-desc">계획을 실제 행동으로 옮김</p>
+            </div>
+            
+            <div class="arrow">→</div>
+            
+            <div class="process-item">
+                <div class="process-icon">🚀</div>
+                <h3 class="process-title">시스템 개발</h3>
+                <p class="process-desc">완성된 서비스 배포</p>
+            </div>
+        </div>
+
+        <div class="insights-section">
+            <h2 class="insights-title">핵심 깨달음</h2>
+            <ul class="insights-list">
+                <li>노션을 정해진 기능으로 맞춰갈 필요가 없다</li>
+                <li>노션은 '내 방식'을 구현할 수 있는 빈 캔버스였다</li>
+                <li>완벽한 시스템보다 '계속 개선되는 시스템'이 더 중요했다</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

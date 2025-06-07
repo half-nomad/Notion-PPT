@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>저의 여정 - 노션 강의 슬라이드 2</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-purple: #673AB7;
+            --secondary-purple: #9C27B0;
+            --accent-purple: #B388FF;
+            --tertiary-indigo: #3F51B5;
+            
+            --bg-black: #000000;
+            --bg-dark: #1a1a1a;
+            --text-white: #FFFFFF;
+            --text-gray: #CCCCCC;
+            --text-light: #E0E0E0;
+            
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 2rem;
+            --spacing-lg: 3rem;
+            --spacing-xl: 4rem;
+            
+            --gradient-title: linear-gradient(135deg, var(--primary-purple) 0%, var(--secondary-purple) 100%);
+            --gradient-text: linear-gradient(90deg, var(--text-white) 0%, var(--accent-purple) 100%);
+            --gradient-box: linear-gradient(90deg, var(--primary-purple) 0%, var(--secondary-purple) 50%, var(--tertiary-indigo) 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--bg-black) 0%, var(--bg-dark) 100%);
+            color: var(--text-white);
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px;
+            overflow: hidden;
+        }
+
+        .main-title {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1.2;
+            background: var(--gradient-title);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--spacing-xl);
+            text-align: center;
+        }
+
+        .journey-timeline {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            margin-bottom: var(--spacing-xl);
+            padding: var(--spacing-lg) 0;
+        }
+
+        .journey-timeline::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 8%;
+            right: 8%;
+            height: 4px;
+            background: var(--gradient-box);
+            border-radius: 2px;
+            z-index: 1;
+        }
+
+        .timeline-item {
+            background: rgba(26, 26, 26, 0.9);
+            padding: 1.5rem 2rem;
+            border-radius: 15px;
+            border: 2px solid var(--primary-purple);
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            min-width: 180px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(103, 58, 183, 0.4);
+        }
+
+        .timeline-item h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-arrow {
+            font-size: 2rem;
+            color: var(--accent-purple);
+            z-index: 3;
+            position: relative;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .content-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-xl);
+            width: 100%;
+            max-width: 1200px;
+            margin-top: var(--spacing-lg);
+        }
+
+        .section-box {
+            background: rgba(26, 26, 26, 0.8);
+            padding: var(--spacing-lg);
+            border-radius: 20px;
+            border-left: 5px solid var(--primary-purple);
+            backdrop-filter: blur(10px);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-md);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .section-title.problem {
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-title.solution {
+            color: var(--accent-purple);
+        }
+
+        .content-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .content-list li {
+            padding-left: 1.5rem;
+            position: relative;
+            margin-bottom: var(--spacing-sm);
+            color: var(--text-light);
+            font-size: 1.3rem;
+            font-weight: 600;
+            line-height: 1.6;
+        }
+
+        .content-list li::before {
+            content: '•';
+            color: var(--secondary-purple);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            font-size: 1.5rem;
+        }
+
+        .highlight {
+            color: var(--accent-purple);
+            font-weight: 700;
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 30px; }
+            .main-title { font-size: 2.5rem; }
+            
+            .journey-timeline { 
+                flex-direction: column; 
+                gap: 1rem; 
+            }
+            .journey-timeline::before { display: none; }
+            .timeline-arrow { 
+                transform: rotate(90deg);
+                margin: 0.5rem 0;
+            }
+            
+            .content-section {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-md);
+            }
+            
+            .section-title { font-size: 1.8rem; }
+            .content-list li { font-size: 1.1rem; }
+        }
+
+        .slide-number {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            font-size: 1rem;
+            color: var(--text-gray);
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="main-title">저의 여정</h1>
+    
+    <div class="journey-timeline">
+        <div class="timeline-item">
+            <h3>직장인</h3>
+        </div>
+        <div class="timeline-arrow">→</div>
+        <div class="timeline-item">
+            <h3>부동산 중개업</h3>
+        </div>
+        <div class="timeline-arrow">→</div>
+        <div class="timeline-item">
+            <h3>이커머스</h3>
+        </div>
+        <div class="timeline-arrow">→</div>
+        <div class="timeline-item">
+            <h3>오프라인 매장 운영</h3>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="section-box">
+            <h2 class="section-title problem">🤔 공통된 고민</h2>
+            <ul class="content-list">
+                <li><span class="highlight">지속가능성:</span> "이 일을 10년 후에도 할 수 있을까?"</li>
+                <li><span class="highlight">자원부족:</span> "시간도 돈도 사람도 부족한데 어떻게 성장하지?"</li>
+            </ul>
+        </div>
+
+        <div class="section-box">
+            <h2 class="section-title solution">💡 전환점</h2>
+            <ul class="content-list">
+                <li>성장 대신 <span class="highlight">숨고르기 시기</span> 선택</li>
+                <li><span class="highlight">AI와 다양한 도구들</span>을 배우기 시작</li>
+                <li>지피터스 합류를 통한 <span class="highlight">새로운 관점</span> 확보</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="slide-number">2 / 32</div>
+</body>
+</html>

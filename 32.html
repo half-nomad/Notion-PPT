@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>더하는 것이 아니라 빼는 것</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-purple: #673AB7;
+            --secondary-purple: #9C27B0;
+            --accent-purple: #B388FF;
+            --tertiary-indigo: #3F51B5;
+            --bg-black: #000000;
+            --bg-dark: #1a1a1a;
+            --text-white: #FFFFFF;
+            --text-gray: #CCCCCC;
+            --text-light: #E0E0E0;
+            --spacing-md: 2rem;
+            --spacing-lg: 3rem;
+            --spacing-xl: 4rem;
+            --gradient-title: linear-gradient(135deg, var(--primary-purple) 0%, var(--secondary-purple) 100%);
+            --gradient-text: linear-gradient(90deg, var(--text-white) 0%, var(--accent-purple) 100%);
+            --gradient-box: linear-gradient(90deg, var(--primary-purple) 0%, var(--secondary-purple) 50%, var(--tertiary-indigo) 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--bg-black) 0%, var(--bg-dark) 100%);
+            color: var(--text-white);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .main-title {
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: var(--gradient-title);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 50px rgba(103, 58, 183, 0.3);
+        }
+
+        .values-section {
+            background: rgba(26, 26, 26, 0.8);
+            padding: 1.5rem;
+            border-radius: 25px;
+            border: 2px solid var(--primary-purple);
+            box-shadow: 0 20px 40px rgba(103, 58, 183, 0.2);
+            margin-bottom: 1.5rem;
+            max-width: 900px;
+        }
+
+        .section-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .value-item {
+            background: var(--gradient-box);
+            padding: 1.2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(103, 58, 183, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .value-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .value-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .value-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-white);
+            margin-bottom: 0.3rem;
+        }
+
+        .value-desc {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-light);
+            line-height: 1.4;
+        }
+
+        .core-message {
+            background: rgba(26, 26, 26, 0.8);
+            padding: var(--spacing-xl);
+            border-radius: 25px;
+            border-left: 8px solid var(--secondary-purple);
+            margin-bottom: var(--spacing-xl);
+            max-width: 800px;
+        }
+
+        .core-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--accent-purple);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .core-text {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .core-highlight {
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .final-message {
+            background: var(--gradient-box);
+            padding: var(--spacing-xl);
+            border-radius: 30px;
+            box-shadow: 0 25px 50px rgba(103, 58, 183, 0.4);
+            max-width: 900px;
+        }
+
+        .final-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-white);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .final-subtitle {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .final-text {
+            font-size: 1.4rem;
+            font-weight: 500;
+            color: var(--text-white);
+            line-height: 1.6;
+        }
+
+        .thank-you {
+            position: absolute;
+            bottom: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-gray);
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 30px;
+            }
+            
+            .main-title {
+                font-size: 2.8rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .value-icon {
+                font-size: 2rem;
+            }
+            
+            .value-name {
+                font-size: 1.2rem;
+            }
+            
+            .core-title {
+                font-size: 1.8rem;
+            }
+            
+            .core-text {
+                font-size: 1.3rem;
+            }
+            
+            .core-highlight {
+                font-size: 1.4rem;
+            }
+            
+            .final-title {
+                font-size: 2rem;
+            }
+            
+            .final-subtitle {
+                font-size: 1.5rem;
+            }
+            
+            .final-text {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1 class="main-title">더하는 것이 아니라 빼는 것</h1>
+    
+    <div class="values-section">
+        <h2 class="section-title">노션의 진짜 가치</h2>
+        <div class="values-grid">
+            <div class="value-item">
+                <span class="value-icon">🏕️</span>
+                <div class="value-name">베이스캠프</div>
+                <div class="value-desc">모든 지식과 업무의 시작점</div>
+            </div>
+            <div class="value-item">
+                <span class="value-icon">📊</span>
+                <div class="value-name">대시보드</div>
+                <div class="value-desc">여러 활동의 통합 현황판</div>
+            </div>
+            <div class="value-item">
+                <span class="value-icon">🏠</span>
+                <div class="value-name">고향</div>
+                <div class="value-desc">이것도 저것도 모르겠을 때 돌아갈 곳</div>
+            </div>
+            <div class="value-item">
+                <span class="value-icon">🛠️</span>
+                <div class="value-name">프로토타이핑</div>
+                <div class="value-desc">아이디어를 빠르게 검증하는 도구</div>
+            </div>
+            <div class="value-item">
+                <span class="value-icon">🔗</span>
+                <div class="value-name">연결고리</div>
+                <div class="value-desc">앱 간의 연동과 자동화 허브</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="core-message">
+        <h2 class="core-title">솔로프러너의 핵심</h2>
+        <p class="core-text">
+            자동화를 위한 자동화는 안 된다.<br>
+            중요한 것에 집중할 수 있게 해주는 것이 진짜 가치.
+        </p>
+        <p class="core-highlight">
+            복잡한 일로 시간을 낭비하지 않게 해준다.
+        </p>
+    </div>
+
+    <div class="final-message">
+        <h2 class="final-title">마지막 메시지</h2>
+        <p class="final-subtitle">"노션은 지식을 실행하는 캔버스입니다."</p>
+        <p class="final-text">
+            여러분의 아이디어와 업무를 그려나가세요.<br>
+            도구가 여러분을 위해 일하게 만드세요.<br>
+            정말 중요한 것에만 집중할 수 있는 환경을 만드세요.
+        </p>
+    </div>
+
+    <p class="thank-you">감사합니다! 🙏</p>
+</body>
+</html>

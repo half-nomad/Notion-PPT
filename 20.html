@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>20. 유튜브 콘텐츠 수집 자동화 - 노션 강의</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* 색상 */
+            --primary-purple: #673AB7;
+            --secondary-purple: #9C27B0;
+            --accent-purple: #B388FF;
+            --tertiary-indigo: #3F51B5;
+            
+            /* 배경 */
+            --bg-white: #FFFFFF;
+            --bg-light: #F5F5F5;
+            
+            /* 텍스트 */
+            --text-dark: #212121;
+            --text-gray: #424242;
+            --text-light-gray: #757575;
+            
+            /* 간격 */
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 2rem;
+            --spacing-lg: 3rem;
+            --spacing-xl: 4rem;
+            
+            /* 그라데이션 */
+            --gradient-title: linear-gradient(135deg, var(--primary-purple) 0%, var(--secondary-purple) 100%);
+            --gradient-text: linear-gradient(90deg, var(--text-dark) 0%, var(--accent-purple) 100%);
+            --gradient-box: linear-gradient(90deg, var(--primary-purple) 0%, var(--secondary-purple) 50%, var(--tertiary-indigo) 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--bg-white) 0%, var(--bg-light) 100%);
+            color: var(--text-dark);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px;
+            overflow: hidden;
+        }
+
+        .slide-container {
+            width: 100%;
+            max-width: 1400px;
+            text-align: center;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .main-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: var(--gradient-title);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .subtitle {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .workflow-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .pain-points {
+            background: rgba(255, 152, 0, 0.1);
+            padding: var(--spacing-lg);
+            border-radius: 20px;
+            border-left: 5px solid #FF9800;
+            text-align: left;
+        }
+
+        .automation-solution {
+            background: linear-gradient(135deg, rgba(103, 58, 183, 0.1) 0%, rgba(156, 39, 176, 0.1) 100%);
+            padding: var(--spacing-lg);
+            border-radius: 20px;
+            border-left: 5px solid var(--primary-purple);
+            text-align: left;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-sm);
+            color: var(--text-dark);
+        }
+
+        .pain-points .section-title {
+            color: #F57C00;
+        }
+
+        .automation-solution .section-title {
+            background: var(--gradient-title);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .content-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .content-list li {
+            font-size: 1.3rem;
+            font-weight: 600;
+            line-height: 1.6;
+            margin-bottom: var(--spacing-sm);
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .pain-points .content-list li::before {
+            content: '⏰';
+            position: absolute;
+            left: 0;
+            color: #FF9800;
+        }
+
+        .automation-solution .content-list li::before {
+            content: '🤖';
+            position: absolute;
+            left: 0;
+            color: var(--secondary-purple);
+        }
+
+        .demo-showcase {
+            background: var(--gradient-box);
+            padding: var(--spacing-lg);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(103, 58, 183, 0.3);
+            color: white;
+        }
+
+        .demo-showcase h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .demo-steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-md);
+        }
+
+        .demo-step {
+            background: rgba(255, 255, 255, 0.2);
+            padding: var(--spacing-md);
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .step-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--accent-purple);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .step-description {
+            font-size: 1.1rem;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        /* 반응형 */
+        @media (max-width: 768px) {
+            body { padding: 30px; }
+            .main-title { font-size: 2.5rem; }
+            .subtitle { font-size: 1.5rem; }
+            .workflow-container { 
+                grid-template-columns: 1fr; 
+                gap: var(--spacing-md);
+            }
+            .demo-steps { 
+                grid-template-columns: 1fr; 
+                gap: var(--spacing-sm);
+            }
+            .content-list li { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <h1 class="main-title"># 유튜브 콘텐츠 수집 자동화</h1>
+        <p class="subtitle">## "필요한 정보만 골라서 저장"</p>
+
+        <div class="workflow-container">
+            <div class="pain-points">
+                <h3 class="section-title">정보 수집의 고충</h3>
+                <ul class="content-list">
+                    <li>양질의 콘텐츠 찾기까지 시간 소모</li>
+                    <li>나중에 다시 찾기 어려움</li>
+                    <li>콘텐츠 맥락과 내 프로젝트 연결점 놓침</li>
+                </ul>
+            </div>
+
+            <div class="automation-solution">
+                <h3 class="section-title">Make + 노션 워크플로우</h3>
+                <ul class="content-list">
+                    <li>키워드 기반 유튜브 영상 자동 수집</li>
+                    <li>영상 정보 + 요약 + 태그 자동 생성</li>
+                    <li>프로젝트별 관련도 점수 매기기</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="demo-showcase">
+            <h3>🎬 [영상 시연 포인트]</h3>
+            <div class="demo-steps">
+                <div class="demo-step">
+                    <div class="step-number">1️⃣</div>
+                    <p class="step-description">Make에서 워크플로우 실행<br>→ 노션 DB에 새 영상 정보 추가</p>
+                </div>
+                <div class="demo-step">
+                    <div class="step-number">2️⃣</div>
+                    <p class="step-description">AI가 자동 생성한<br>요약문과 태그 확인</p>
+                </div>
+                <div class="demo-step">
+                    <div class="step-number">3️⃣</div>
+                    <p class="step-description">관련 프로젝트<br>자동 연결 과정</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

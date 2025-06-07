@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>슬라이드 18: 임베드 기능의 강력함</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-purple: #673AB7;
+            --secondary-purple: #9C27B0;
+            --accent-purple: #B388FF;
+            --tertiary-indigo: #3F51B5;
+            --bg-white: #FFFFFF;
+            --bg-light: #F5F5F5;
+            --text-dark: #212121;
+            --text-gray: #424242;
+            --text-light-gray: #757575;
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 2rem;
+            --spacing-lg: 3rem;
+            --spacing-xl: 4rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--bg-white) 0%, var(--bg-light) 100%);
+            color: var(--text-dark);
+            margin: 0;
+            padding: 0;
+            overflow: visible;
+            line-height: 1.6;
+        }
+
+        .slide-wrapper {
+            width: 100vw;
+            height: 56.25vw; /* 16:9 비율 (9/16 * 100) */
+            max-height: 100vh;
+            max-width: 177.78vh; /* 16:9 비율 (16/9 * 100) */
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            position: relative;
+        }
+
+        .slide-container {
+            max-width: 1200px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .main-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-purple) 0%, var(--secondary-purple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--spacing-sm);
+            line-height: 1.1;
+        }
+
+        .intro-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--text-dark) 0%, var(--accent-purple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--spacing-md);
+            position: relative;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .intro-text:hover {
+            transform: translateY(-2px);
+        }
+
+        .intro-text .clip-icon {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            font-size: 1.2rem;
+            background: var(--primary-purple);
+            color: white;
+            border-radius: 50%;
+            padding: 4px 6px;
+            box-shadow: 0 2px 10px rgba(103, 58, 183, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .intro-text:hover .clip-icon {
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(103, 58, 183, 0.5);
+        }
+
+        .image-links {
+            display: none;
+        }
+
+        .icon-group {
+            display: none;
+        }
+
+        .link-icon {
+            display: none;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 90%;
+            max-height: 90%;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal img {
+            max-width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: var(--primary-purple);
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .tool-item {
+            background: rgba(255, 255, 255, 0.9);
+            padding: var(--spacing-md);
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(103, 58, 183, 0.1);
+            border: 2px solid var(--primary-purple);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .tool-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(103, 58, 183, 0.2);
+        }
+
+        .tool-icon {
+            font-size: 2rem;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .tool-name {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary-purple);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .tool-description {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-gray);
+        }
+
+        .benefits-section {
+            background: linear-gradient(90deg, var(--primary-purple) 0%, var(--secondary-purple) 50%, var(--tertiary-indigo) 100%);
+            padding: var(--spacing-sm);
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(103, 58, 183, 0.3);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .benefits-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .benefits-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-sm);
+        }
+
+        .benefit-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: var(--spacing-sm);
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .benefit-icon {
+            font-size: 1.5rem;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .benefit-text {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .slide-wrapper {
+                padding: 30px;
+                height: 56.25vw;
+                max-height: 100vh;
+            }
+            
+            .main-title {
+                font-size: 2.8rem;
+            }
+            
+            .intro-text {
+                font-size: 1.8rem;
+            }
+            
+            .intro-text .clip-icon {
+                font-size: 1rem;
+                padding: 3px 5px;
+                top: -3px;
+                right: -3px;
+            }
+            
+            .tools-grid {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-md);
+            }
+            
+            .tool-name {
+                font-size: 1.6rem;
+            }
+            
+            .tool-description {
+                font-size: 1.3rem;
+            }
+            
+            .benefits-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .benefit-text {
+                font-size: 1.4rem;
+            }
+            
+            .modal-content {
+                max-width: 95%;
+                max-height: 95%;
+                padding: 15px;
+            }
+            
+            .modal img {
+                max-height: 70vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-wrapper">
+        <div class="slide-container">
+        <h1 class="main-title">임베드 기능의 강력함</h1>
+        
+        <a href="https://www.notion.so/help/embed-and-connect-other-apps" target="_blank" class="intro-text">
+            하나의 페이지에서 모든 것을:
+            <span class="clip-icon">📎</span>
+        </a>
+        
+        <div class="tools-grid">
+            <div class="tool-item">
+                <div class="tool-icon">🔗</div>
+                <div class="tool-name">구글 캘린더</div>
+                <div class="tool-description">강의 일정 확인</div>
+            </div>
+            
+            <div class="tool-item">
+                <div class="tool-icon">📄</div>
+                <div class="tool-name">PDF 미리보기</div>
+                <div class="tool-description">강의자료</div>
+            </div>
+            
+            <div class="tool-item">
+                <div class="tool-icon">📹</div>
+                <div class="tool-name">유튜브</div>
+                <div class="tool-description">강의 영상 재생</div>
+            </div>
+            
+            <div class="tool-item">
+                <div class="tool-icon">💻</div>
+                <div class="tool-name">코드펜, 리플릿</div>
+                <div class="tool-description">코드 실행 도구</div>
+            </div>
+            
+            <div class="tool-item">
+                <div class="tool-icon">💬</div>
+                <div class="tool-name">슬랙/디스코드</div>
+                <div class="tool-description">커뮤니티 소통</div>
+            </div>
+            
+            <div class="tool-item">
+                <div class="tool-icon">🎨</div>
+                <div class="tool-name">피그마</div>
+                <div class="tool-description">디자인 작업</div>
+            </div>
+        </div>
+        
+        <div class="benefits-section">
+            <div class="benefits-title">장점</div>
+            <div class="benefits-list">
+                <div class="benefit-item">
+                    <div class="benefit-icon">⚡</div>
+                    <div class="benefit-text">여러 탭을 오가지 않아도 됨</div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">🧠</div>
+                    <div class="benefit-text">정보의 맥락을 잃지 않음</div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">🔄</div>
+                    <div class="benefit-text">업데이트가 실시간으로 반영</div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</body>
+</html>
+</body>
+</html>
