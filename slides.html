@@ -18,7 +18,7 @@
             font-family: 'Pretendard Variable', 'Pretendard', sans-serif;
             overflow: hidden;
             background: #000;
-            cursor: none; /* 발표 모드 느낌 */
+            cursor: auto; /* 기본적으로 커서 표시 */
         }
         
         /* 슬라이드 컨테이너 */
@@ -37,14 +37,14 @@
             height: 100%;
             z-index: 999; /* iframe(950)보다 높지만 UI(1000)보다 낮게 */
             background: transparent;
-            pointer-events: auto;
-            cursor: none;
+            pointer-events: none; /* 기본적으로 데스크톱에서는 비활성화 */
+            cursor: auto;
         }
         
-        /* 모바일에서는 터치 오버레이 커서 표시 */
+        /* 모바일에서만 터치 오버레이 활성화 */
         @media (max-width: 768px) {
             .touch-overlay {
-                cursor: auto;
+                pointer-events: auto; /* 모바일에서만 터치 이벤트 활성화 */
             }
         }
         
@@ -221,10 +221,6 @@
                 padding: 8px 12px;
             }
             
-            body {
-                cursor: auto; /* 모바일에서는 커서 표시 */
-            }
-            
             /* 터치 영역 시각화 (개발 중에만 사용, 나중에 제거 가능) */
             .slide-container::before {
                 content: '';
@@ -259,6 +255,15 @@
             .slide-container.touch-feedback::after {
                 opacity: 0.15;  /* 0.05 → 0.15로 더 잘 보이게 */
             }
+        }
+        
+        /* 전체화면 모드에서만 커서 숨김 */
+        .fullscreen-mode {
+            cursor: none !important;
+        }
+        
+        .fullscreen-mode * {
+            cursor: none !important;
         }
         
         /* 로딩 애니메이션 */
@@ -480,8 +485,8 @@
             // 터치 피드백 표시
             showTouchFeedback();
             
-            // 수평 움직임이 세로보다 크면 스와이프로 판단
-            if (absDeltaX > absDeltaY && absDeltaX > SWIPE_THRESHOLD) {
+            // 수평 움직임이 세로보다 크고 임계값을 넘으면 스와이프로 판단
+            if (absDeltaX > SWIPE_THRESHOLD && absDeltaX > absDeltaY) {
                 if (deltaX > 0) {
                     // 오른쪽 스와이프 → 이전 슬라이드
                     console.log('🔥 오른쪽 스와이프: 이전 슬라이드');
@@ -653,6 +658,7 @@
             
             console.log('🔥 터치 이벤트 설정 완료!');
             
+            // 터치 시작
             touchOverlay.addEventListener('touchstart', function(e) {
                 if (isTransitioning) return;
                 
@@ -664,13 +670,30 @@
                 
                 // 터치 시작 시 UI 표시 (3초 후 숨김)
                 showUITemporarily();
-            }, { passive: false });
+            }, { passive: true });
             
+            // 터치 이동 - 조건부 preventDefault
             touchOverlay.addEventListener('touchmove', function(e) {
-                // 스크롤 방지 (슬라이드 뷰어에서는 스크롤 불필요)
-                e.preventDefault();
+                if (isTransitioning) return;
+                
+                const touch = e.touches[0];
+                const currentX = touch.clientX;
+                const currentY = touch.clientY;
+                
+                const deltaX = currentX - touchStartX;
+                const deltaY = currentY - touchStartY;
+                const absDeltaX = Math.abs(deltaX);
+                const absDeltaY = Math.abs(deltaY);
+                
+                // 수평 움직임이 세로보다 크면 스와이프로 판단하고 스크롤 방지
+                if (absDeltaX > absDeltaY && absDeltaX > 10) {
+                    console.log('수평 스와이프 감지 - 스크롤 방지');
+                    e.preventDefault();
+                }
+                // 세로 움직임이 더 크면 스크롤 허용 (preventDefault 하지 않음)
             }, { passive: false });
             
+            // 터치 종료
             touchOverlay.addEventListener('touchend', function(e) {
                 if (isTransitioning) return;
                 
@@ -681,7 +704,7 @@
                 console.log('터치 종료:', touchEndX, touchEndY);
                 
                 handleTouchGesture();
-            }, { passive: false });
+            }, { passive: true });
         }
         
         // iframe 메시지 리스너 설정
@@ -722,17 +745,18 @@
             }
         }
         
-        // 마우스 움직임 감지로 UI 토글 (프레젠테이션 모드)
+        // 마우스 움직임 감지로 UI 토글 (전체화면 모드에서만)
         let hideUITimer;
         document.addEventListener('mousemove', function() {
-            document.body.style.cursor = 'auto';
-            clearTimeout(hideUITimer);
-            
-            hideUITimer = setTimeout(() => {
-                if (!document.fullscreenElement) {
+            // 전체화면 모드에서만 커서 숨김 동작
+            if (document.fullscreenElement) {
+                document.body.style.cursor = 'auto';
+                clearTimeout(hideUITimer);
+                
+                hideUITimer = setTimeout(() => {
                     document.body.style.cursor = 'none';
-                }
-            }, 3000);
+                }, 3000);
+            }
         });
     </script>
 </body>
