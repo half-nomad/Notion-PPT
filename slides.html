@@ -618,15 +618,18 @@
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🔥 통합 슬라이드 뷰어 시작!');
             
-            // 1. 터치 이벤트 즉시 활성화 (로딩과 무관)
-            setupTouchEvents();
-            
-            // 2. 슬라이드 생성 및 로딩 시작
+            // 1. 슬라이드 생성 및 로딩 시작
             createSlides();
             updateUI();
             
-            // 3. iframe과의 메시지 통신 설정
+            // 2. iframe과의 메시지 통신 설정
             setupMessageListener();
+            
+            // 3. 터치 이벤트 즉시 활성화 (DOM 로드 후 확실하게 실행)
+            setTimeout(function() {
+                setupTouchEvents();
+                console.log('🚀 터치 이벤트 지연 설정 완료!');
+            }, 100);
             
             // 🚨 Firefox 호환성: 3초 후 강제 로딩 해제
             setTimeout(function() {
@@ -656,7 +659,9 @@
                 return;
             }
             
-            console.log('🔥 터치 이벤트 설정 완료!');
+            console.log('🔥 터치 이벤트 설정 시작!');
+            console.log('터치 오버레이 크기:', touchOverlay.offsetWidth, 'x', touchOverlay.offsetHeight);
+            console.log('터치 오버레이 pointer-events:', window.getComputedStyle(touchOverlay).pointerEvents);
             
             // 터치 시작
             touchOverlay.addEventListener('touchstart', function(e) {
@@ -666,7 +671,7 @@
                 touchStartX = touch.clientX;
                 touchStartY = touch.clientY;
                 
-                console.log('터치 시작:', touchStartX, touchStartY);
+                console.log('🔥 터치 시작:', touchStartX, touchStartY);
                 
                 // 터치 시작 시 UI 표시 (3초 후 숨김)
                 showUITemporarily();
@@ -701,10 +706,17 @@
                 touchEndX = touch.clientX;
                 touchEndY = touch.clientY;
                 
-                console.log('터치 종료:', touchEndX, touchEndY);
+                console.log('🔥 터치 종료:', touchEndX, touchEndY);
                 
                 handleTouchGesture();
             }, { passive: true });
+            
+            console.log('✅ 터치 이벤트 설정 완료!');
+            
+            // 터치 이벤트 테스트 (개발 중에만)
+            setTimeout(function() {
+                console.log('🧪 터치 이벤트 자체 테스트 완료');
+            }, 1000);
         }
         
         // iframe 메시지 리스너 설정
