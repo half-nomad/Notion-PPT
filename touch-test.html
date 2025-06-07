@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>모바일 터치 테스트</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #673AB7 0%, #9C27B0 100%);
+            color: white;
+            overflow: hidden;
+            height: 100vh;
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .title {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+        }
+        
+        .instructions {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            line-height: 1.5;
+        }
+        
+        .status {
+            font-size: 1.5rem;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .touch-areas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+        
+        .left-area, .right-area {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            width: 40%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .left-area {
+            left: 0;
+        }
+        
+        .right-area {
+            right: 0;
+        }
+        
+        .center-area {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20%;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .show-areas .left-area,
+        .show-areas .right-area,
+        .show-areas .center-area {
+            opacity: 1;
+        }
+        
+        .area-labels {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.9rem;
+            text-align: center;
+            pointer-events: none;
+        }
+        
+        .left-label {
+            position: absolute;
+            top: 50%;
+            left: 20%;
+            transform: translate(-50%, -50%);
+            font-weight: bold;
+        }
+        
+        .right-label {
+            position: absolute;
+            top: 50%;
+            right: 20%;
+            transform: translate(50%, -50%);
+            font-weight: bold;
+        }
+        
+        .center-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="container">
+        <div class="title">🔥 모바일 터치 테스트</div>
+        <div class="instructions">
+            화면을 터치하거나 스와이프해보세요<br>
+            동작이 감지되면 아래에 표시됩니다
+        </div>
+        <div class="status" id="status">
+            터치를 기다리는 중...
+        </div>
+        
+        <div class="touch-areas">
+            <div class="left-area"></div>
+            <div class="right-area"></div>
+            <div class="center-area"></div>
+            
+            <div class="left-label">←<br>이전</div>
+            <div class="right-label">→<br>다음</div>
+            <div class="center-label">UI<br>토글</div>
+        </div>
+    </div>
+
+    <script>
+        // 터치 이벤트 변수
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let touchEndX = 0;
+        let touchEndY = 0;
+        const SWIPE_THRESHOLD = 30;
+        const TAP_THRESHOLD = 15;
+        
+        const container = document.getElementById('container');
+        const status = document.getElementById('status');
+        
+        // 터치 시작
+        document.addEventListener('touchstart', function(e) {
+            const touch = e.touches[0];
+            touchStartX = touch.clientX;
+            touchStartY = touch.clientY;
+            
+            status.textContent = '터치 시작됨...';
+            container.classList.add('show-areas');
+        }, { passive: true });
+        
+        // 터치 이동
+        document.addEventListener('touchmove', function(e) {
+            e.preventDefault();
+            status.textContent = '터치 이동 중...';
+        }, { passive: false });
+        
+        // 터치 종료
+        document.addEventListener('touchend', function(e) {
+            const touch = e.changedTouches[0];
+            touchEndX = touch.clientX;
+            touchEndY = touch.clientY;
+            
+            handleTouchGesture();
+            
+            setTimeout(() => {
+                container.classList.remove('show-areas');
+            }, 1000);
+        }, { passive: true });
+        
+        // 터치 제스처 처리
+        function handleTouchGesture() {
+            const deltaX = touchEndX - touchStartX;
+            const deltaY = touchEndY - touchStartY;
+            const absDeltaX = Math.abs(deltaX);
+            const absDeltaY = Math.abs(deltaY);
+            
+            // 스와이프 제스처 감지
+            if (absDeltaX > SWIPE_THRESHOLD && absDeltaX > absDeltaY) {
+                if (deltaX > 0) {
+                    status.innerHTML = '✅ 오른쪽 스와이프<br>→ 이전 슬라이드';
+                    status.style.background = 'rgba(76, 175, 80, 0.8)';
+                } else {
+                    status.innerHTML = '✅ 왼쪽 스와이프<br>→ 다음 슬라이드';
+                    status.style.background = 'rgba(33, 150, 243, 0.8)';
+                }
+                return;
+            }
+            
+            // 탭 제스처 감지
+            if (absDeltaX < TAP_THRESHOLD && absDeltaY < TAP_THRESHOLD) {
+                const screenWidth = window.innerWidth;
+                const tapX = touchEndX;
+                
+                if (tapX < screenWidth * 0.4) {
+                    status.innerHTML = '✅ 왼쪽 탭<br>→ 이전 슬라이드';
+                    status.style.background = 'rgba(76, 175, 80, 0.8)';
+                } else if (tapX > screenWidth * 0.6) {
+                    status.innerHTML = '✅ 오른쪽 탭<br>→ 다음 슬라이드';
+                    status.style.background = 'rgba(33, 150, 243, 0.8)';
+                } else {
+                    status.innerHTML = '✅ 중앙 탭<br>→ UI 토글';
+                    status.style.background = 'rgba(156, 39, 176, 0.8)';
+                }
+            } else {
+                status.innerHTML = '❌ 제스처 인식 실패<br>(움직임이 너무 큼)';
+                status.style.background = 'rgba(244, 67, 54, 0.8)';
+            }
+            
+            // 3초 후 초기 상태로 복원
+            setTimeout(() => {
+                status.textContent = '터치를 기다리는 중...';
+                status.style.background = 'rgba(255, 255, 255, 0.2)';
+            }, 3000);
+        }
+        
+        // 키보드 이벤트도 테스트
+        document.addEventListener('keydown', function(e) {
+            switch(e.key) {
+                case 'ArrowLeft':
+                    status.innerHTML = '⌨️ 왼쪽 화살표<br>→ 이전 슬라이드';
+                    status.style.background = 'rgba(76, 175, 80, 0.8)';
+                    break;
+                case 'ArrowRight':
+                case ' ':
+                    status.innerHTML = '⌨️ 오른쪽 화살표/스페이스<br>→ 다음 슬라이드';
+                    status.style.background = 'rgba(33, 150, 243, 0.8)';
+                    break;
+            }
+            
+            setTimeout(() => {
+                status.textContent = '터치를 기다리는 중...';
+                status.style.background = 'rgba(255, 255, 255, 0.2)';
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

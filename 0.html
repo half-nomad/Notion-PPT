@@ -267,22 +267,22 @@
         const SWIPE_THRESHOLD = 50;
         const TAP_THRESHOLD = 10;
         
-        // 페이지 로드 시 자동으로 로딩 화면 숨기기 (2초 타임아웃)
+        // 페이지 로드 시 자동으로 로딩 화면 숨기기 (1초 타임아웃)
         document.addEventListener('DOMContentLoaded', function() {
             console.log('0번 슬라이드 (START) 로드 시작');
             
-            // 2초 후 자동으로 로딩 화면 숨기기
+            // 1초 후 자동으로 로딩 화면 숨기기 (단축)
             setTimeout(function() {
                 hideLoading();
-            }, 2000);
+            }, 1000);
             
-            // 혹시 이미지 로딩이 있다면 5초 후 강제로 숨기기
+            // 2초 후 강제로 숨기기 (단축)
             setTimeout(function() {
                 if (!document.querySelector('.loading-container').classList.contains('hidden')) {
-                    console.warn('로딩이 5초 이상 지속되어 강제로 화면을 표시합니다.');
+                    console.warn('로딩이 2초 이상 지속되어 강제로 화면을 표시합니다.');
                     hideLoading();
                 }
-            }, 5000);
+            }, 2000);
         });
         
         function hideLoading() {

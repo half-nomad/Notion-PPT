@@ -211,7 +211,7 @@
                 position: absolute;
                 top: 0;
                 left: 0;
-                width: 33.33%;
+                width: 40%;  /* 33.33% → 40% */
                 height: 100%;
                 background: rgba(255, 0, 0, 0.05);  /* 왼쪽 탭 영역 */
                 pointer-events: none;
@@ -225,7 +225,7 @@
                 position: absolute;
                 top: 0;
                 right: 0;
-                width: 33.33%;
+                width: 40%;  /* 33.33% → 40% */
                 height: 100%;
                 background: rgba(0, 255, 0, 0.05);  /* 오른쪽 탭 영역 */
                 pointer-events: none;
@@ -234,10 +234,10 @@
                 transition: opacity 0.3s ease;
             }
             
-            /* 터치 시 잠깐 영역 표시 (선택사항) */
+            /* 터치 시 잠깐 영역 표시 (더 명확하게) */
             .slide-container.touch-feedback::before,
             .slide-container.touch-feedback::after {
-                opacity: 1;
+                opacity: 0.15;  /* 0.05 → 0.15로 더 잘 보이게 */
             }
         }
         
@@ -255,7 +255,7 @@
 <body>
     <div class="slide-container">
         <!-- 로딩 표시 -->
-        <div class="loading">슬라이드를 불러오는 중...</div>
+        <div class="loading">노션 강의를 준비하는 중... (3초 후 자동 시작)</div>
         
         <!-- 32개 슬라이드 동적 생성될 예정 -->
     </div>
@@ -348,7 +348,7 @@
                     }
                 };
                 
-                // 추가 안전장치: 각 슬라이드당 3초 타임아웃
+                // 추가 안전장치: 각 슬라이드당 2초 타임아웃
                 setTimeout(function() {
                     if (!iframe.complete && slidesLoaded < SLIDE_CONFIG.totalSlides) {
                         slidesLoaded++;
@@ -357,7 +357,7 @@
                             hideLoading();
                         }
                     }
-                }, 3000 + (i * 100)); // 각 슬라이드마다 100ms씩 지연
+                }, 2000 + (i * 50)); // 각 슬라이드마다 50ms씩 지연
                 
                 slideContainer.appendChild(iframe);
             }
@@ -377,8 +377,8 @@
         let touchStartY = 0;
         let touchEndX = 0;
         let touchEndY = 0;
-        const SWIPE_THRESHOLD = 50; // 스와이프 최소 거리
-        const TAP_THRESHOLD = 10;   // 탭 최대 이동 거리
+        const SWIPE_THRESHOLD = 30; // 스와이프 최소 거리 (50→30으로 줄임)
+        const TAP_THRESHOLD = 15;   // 탭 최대 이동 거리 (10→15로 늘림)
         
         // 키보드 이벤트 리스너
         document.addEventListener('keydown', function(e) {
@@ -501,17 +501,17 @@
                 const screenWidth = window.innerWidth;
                 const tapX = touchEndX;
                 
-                // 화면을 3등분해서 탭 위치 판단
-                if (tapX < screenWidth * 0.33) {
-                    // 왼쪽 1/3 영역 탭 → 이전 슬라이드
+                // 화면을 좌우 40%씩, 중앙 20%로 분할해서 탭 위치 판단
+                if (tapX < screenWidth * 0.4) {
+                    // 왼쪽 40% 영역 탭 → 이전 슬라이드
                     console.log('왼쪽 탭: 이전 슬라이드');
                     previousSlide();
-                } else if (tapX > screenWidth * 0.67) {
-                    // 오른쪽 1/3 영역 탭 → 다음 슬라이드
+                } else if (tapX > screenWidth * 0.6) {
+                    // 오른쪽 40% 영역 탭 → 다음 슬라이드
                     console.log('오른쪽 탭: 다음 슬라이드');
                     nextSlide();
                 } else {
-                    // 중앙 1/3 영역 탭 → UI 토글
+                    // 중앙 20% 영역 탭 → UI 토글
                     console.log('중앙 탭: UI 표시');
                     showUITemporarily();
                 }
@@ -617,23 +617,23 @@
             // iframe과의 메시지 통신 설정
             setupMessageListener();
             
-            // 🚨 Firefox 호환성: 5초 후 강제 로딩 해제
+            // 🚨 Firefox 호환성: 3초 후 강제 로딩 해제
             setTimeout(function() {
                 if (loading && loading.style.display !== 'none') {
-                    console.warn('⚠️ 로딩이 5초 이상 지속되어 강제로 화면을 표시합니다.');
+                    console.warn('⚠️ 로딩이 3초 이상 지속되어 강제로 화면을 표시합니다.');
                     console.warn(`현재 로드된 슬라이드: ${slidesLoaded}/${SLIDE_CONFIG.totalSlides}`);
                     hideLoading();
                 }
-            }, 5000);
+            }, 3000);
             
-            // 🚨 추가 안전장치: 10초 후 완전 강제 해제
+            // 🚨 추가 안전장치: 6초 후 완전 강제 해제
             setTimeout(function() {
                 if (loading && loading.style.display !== 'none') {
-                    console.error('🚨 로딩이 10초 이상 지속되어 완전 강제 해제합니다.');
+                    console.error('🚨 로딩이 6초 이상 지속되어 완전 강제 해제합니다.');
                     loading.style.display = 'none';
                     loading.style.opacity = '0';
                 }
-            }, 10000);
+            }, 6000);
         });
         
         // iframe 메시지 리스너 설정
