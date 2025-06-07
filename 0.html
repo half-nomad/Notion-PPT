@@ -58,9 +58,80 @@
             animation: pulse 1.5s infinite;
         }
         
-        /* 이미지가 로드되면 로딩 숨김 */
-        .slide-image.loaded + .loading {
-            display: none;
+        /* 터치 피드백 효과 */
+        .slide-container.touch-feedback::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 100%;
+            background: rgba(103, 58, 183, 0.1);
+            pointer-events: none;
+            z-index: 5;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        
+        .slide-container.touch-feedback::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background: rgba(156, 39, 176, 0.1);
+            pointer-events: none;
+            z-index: 5;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        
+        .slide-container.touch-feedback.left-tap::before {
+            opacity: 1;
+        }
+        
+        .slide-container.touch-feedback.right-tap::after {
+            opacity: 1;
+        }
+        
+        /* 모바일 터치 가이드 */
+        @media (max-width: 768px) {
+            .slide-container::before {
+                content: '◀';
+                position: absolute;
+                top: 50%;
+                left: 20px;
+                transform: translateY(-50%);
+                color: rgba(255, 255, 255, 0.3);
+                font-size: 2rem;
+                font-weight: bold;
+                pointer-events: none;
+                z-index: 10;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+            
+            .slide-container::after {
+                content: '▶';
+                position: absolute;
+                top: 50%;
+                right: 20px;
+                transform: translateY(-50%);
+                color: rgba(255, 255, 255, 0.3);
+                font-size: 2rem;
+                font-weight: bold;
+                pointer-events: none;
+                z-index: 10;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+            
+            /* 터치 시 네비게이션 힌트 표시 */
+            .slide-container.show-nav-hints::before,
+            .slide-container.show-nav-hints::after {
+                opacity: 1;
+            }
         }
     </style>
 </head>
@@ -77,6 +148,14 @@
     </div>
 
     <script>
+        // 터치 이벤트 변수
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let touchEndX = 0;
+        let touchEndY = 0;
+        const SWIPE_THRESHOLD = 50;
+        const TAP_THRESHOLD = 10;
+        
         function handleImageError(img) {
             console.error('이미지 로드 실패: assets/images/personal/0.jpg');
             
@@ -105,10 +184,108 @@
                 case 'ArrowRight':
                 case ' ':
                     console.log('다음 슬라이드로 이동 요청');
+                    // 통합 뷰어에서는 parent.postMessage로 통신 가능
                     break;
                 case 'ArrowLeft':
                     console.log('이전 슬라이드로 이동 요청');
                     break;
+            }
+        });
+        
+        // 터치 이벤트 리스너들
+        document.addEventListener('touchstart', function(e) {
+            const touch = e.touches[0];
+            touchStartX = touch.clientX;
+            touchStartY = touch.clientY;
+            
+            showNavigationHints();
+        }, { passive: true });
+        
+        document.addEventListener('touchmove', function(e) {
+            // 스크롤 방지
+            e.preventDefault();
+        }, { passive: false });
+        
+        document.addEventListener('touchend', function(e) {
+            const touch = e.changedTouches[0];
+            touchEndX = touch.clientX;
+            touchEndY = touch.clientY;
+            
+            handleTouchGesture();
+        }, { passive: true });
+        
+        // 터치 제스처 처리
+        function handleTouchGesture() {
+            const deltaX = touchEndX - touchStartX;
+            const deltaY = touchEndY - touchStartY;
+            const absDeltaX = Math.abs(deltaX);
+            const absDeltaY = Math.abs(deltaY);
+            
+            // 터치 피드백 표시
+            showTouchFeedback();
+            
+            // 스와이프 제스처 감지
+            if (absDeltaX > SWIPE_THRESHOLD && absDeltaX > absDeltaY) {
+                if (deltaX > 0) {
+                    console.log('오른쪽 스와이프: 이전 슬라이드 (0번에서는 불가)');
+                } else {
+                    console.log('왼쪽 스와이프: 다음 슬라이드');
+                    // 통합 뷰어에서 다음 슬라이드로 이동 시그널
+                    if (window.parent !== window) {
+                        window.parent.postMessage({type: 'nextSlide'}, '*');
+                    }
+                }
+                return;
+            }
+            
+            // 탭 제스처 감지
+            if (absDeltaX < TAP_THRESHOLD && absDeltaY < TAP_THRESHOLD) {
+                const screenWidth = window.innerWidth;
+                const tapX = touchEndX;
+                
+                if (tapX < screenWidth * 0.5) {
+                    console.log('왼쪽 탭: 이전 슬라이드 (0번에서는 불가)');
+                    showTouchFeedback('left');
+                } else {
+                    console.log('오른쪽 탭: 다음 슬라이드');
+                    showTouchFeedback('right');
+                    if (window.parent !== window) {
+                        window.parent.postMessage({type: 'nextSlide'}, '*');
+                    }
+                }
+            }
+        }
+        
+        // 터치 피드백 표시
+        function showTouchFeedback(side = null) {
+            const container = document.querySelector('.slide-container');
+            container.classList.add('touch-feedback');
+            
+            if (side === 'left') {
+                container.classList.add('left-tap');
+            } else if (side === 'right') {
+                container.classList.add('right-tap');
+            }
+            
+            setTimeout(() => {
+                container.classList.remove('touch-feedback', 'left-tap', 'right-tap');
+            }, 200);
+        }
+        
+        // 네비게이션 힌트 표시
+        function showNavigationHints() {
+            const container = document.querySelector('.slide-container');
+            container.classList.add('show-nav-hints');
+            
+            setTimeout(() => {
+                container.classList.remove('show-nav-hints');
+            }, 1500);
+        }
+        
+        // 통합 뷰어로부터 메시지 수신 (필요시)
+        window.addEventListener('message', function(event) {
+            if (event.data.type === 'slideChanged') {
+                console.log('슬라이드 변경됨:', event.data.currentSlide);
             }
         });
     </script>
