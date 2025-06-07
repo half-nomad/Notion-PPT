@@ -338,10 +338,26 @@
                     }
                 };
                 
-                // 에러 처리
+                // 에러 처리 - 에러가 발생해도 카운터 증가 (Firefox 호환성)
                 iframe.onerror = function() {
-                    console.error(`슬라이드 ${i} 로드 실패: ${iframe.src}`);
+                    slidesLoaded++;
+                    console.error(`슬라이드 ${i} 로드 실패: ${iframe.src} (${slidesLoaded}/${SLIDE_CONFIG.totalSlides})`);
+                    if (slidesLoaded === SLIDE_CONFIG.totalSlides) {
+                        console.warn('일부 슬라이드 로드 실패했지만 뷰어를 시작합니다.');
+                        hideLoading();
+                    }
                 };
+                
+                // 추가 안전장치: 각 슬라이드당 3초 타임아웃
+                setTimeout(function() {
+                    if (!iframe.complete && slidesLoaded < SLIDE_CONFIG.totalSlides) {
+                        slidesLoaded++;
+                        console.warn(`슬라이드 ${i} 로딩 타임아웃 (${slidesLoaded}/${SLIDE_CONFIG.totalSlides})`);
+                        if (slidesLoaded === SLIDE_CONFIG.totalSlides) {
+                            hideLoading();
+                        }
+                    }
+                }, 3000 + (i * 100)); // 각 슬라이드마다 100ms씩 지연
                 
                 slideContainer.appendChild(iframe);
             }
@@ -600,6 +616,24 @@
             
             // iframe과의 메시지 통신 설정
             setupMessageListener();
+            
+            // 🚨 Firefox 호환성: 5초 후 강제 로딩 해제
+            setTimeout(function() {
+                if (loading && loading.style.display !== 'none') {
+                    console.warn('⚠️ 로딩이 5초 이상 지속되어 강제로 화면을 표시합니다.');
+                    console.warn(`현재 로드된 슬라이드: ${slidesLoaded}/${SLIDE_CONFIG.totalSlides}`);
+                    hideLoading();
+                }
+            }, 5000);
+            
+            // 🚨 추가 안전장치: 10초 후 완전 강제 해제
+            setTimeout(function() {
+                if (loading && loading.style.display !== 'none') {
+                    console.error('🚨 로딩이 10초 이상 지속되어 완전 강제 해제합니다.');
+                    loading.style.display = 'none';
+                    loading.style.opacity = '0';
+                }
+            }, 10000);
         });
         
         // iframe 메시지 리스너 설정
