@@ -1,21 +1,25 @@
-# 노션 강의 슬라이드 웹사이트
+# 노션: 지식을 실행하는 캔버스 🎯
 
 > "노션: 지식을 실행하는 캔버스" 강의 슬라이드를 웹에서 볼 수 있는 사이트입니다.
 
+## 🌐 온라인 뷰어
+- **전체 슬라이드**: https://half-nomad.github.io/Notion-PPT/slides.html
+- **개별 슬라이드**: https://half-nomad.github.io/Notion-PPT/[0-32].html
+
 ## 🎯 프로젝트 소개
 
-하프노마드의 노션 활용 강의 슬라이드 32개를 웹브라우저에서 편리하게 볼 수 있도록 구현한 프로젝트입니다.
+하프노마드의 노션 활용 강의 슬라이드 33개를 웹브라우저에서 편리하게 볼 수 있도록 구현한 프로젝트입니다.
 
 ### 주요 기능
-- **간단한 네비게이션**: `<` `>` 버튼으로 슬라이드 이동
-- **반응형 디자인**: 16:9 비율 기반 모바일/데스크톱 대응
-- **챕터별 구성**: INTRO → Chapter 1-3 → OUTRO
-- **깔끔한 UI**: 블랙/화이트 배경 + 퍼플 포인트 컬러
+- **키보드 네비게이션**: ←/→ 또는 Space/Shift+Space
+- **프레젠테이션 모드**: F키 또는 전체화면 버튼
+- **반응형 디자인**: 모바일/태블릿/데스크톱 최적화
+- **다크/라이트 테마**: 슬라이드별 최적 테마 적용
 
 ## 📚 강의 구성
 
-### INTRO (슬라이드 1-4)
-- 자기소개 및 여정 소개
+### INTRO (슬라이드 0-4)
+- 개인 여정과 문제 정의
 - 공통 고민과 전환점
 
 ### Chapter 1: 노션을 왜 쓰는가 (슬라이드 5-8)
@@ -32,49 +36,18 @@
 - 체계적 지식 관리 시스템
 
 ### OUTRO (슬라이드 31-32)
-- 핵심 메시지
-- 마무리
+- 핵심 메시지와 마무리
 
-## 🚀 사용 방법
+## 🎨 슬라이드 구성
+- **다크 테마**: 개념과 철학 (18장)
+- **라이트 테마**: 실무 사례 (14장)
+- **인터랙티브**: IDEA 프레임워크 순환 설명
+- **시각 자료**: 스크린샷, 워크플로우 영상
 
-### 로컬에서 실행
-```bash
-# 저장소 클론
-git clone https://github.com/your-username/notion-slides.git
-cd notion-slides
-
-# 로컬 서버 실행 (Python 사용 시)
-python -m http.server 8000
-
-# 또는 Live Server 확장 사용 (VS Code)
-# index.html 우클릭 → Open with Live Server
-```
-
-### 온라인에서 보기
-**GitHub Pages**: [https://your-username.github.io/notion-slides](https://your-username.github.io/notion-slides)
-
-## 🎨 디자인 시스템
-- **컬러 팔레트**: 
-  - Primary Purple: #673AB7
-  - Secondary Purple: #9C27B0
-  - Accent Purple: #B388FF
-- **폰트**: Pretendard (웹폰트)
-- **레이아웃**: CSS Grid/Flexbox 기반 반응형
-
-## 📁 프로젝트 구조
-```
-Notion PPT/
-├── index.html              # 메인 랜딩 페이지
-├── slides.html             # 슬라이드 뷰어
-├── assets/
-│   ├── css/
-│   │   ├── main.css       # 메인 페이지 스타일
-│   │   └── slides.css     # 슬라이드 스타일
-│   ├── js/
-│   │   └── slides.js      # 슬라이드 네비게이션
-│   └── images/            # 이미지 파일들
-└── README.md              # 이 파일
-```
+## 🚀 발표 정보
+- **주제**: AI와 노코드 자동화를 활용한 개인 지식 관리
+- **대상**: 솔로프러너, 1인 비즈니스, 노션 활용자
+- **시간**: 35분 + Q&A
 
 ## 🔧 기술 스택
 - **Frontend**: HTML5, CSS3, Vanilla JavaScript
@@ -82,10 +55,17 @@ Notion PPT/
 - **배포**: GitHub Pages
 - **버전관리**: Git
 
-## 📱 반응형 지원
-- **데스크톱**: 1920px 이상 (최적 환경)
-- **태블릿**: 768px - 1919px
-- **모바일**: 320px - 767px
+## 📁 프로젝트 구조
+```
+Notion PPT/
+├── slides.html             # 통합 슬라이드 뷰어
+├── 0.html ~ 32.html        # 개별 슬라이드 파일들
+├── assets/
+│   ├── images/             # 슬라이드 이미지들
+│   └── styles/             # CSS 파일들
+├── project_plan.md         # 프로젝트 계획서
+└── README.md              # 이 파일
+```
 
 ## 🎯 핵심 철학
 > "노션은 지식을 실행하는 캔버스입니다. 여러분의 아이디어와 업무를 그려나가세요."
@@ -103,13 +83,6 @@ Notion PPT/
 
 ## 📄 라이센스
 MIT License - 자유롭게 사용하세요!
-
-## 🤝 기여하기
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
 
 ---
 **생성일**: 2025-06-07  
