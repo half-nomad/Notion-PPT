@@ -341,6 +341,54 @@
 
         function closeModal(modalId) {
             document.getElementById(modalId).style.display = 'none';
+            
+            // 🔥 강력한 포커스 복구 시스템 (5단계)
+            console.log('🔥 이미지 모달 닫기 시작:', modalId);
+            
+            // 1단계: 즉시 body에 포커스 설정 (iframe 내부)
+            document.body.focus();
+            if (!document.body.hasAttribute('tabindex')) {
+                document.body.setAttribute('tabindex', '-1');
+            }
+            
+            // 2단계: 부모 윈도우로 포커스 복구 요청 (즉시)
+            if (window.parent && window.parent !== window) {
+                window.parent.postMessage({
+                    type: 'linkOpened',
+                    action: 'restoreFocus'
+                }, '*');
+                console.log('🔥 이미지 모달 닫기 후 포커스 복구 요청 전송');
+            }
+            
+            // 3단계: iframe 내부에서도 직접 포커스 복구 시도 (100ms)
+            setTimeout(() => {
+                document.body.focus();
+                document.body.click(); // 클릭 이벤트로 활성화
+                console.log('🔥 iframe 내부 포커스 복구');
+            }, 100);
+            
+            // 4단계: 부모 윈도우 직접 접근 시도 (200ms)
+            setTimeout(() => {
+                try {
+                    if (window.parent && window.parent !== window && window.parent.document) {
+                        window.parent.document.body.focus();
+                        console.log('🔥 부모 윈도우 직접 포커스 설정');
+                    }
+                } catch (e) {
+                    console.log('🔥 부모 윈도우 직접 접근 실패 (예상됨):', e.message);
+                }
+            }, 200);
+            
+            // 5단계: 최종 안전장치 - 부모 윈도우로 강력한 포커스 복구 요청 (500ms)
+            setTimeout(() => {
+                if (window.parent && window.parent !== window) {
+                    window.parent.postMessage({
+                        type: 'forceFocus',
+                        action: 'emergencyRestore'
+                    }, '*');
+                    console.log('🔥 긴급 포커스 복구 요청 전송');
+                }
+            }, 500);
         }
 
         // ESC 키로 모든 모달 닫기

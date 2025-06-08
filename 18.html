@@ -380,7 +380,7 @@
                     window.parent.postMessage({
                         type: 'linkOpened',
                         action: 'restoreFocus'
-                    }, window.location.origin);
+                    }, '*'); // file:// 프로토콜 호환성을 위해 '*' 사용
                     console.log('🔥 부모 윈도우로 포커스 복구 요청 전송');
                 }
             }, 100);

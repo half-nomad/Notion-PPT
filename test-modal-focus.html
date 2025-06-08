@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔥 이미지 모달 포커스 테스트</title>
+    <style>
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+            color: white;
+            padding: 40px;
+            line-height: 1.6;
+        }
+        
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .test-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #B388FF;
+            margin-bottom: 2rem;
+        }
+        
+        .test-section {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            border: 2px solid #673AB7;
+        }
+        
+        .test-button {
+            background: linear-gradient(90deg, #673AB7, #9C27B0);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(103, 58, 183, 0.3);
+        }
+        
+        .test-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(103, 58, 183, 0.5);
+        }
+        
+        .external-link {
+            background: linear-gradient(90deg, #FF6B6B, #FF8E53);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+        
+        .external-link:hover {
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.5);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 80%;
+            max-height: 80%;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            color: #333;
+        }
+        
+        .modal img {
+            max-width: 100%;
+            max-height: 70vh;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+        
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close:hover {
+            color: #673AB7;
+        }
+        
+        .keyboard-test {
+            background: rgba(0, 255, 0, 0.1);
+            border: 2px solid #00ff00;
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+        }
+        
+        .keyboard-test.active {
+            background: rgba(0, 255, 0, 0.3);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+        }
+        
+        .status {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 10px 0;
+        }
+        
+        .status.success {
+            color: #00ff00;
+        }
+        
+        .status.error {
+            color: #ff6b6b;
+        }
+        
+        .log {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: left;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #444;
+        }
+        
+        .log-entry {
+            margin: 2px 0;
+            padding: 2px 0;
+        }
+        
+        .log-entry.success {
+            color: #00ff88;
+        }
+        
+        .log-entry.error {
+            color: #ff6b6b;
+        }
+        
+        .log-entry.info {
+            color: #88bbff;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1 class="test-title">🔥 이미지 모달 포커스 테스트</h1>
+        
+        <div class="test-section">
+            <h2>📋 테스트 시나리오</h2>
+            <p>1. 이미지 모달 열기 → 닫기 → 키보드 네비게이션 테스트</p>
+            <p>2. 외부 링크 열기 → 키보드 네비게이션 테스트</p>
+            <p>3. 각 동작 후 <span style="color: #ff6b6b; font-weight: bold;">←/→ 키</span>를 눌러서 동작하는지 확인</p>
+        </div>
+        
+        <div class="test-section">
+            <h2>🖼️ 이미지 모달 테스트</h2>
+            <button class="test-button" onclick="openModal('modal1')">
+                📸 슬라이드 12 이미지 열기
+            </button>
+            <button class="test-button" onclick="openModal('modal2')">
+                📚 슬라이드 13 이미지 열기
+            </button>
+            <button class="test-button" onclick="openModal('modal3')">
+                ⭐ 슬라이드 14 이미지 열기
+            </button>
+            <button class="test-button" onclick="openModal('modal4')">
+                🚢 슬라이드 22 이미지 열기
+            </button>
+        </div>
+        
+        <div class="test-section">
+            <h2>🔗 외부 링크 테스트</h2>
+            <button class="test-button external-link" onclick="openExternalLink('https://blog.naver.com/royce249/223851160703')">
+                📎 웹 클리퍼 가이드 열기
+            </button>
+            <button class="test-button external-link" onclick="openExternalLink('https://half-nomad.github.io/Sun-sin-path/index.html')">
+                🚢 순신의 길 웹사이트 열기
+            </button>
+        </div>
+        
+        <div class="test-section">
+            <h2>⌨️ 키보드 네비게이션 테스트</h2>
+            <div class="keyboard-test" id="keyboardTest">
+                <div class="status" id="keyboardStatus">⌨️ 키보드 테스트 준비 완료</div>
+                <p><strong>← (왼쪽 화살표)</strong> 또는 <strong>→ (오른쪽 화살표)</strong> 키를 눌러보세요!</p>
+                <p>모달/링크 클릭 후에도 키보드가 동작하는지 확인하세요.</p>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2>📝 실시간 로그</h2>
+            <div class="log" id="logContainer">
+                <div class="log-entry info">🔥 테스트 시작 - 각 기능을 테스트해보세요!</div>
+            </div>
+            <button class="test-button" onclick="clearLog()">🗑️ 로그 지우기</button>
+        </div>
+    </div>
+
+    <!-- 이미지 모달들 -->
+    <div id="modal1" class="modal" onclick="closeModal('modal1')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close" onclick="closeModal('modal1')">&times;</span>
+            <img src="assets/images/personal/12.png" alt="슬라이드 12 이미지" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjBmMGYwIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPuydtOuvuOyngCDsl4bsnYQ8L3RleHQ+PC9zdmc+'">
+        </div>
+    </div>
+
+    <div id="modal2" class="modal" onclick="closeModal('modal2')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close" onclick="closeModal('modal2')">&times;</span>
+            <img src="assets/images/personal/13-1.png" alt="슬라이드 13 이미지" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjBmMGYwIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPuydtOuvuOyngCDsl4bsnYQ8L3RleHQ+PC9zdmc+'">
+        </div>
+    </div>
+
+    <div id="modal3" class="modal" onclick="closeModal('modal3')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close" onclick="closeModal('modal3')">&times;</span>
+            <img src="assets/images/personal/14.png" alt="슬라이드 14 이미지" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjBmMGYwIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPuydtOuvuOyngCDsl4bsnYQ8L3RleHQ+PC9zdmc+'">
+        </div>
+    </div>
+
+    <div id="modal4" class="modal" onclick="closeModal('modal4')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close" onclick="closeModal('modal4')">&times;</span>
+            <img src="assets/images/personal/22.png" alt="슬라이드 22 이미지" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjBmMGYwIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPuydtOuvuOyngCDsl4bsnYQ8L3RleHQ+PC9zdmc+'">
+        </div>
+    </div>
+
+    <script>
+        // 🔥 통합 포커스 복구 시스템
+        function restoreFocus() {
+            console.log('🔥 포커스 복구 시스템 실행');
+            addLog('🔥 포커스 복구 시스템 실행', 'info');
+            
+            // 여러 방법으로 포커스 복구 시도
+            setTimeout(() => {
+                document.body.focus();
+                if (!document.body.hasAttribute('tabindex')) {
+                    document.body.setAttribute('tabindex', '-1');
+                }
+                console.log('✅ body 포커스 설정 완료');
+                addLog('✅ body 포커스 설정 완료', 'success');
+            }, 100);
+            
+            setTimeout(() => {
+                document.body.focus();
+                console.log('🔥 추가 포커스 복구 완료');
+                addLog('🔥 추가 포커스 복구 완료', 'success');
+            }, 500);
+        }
+        
+        // 로그 추가 함수
+        function addLog(message, type = 'info') {
+            const logContainer = document.getElementById('logContainer');
+            const logEntry = document.createElement('div');
+            logEntry.className = `log-entry ${type}`;
+            logEntry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            logContainer.appendChild(logEntry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+        
+        // 로그 지우기
+        function clearLog() {
+            document.getElementById('logContainer').innerHTML = '';
+            addLog('🗑️ 로그 지워짐', 'info');
+        }
+        
+        // 이미지 모달 열기
+        function openModal(modalId) {
+            console.log(`🖼️ 모달 ${modalId} 열기`);
+            addLog(`🖼️ 모달 ${modalId} 열기`, 'info');
+            document.getElementById(modalId).style.display = 'block';
+        }
+        
+        // 이미지 모달 닫기 (포커스 복구 포함)
+        function closeModal(modalId) {
+            console.log(`🖼️ 모달 ${modalId} 닫기`);
+            addLog(`🖼️ 모달 ${modalId} 닫기`, 'info');
+            document.getElementById(modalId).style.display = 'none';
+            
+            // 🔥 모달 닫기 후 포커스 복구
+            restoreFocus();
+        }
+        
+        // 외부 링크 열기 (포커스 복구 포함)
+        function openExternalLink(url) {
+            console.log(`🔗 외부 링크 열기: ${url}`);
+            addLog(`🔗 외부 링크 열기: ${url}`, 'info');
+            
+            window.open(url, '_blank');
+            
+            // 🔥 링크 열기 후 포커스 복구
+            restoreFocus();
+        }
+        
+        // 키보드 이벤트 리스너
+        document.addEventListener('keydown', function(e) {
+            const keyboardTest = document.getElementById('keyboardTest');
+            const keyboardStatus = document.getElementById('keyboardStatus');
+            
+            if (e.key === 'ArrowLeft') {
+                console.log('⬅️ 왼쪽 화살표 키 눌림');
+                addLog('⬅️ 왼쪽 화살표 키 눌림', 'success');
+                keyboardStatus.textContent = '⬅️ 왼쪽 화살표 키 동작 확인!';
+                keyboardStatus.className = 'status success';
+                keyboardTest.classList.add('active');
+                
+                setTimeout(() => {
+                    keyboardTest.classList.remove('active');
+                }, 1000);
+                
+            } else if (e.key === 'ArrowRight') {
+                console.log('➡️ 오른쪽 화살표 키 눌림');
+                addLog('➡️ 오른쪽 화살표 키 눌림', 'success');
+                keyboardStatus.textContent = '➡️ 오른쪽 화살표 키 동작 확인!';
+                keyboardStatus.className = 'status success';
+                keyboardTest.classList.add('active');
+                
+                setTimeout(() => {
+                    keyboardTest.classList.remove('active');
+                }, 1000);
+                
+            } else if (e.key === 'Escape') {
+                // ESC 키로 모든 모달 닫기
+                console.log('🔚 ESC 키로 모든 모달 닫기');
+                addLog('🔚 ESC 키로 모든 모달 닫기', 'info');
+                closeModal('modal1');
+                closeModal('modal2');
+                closeModal('modal3');
+                closeModal('modal4');
+            }
+        });
+        
+        // 페이지 로드 시 초기화
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🔥 이미지 모달 포커스 테스트 페이지 로드 완료');
+            addLog('🔥 이미지 모달 포커스 테스트 페이지 로드 완료', 'success');
+            
+            // 초기 포커스 설정
+            document.body.setAttribute('tabindex', '-1');
+            document.body.focus();
+            
+            addLog('⌨️ 키보드 네비게이션 준비 완료 - ←/→ 키를 테스트해보세요!', 'info');
+        });
+        
+        // 윈도우 포커스 이벤트
+        window.addEventListener('focus', function() {
+            console.log('🔥 윈도우 포커스 복구');
+            addLog('🔥 윈도우 포커스 복구', 'info');
+            restoreFocus();
+        });
+        
+        // 페이지 visibility 변경 이벤트
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden) {
+                console.log('🔥 페이지 가시성 복구');
+                addLog('🔥 페이지 가시성 복구', 'info');
+                restoreFocus();
+            }
+        });
+    </script>
+</body>
+</html>

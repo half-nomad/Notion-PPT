@@ -320,6 +320,49 @@
 
         function closeModal() {
             document.getElementById('imageModal').style.display = 'none';
+            
+            // 🔥 유니버설 포커스 복구 시스템 (모든 환경 대응)
+            console.log('🔥 이미지 모달 닫기 시작');
+            
+            // 1단계: 즉시 현재 페이지에 포커스 설정
+            document.body.focus();
+            if (!document.body.hasAttribute('tabindex')) {
+                document.body.setAttribute('tabindex', '-1');
+            }
+            
+            // 2단계: iframe 환경 감지 및 부모 윈도우 통신
+            if (window.parent && window.parent !== window) {
+                // iframe 환경 - 부모 윈도우로 포커스 복구 요청
+                window.parent.postMessage({
+                    type: 'modalClosed',
+                    action: 'restoreFocus',
+                    slideNumber: '14'
+                }, '*');
+                console.log('🔥 iframe 환경: 부모 윈도우로 포커스 복구 요청');
+            } else {
+                // 직접 로드 환경 - 로컬 포커스 복구
+                console.log('🔥 직접 로드 환경: 로컬 포커스 복구');
+            }
+            
+            // 3단계: 다층 포커스 복구 (100ms, 300ms, 500ms)
+            const focusRecoverySteps = [100, 300, 500];
+            focusRecoverySteps.forEach((delay, index) => {
+                setTimeout(() => {
+                    document.body.focus();
+                    document.body.click(); // 활성화 보장
+                    console.log(`🔥 포커스 복구 ${index + 1}단계 (${delay}ms)`);
+                    
+                    // iframe 환경에서 추가 시도
+                    if (window.parent && window.parent !== window) {
+                        window.parent.postMessage({
+                            type: 'focusRecovery',
+                            step: index + 1,
+                            delay: delay,
+                            slideNumber: '14'
+                        }, '*');
+                    }
+                }, delay);
+            });
         }
 
         // ESC 키로 모달 닫기

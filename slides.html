@@ -790,8 +790,13 @@
         // iframe 메시지 리스너 설정
         function setupMessageListener() {
             window.addEventListener('message', function(event) {
-                // 보안상 origin 체크 (같은 도메인만 허용)
-                if (event.origin !== window.location.origin) return;
+                // 🔥 file:// 프로토콜 호환성을 위한 origin 체크 완화
+                if (window.location.protocol === 'file:' || event.origin === window.location.origin) {
+                    // file:// 프로토콜이거나 같은 origin인 경우 허용
+                } else {
+                    console.warn('메시지 origin 불일치:', event.origin, 'vs', window.location.origin);
+                    return;
+                }
                 
                 const data = event.data;
                 if (!data || !data.type) return;
@@ -813,34 +818,80 @@
                     case 'toggleFullscreen':
                         toggleFullscreen();
                         break;
+                    case 'forceFocus':
+                        // 🔥 긴급 포커스 복구 시스템
+                        if (data.action === 'emergencyRestore') {
+                            console.log('🚨 긴급 포커스 복구 시스템 활성화!');
+                            
+                            // 모든 방법 동원한 강력한 포커스 복구
+                            document.body.focus();
+                            document.body.setAttribute('tabindex', '-1');
+                            document.body.click();
+                            
+                            // 강제로 키보드 이벤트 활성화 상태 만들기
+                            setTimeout(() => {
+                                document.body.focus();
+                                
+                                // 마우스 클릭 시뮬레이션으로 완전한 활성화
+                                const clickEvent = new MouseEvent('click', {
+                                    bubbles: true,
+                                    cancelable: true,
+                                    view: window
+                                });
+                                document.body.dispatchEvent(clickEvent);
+                                
+                                console.log('🔥 긴급 포커스 복구 완료!');
+                                console.log('🔥 ActiveElement:', document.activeElement.tagName);
+                                console.log('🔥 키보드 테스트: ←/→ 키를 눌러보세요!');
+                            }, 100);
+                        }
+                        break;
                     case 'linkOpened':
                         // 🔥 iframe에서 링크를 열었을 때 포커스 복구 (강화)
                         if (data.action === 'restoreFocus') {
                             console.log('🔥 iframe에서 링크 열림 - 포커스 복구 중...');
                             
-                            // 즉시 포커스 복구 시도
+                            // 🔥 강력한 포커스 복구 시스템 (3단계)
+                            // 1단계: 즉시 포커스 복구
                             document.body.focus();
                             
-                            // tabindex 속성 확인 및 설정
+                            // 2단계: tabindex 설정 및 강제 포커스
                             if (!document.body.hasAttribute('tabindex')) {
                                 document.body.setAttribute('tabindex', '-1');
                             }
                             
-                            // 약간의 지연 후 한 번 더 포커스 복구 (안전장치)
+                            // 3단계: 지연된 포커스 복구 (100ms)
                             setTimeout(() => {
                                 document.body.focus();
+                                document.body.click(); // 클릭 이벤트로 강제 활성화
                                 console.log('✅ 메인 윈도우 포커스 복구 완료');
                                 
-                                // 키보드 이벤트 테스트
                                 console.log('🧪 키보드 이벤트 활성화 테스트 - 이제 ←/→ 키를 사용해보세요');
-                            }, 200);
+                            }, 100);
                             
-                            // 추가 안전장치: 1초 후에도 한 번 더
+                            // 4단계: 추가 안전장치 (500ms)
                             setTimeout(() => {
                                 if (document.activeElement !== document.body) {
                                     document.body.focus();
+                                    document.body.click(); // 추가 클릭 이벤트
                                     console.log('🔥 추가 포커스 복구 완료');
                                 }
+                            }, 500);
+                            
+                            // 5단계: 최종 안전장치 (1000ms)
+                            setTimeout(() => {
+                                document.body.focus();
+                                // 강제로 키보드 이벤트 트리거
+                                const testEvent = new KeyboardEvent('keydown', {
+                                    key: 'ArrowRight',
+                                    code: 'ArrowRight',
+                                    keyCode: 39,
+                                    which: 39,
+                                    bubbles: true,
+                                    cancelable: true
+                                });
+                                // 테스트 이벤트는 실제로 dispatch하지 않고 포커스만 확인
+                                console.log('🔥 최종 포커스 복구 완료 - activeElement:', document.activeElement.tagName);
                             }, 1000);
                         }
                         break;
@@ -852,7 +903,7 @@
         function sendMessageToCurrentSlide(message) {
             const activeSlide = document.querySelector('.slide.active');
             if (activeSlide && activeSlide.contentWindow) {
-                activeSlide.contentWindow.postMessage(message, window.location.origin);
+                activeSlide.contentWindow.postMessage(message, '*'); // file:// 프로토콜 호환성을 위해 '*' 사용
             }
         }
         

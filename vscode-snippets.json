@@ -1,0 +1,55 @@
+{
+  "포커스 복구 외부 링크": {
+    "scope": "html",
+    "prefix": "focus-link",
+    "body": [
+      "<a href=\"$1\" target=\"_blank\" onclick=\"handleExternalLink()\">$2</a>$0"
+    ],
+    "description": "포커스 복구 시스템이 포함된 외부 링크"
+  },
+  
+  "포커스 복구 버튼 링크": {
+    "scope": "html", 
+    "prefix": "focus-button",
+    "body": [
+      "<button onclick=\"openExternalLink('$1')\">$2</button>$0"
+    ],
+    "description": "포커스 복구 시스템이 포함된 버튼 링크"
+  },
+  
+  "포커스 복구 모달": {
+    "scope": "html",
+    "prefix": "focus-modal",
+    "body": [
+      "<!-- 모달 HTML -->",
+      "<div id=\"$1Modal\" class=\"modal\" onclick=\"closeModal()\">",
+      "    <div class=\"modal-content\" onclick=\"event.stopPropagation()\">",
+      "        <span class=\"close\" onclick=\"closeModal()\">&times;</span>",
+      "        <img src=\"assets/images/$2.png\" alt=\"$3\">",
+      "    </div>",
+      "</div>",
+      "",
+      "<!-- 모달 JavaScript -->",
+      "<script>",
+      "function openModal() {",
+      "    document.getElementById('$1Modal').style.display = 'block';",
+      "}",
+      "",
+      "function closeModal() {",
+      "    closeModalWithFocus('$1Modal'); // 🔥 포커스 복구 자동 처리",
+      "}",
+      "</script>$0"
+    ],
+    "description": "포커스 복구 시스템이 포함된 이미지 모달"
+  },
+  
+  "포커스 복구 시스템 포함": {
+    "scope": "html",
+    "prefix": "focus-system",
+    "body": [
+      "<!-- 🔥 통합 포커스 복구 시스템 -->",
+      "<script src=\"assets/js/focus-recovery.js\"></script>$0"
+    ],
+    "description": "HTML head에 포커스 복구 시스템 스크립트 포함"
+  }
+}

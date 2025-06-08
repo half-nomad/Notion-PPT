@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>16:9 슬라이드 템플릿 - 블랙</title>
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- 🔥 통합 포커스 복구 시스템 -->
+    <script src="assets/js/focus-recovery.js"></script>
     <style>
         :root {
             --primary-purple: #673AB7;
@@ -188,5 +191,37 @@
         
         <div class="slide-number">X / 32</div>
     </div>
+
+    <!-- 🔥 포커스 복구 시스템 사용 예제 (필요시 주석 해제) -->
+    <!-- 
+    🔥 외부 링크 사용법 (복사 붙여넣기):
+    <a href="https://example.com" target="_blank" onclick="handleExternalLink()">외부 링크</a>
+    
+    🔥 새 창 버튼 사용법 (복사 붙여넣기):
+    <button onclick="openExternalLink('https://example.com')">새 창 열기</button>
+    
+    🔥 이미지 모달 사용법 (복사 붙여넣기):
+    HTML:
+    <div id="imageModal" class="modal" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <img src="assets/images/example.png" alt="예제 이미지">
+        </div>
+    </div>
+    
+    JavaScript:
+    function openModal() {
+        document.getElementById('imageModal').style.display = 'block';
+    }
+    
+    function closeModal() {
+        closeModalWithFocus('imageModal'); // 🔥 이 줄이 핵심!
+    }
+    
+    🚨 주의사항:
+    - 절대 기존 파일을 복사하지 말고 이 템플릿을 복사하세요!
+    - closeModal()에서 반드시 closeModalWithFocus() 사용하세요!
+    - 외부 링크에 반드시 onclick="handleExternalLink()" 추가하세요!
+    -->
 </body>
 </html>

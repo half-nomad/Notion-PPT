@@ -364,6 +364,116 @@
 
         function closeModal() {
             document.getElementById('imageModal').style.display = 'none';
+            
+            // 🚨 긴급 강화 포커스 복구 시스템 (실제 환경 대응)
+            console.log('🚨 긴급 포커스 복구 시작 - 12번 슬라이드');
+            
+            // 1단계: 즉시 다중 포커스 설정
+            const focusTargets = [document.body, document.documentElement, window];
+            focusTargets.forEach(target => {
+                if (target && target.focus) {
+                    target.focus();
+                    if (target.setAttribute) {
+                        target.setAttribute('tabindex', '-1');
+                    }
+                }
+            });
+            
+            // 2단계: 부모 윈도우 강제 포커스 (iframe 환경)
+            if (window.parent && window.parent !== window) {
+                // 즉시 부모에게 긴급 신호 전송
+                window.parent.postMessage({
+                    type: 'EMERGENCY_FOCUS_RECOVERY',
+                    slideNumber: '12',
+                    action: 'FORCE_KEYBOARD_ACTIVE'
+                }, '*');
+                
+                // 부모 윈도우 직접 접근 시도
+                try {
+                    if (window.parent.document && window.parent.document.body) {
+                        window.parent.document.body.focus();
+                        window.parent.document.body.click();
+                        console.log('🚨 부모 윈도우 직접 포커스 성공');
+                    }
+                } catch (e) {
+                    console.log('🚨 부모 윈도우 직접 접근 차단됨 (보안상 정상)');
+                }
+            }
+            
+            // 3단계: 강제 키보드 이벤트 시뮬레이션
+            const simulateKeyboardActive = () => {
+                // 가상 키보드 이벤트 생성
+                const events = ['keydown', 'keyup'];
+                const keys = ['Tab', 'Escape', 'ArrowRight'];
+                
+                keys.forEach(key => {
+                    events.forEach(eventType => {
+                        const event = new KeyboardEvent(eventType, {
+                            key: key,
+                            code: key,
+                            keyCode: key === 'Tab' ? 9 : key === 'Escape' ? 27 : 39,
+                            bubbles: true,
+                            cancelable: true
+                        });
+                        document.dispatchEvent(event);
+                        
+                        // 부모 윈도우에도 전송
+                        if (window.parent && window.parent !== window) {
+                            try {
+                                window.parent.document.dispatchEvent(event);
+                            } catch (e) {
+                                // 보안 제한으로 실패하는 것은 정상
+                            }
+                        }
+                    });
+                });
+            };
+            
+            // 4단계: 다층 시간차 복구 (더 강화된 버전)
+            const recoveryTimings = [50, 100, 200, 500, 1000, 2000];
+            recoveryTimings.forEach((delay, index) => {
+                setTimeout(() => {
+                    // 포커스 설정
+                    document.body.focus();
+                    document.body.click();
+                    
+                    // 키보드 활성화 시뮬레이션
+                    if (index % 2 === 0) {
+                        simulateKeyboardActive();
+                    }
+                    
+                    // 부모 윈도우에 계속 신호 전송
+                    if (window.parent && window.parent !== window) {
+                        window.parent.postMessage({
+                            type: 'FOCUS_RECOVERY_STEP',
+                            step: index + 1,
+                            slideNumber: '12',
+                            delay: delay
+                        }, '*');
+                    }
+                    
+                    console.log(`🚨 강화 포커스 복구 ${index + 1}단계 (${delay}ms)`);
+                }, delay);
+            });
+            
+            // 5단계: 최종 안전장치 - 페이지 레벨 포커스 강제 설정
+            setTimeout(() => {
+                // 모든 가능한 포커스 타겟에 강제 포커스
+                document.body.focus();
+                document.body.scrollIntoView();
+                document.body.click();
+                
+                // 부모 윈도우에 최종 긴급 신호
+                if (window.parent && window.parent !== window) {
+                    window.parent.postMessage({
+                        type: 'FINAL_EMERGENCY_FOCUS',
+                        slideNumber: '12',
+                        action: 'ACTIVATE_KEYBOARD_NAVIGATION'
+                    }, '*');
+                }
+                
+                console.log('🚨 최종 긴급 포커스 복구 완료');
+            }, 3000);
         }
 
         // 🔥 웹 클리퍼 링크 열기 (포커스 복구 강화)
@@ -382,7 +492,7 @@
                     window.parent.postMessage({
                         type: 'linkOpened',
                         action: 'restoreFocus'
-                    }, window.location.origin);
+                    }, '*'); // file:// 프로토콜 호환성을 위해 '*' 사용
                     
                     console.log('🔥 부모 윈도우로 포커스 복구 요청 전송');
                 } else {

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>테스트 슬라이드 - 포커스 복구 시스템</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- 🔥 통합 포커스 복구 시스템 -->
+    <script src="assets/js/focus-recovery.js"></script>
+    <style>
+        :root {
+            --primary-purple: #673AB7;
+            --secondary-purple: #9C27B0;
+            --accent-purple: #B388FF;
+            --tertiary-indigo: #3F51B5;
+            --bg-white: #FFFFFF;
+            --bg-light: #F5F5F5;
+            --text-dark: #212121;
+            --text-gray: #424242;
+            --text-light-gray: #757575;
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 2rem;
+            --spacing-lg: 3rem;
+            --spacing-xl: 4rem;
+            --gradient-title: linear-gradient(135deg, var(--primary-purple) 0%, var(--secondary-purple) 100%);
+            --gradient-text: linear-gradient(90deg, var(--text-dark) 0%, var(--accent-purple) 100%);
+            --gradient-box: linear-gradient(90deg, var(--primary-purple) 0%, var(--secondary-purple) 50%, var(--tertiary-indigo) 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--bg-white) 0%, var(--bg-light) 100%);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .main-title {
+            font-size: 3rem;
+            font-weight: 800;
+            background: var(--gradient-title);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .test-section {
+            background: rgba(255, 255, 255, 0.9);
+            padding: var(--spacing-lg);
+            border-radius: 20px;
+            border: 2px solid var(--primary-purple);
+            box-shadow: 0 10px 30px rgba(103, 58, 183, 0.1);
+            margin-bottom: var(--spacing-md);
+            max-width: 600px;
+        }
+
+        .test-item {
+            margin-bottom: var(--spacing-md);
+            padding: var(--spacing-sm);
+            border-radius: 10px;
+            background: rgba(103, 58, 183, 0.05);
+        }
+
+        .test-button {
+            background: var(--gradient-box);
+            color: white;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin: var(--spacing-xs);
+            transition: transform 0.3s ease;
+        }
+
+        .test-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .external-link {
+            color: var(--primary-purple);
+            text-decoration: none;
+            font-weight: 700;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border: 2px solid var(--primary-purple);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .external-link:hover {
+            background: var(--primary-purple);
+            color: white;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 400px;
+        }
+
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: var(--primary-purple);
+        }
+
+        .success-message {
+            color: #4CAF50;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-top: var(--spacing-sm);
+        }
+    </style>
+</head>
+<body>
+    <h1 class="main-title">🔥 포커스 복구 시스템 테스트</h1>
+    
+    <div class="test-section">
+        <h2>외부 링크 테스트</h2>
+        <div class="test-item">
+            <p>아래 링크를 클릭한 후 돌아와서 ← → 키가 작동하는지 확인하세요:</p>
+            <a href="https://www.google.com" target="_blank" class="external-link" onclick="handleExternalLink()">
+                구글로 이동 (새 창)
+            </a>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>이미지 모달 테스트</h2>
+        <div class="test-item">
+            <p>모달을 열고 닫은 후 ← → 키가 작동하는지 확인하세요:</p>
+            <button class="test-button" onclick="openModal()">모달 열기</button>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>새 창 열기 테스트</h2>
+        <div class="test-item">
+            <p>새 창으로 링크를 연 후 ← → 키가 작동하는지 확인하세요:</p>
+            <button class="test-button" onclick="openExternalLink('https://www.naver.com')">네이버 새 창</button>
+        </div>
+    </div>
+
+    <!-- 테스트 모달 -->
+    <div id="testModal" class="modal" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h3>🎉 모달 테스트</h3>
+            <p>이 모달을 닫은 후<br>키보드 네비게이션이 작동하는지 확인하세요!</p>
+            <div class="success-message">✅ 포커스 복구 시스템 작동 중</div>
+        </div>
+    </div>
+
+    <script>
+        function openModal() {
+            document.getElementById('testModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            closeModalWithFocus('testModal'); // 🔥 포커스 복구 자동 처리
+        }
+        
+        // 추가 테스트 로그
+        console.log('🔥 테스트 슬라이드 로드 완료');
+        console.log('포커스 복구 시스템:', typeof sendFocusRecovery !== 'undefined' ? '✅ 로드됨' : '❌ 로드 실패');
+    </script>
+</body>
+</html>
