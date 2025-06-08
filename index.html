@@ -3,148 +3,214 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh" content="0; url=slides.html">
     <title>노션: 지식을 실행하는 캔버스</title>
-    <link rel="preconnect" href="https://cdn.jsdelivr.net">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendardvariable@v1.3.8/dist/web/variable/pretendardvariable.css">
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-purple: #673AB7;
+            --secondary-purple: #9C27B0;
+            --accent-purple: #B388FF;
+            --tertiary-indigo: #3F51B5;
+            --bg-black: #000000;
+            --bg-dark: #1a1a1a;
+            --text-white: #FFFFFF;
+            --text-gray: #CCCCCC;
+            --text-light: #E0E0E0;
+            --spacing-md: 2rem;
+            --spacing-lg: 3rem;
+            --spacing-xl: 4rem;
+            --gradient-title: linear-gradient(135deg, var(--primary-purple) 0%, var(--secondary-purple) 100%);
+            --gradient-text: linear-gradient(90deg, var(--text-white) 0%, var(--accent-purple) 100%);
+            --gradient-box: linear-gradient(90deg, var(--primary-purple) 0%, var(--secondary-purple) 50%, var(--tertiary-indigo) 100%);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
-            font-family: 'Pretendard Variable', 'Pretendard', sans-serif;
-            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
-            color: #ffffff;
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--bg-black) 0%, var(--bg-dark) 100%);
+            color: var(--text-white);
             min-height: 100vh;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
-        }
-        
-        .container {
+            padding: 60px;
             text-align: center;
-            max-width: 600px;
-            padding: 2rem;
         }
-        
-        .title {
-            font-size: 3.5rem;
+
+        .main-title {
+            font-size: 4rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #673AB7 0%, #9C27B0 100%);
+            line-height: 1.2;
+            background: var(--gradient-title);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 1.5rem;
-            line-height: 1.2;
+            margin-bottom: var(--spacing-xl);
+            text-shadow: 0 0 50px rgba(103, 58, 183, 0.3);
         }
-        
-        .subtitle {
+
+        .presenter-info {
+            background: rgba(26, 26, 26, 0.8);
+            padding: var(--spacing-lg);
+            border-radius: 25px;
+            border: 2px solid var(--primary-purple);
+            box-shadow: 0 20px 40px rgba(103, 58, 183, 0.2);
+            margin-bottom: var(--spacing-xl);
+            max-width: 800px;
+        }
+
+        .presenter-name {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .presenter-role {
             font-size: 1.5rem;
             font-weight: 600;
-            background: linear-gradient(90deg, #FFFFFF 0%, #B388FF 100%);
+            color: var(--text-light);
+            margin-bottom: var(--spacing-md);
+            line-height: 1.4;
+        }
+
+        .presenter-description {
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: var(--text-gray);
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-lg);
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent-purple);
+            text-decoration: none;
+            padding: 0.8rem 1.5rem;
+            border: 1px solid var(--accent-purple);
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            background: var(--accent-purple);
+            color: var(--bg-black);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(179, 136, 255, 0.3);
+        }
+
+        .subtitle {
+            position: absolute;
+            bottom: 180px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #FF6B6B, #4ECDC4, #FFE66D);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 2rem;
+            text-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+            animation: glow 2s ease-in-out infinite alternate;
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background-color: rgba(0, 0, 0, 0.2);
         }
         
-        .description {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            color: #CCCCCC;
-            margin-bottom: 3rem;
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+                transform: translateX(-50%) scale(1);
+            }
+            to {
+                text-shadow: 0 0 30px rgba(78, 205, 196, 0.5);
+                transform: translateX(-50%) scale(1.02);
+            }
         }
-        
-        .redirect-message {
-            font-size: 1rem;
-            color: #B388FF;
-            margin-bottom: 1rem;
-        }
-        
-        .button {
-            display: inline-block;
-            padding: 1rem 2rem;
-            background: linear-gradient(90deg, #673AB7 0%, #9C27B0 50%, #3F51B5 100%);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(103, 58, 183, 0.3);
-            border: none;
-            cursor: pointer;
-        }
-        
-        .button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 40px rgba(103, 58, 183, 0.4);
-        }
-        
-        .loading {
-            margin-top: 2rem;
-            font-size: 0.9rem;
-            color: #888;
-        }
-        
-        .loading::after {
-            content: '';
-            animation: dots 1.5s steps(5, end) infinite;
-        }
-        
-        @keyframes dots {
-            0%, 20% { content: '.'; }
-            40% { content: '..'; }
-            60% { content: '...'; }
-            80%, 100% { content: ''; }
-        }
-        
-        /* 모바일 대응 */
+
         @media (max-width: 768px) {
-            .title {
+            body {
+                padding: 30px;
+            }
+            
+            .main-title {
                 font-size: 2.5rem;
             }
             
-            .subtitle {
+            .presenter-name {
+                font-size: 2rem;
+            }
+            
+            .presenter-role {
                 font-size: 1.2rem;
             }
             
-            .container {
-                padding: 1.5rem;
+            .presenter-description {
+                font-size: 1.1rem;
+            }
+            
+            .contact-info {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+            
+            .subtitle {
+                bottom: 120px;
+                font-size: 1.4rem;
+                padding: 0.3rem 0.8rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1 class="title">노션: 지식을 실행하는 캔버스</h1>
-        <p class="subtitle">하프노마드 이석호(이모카)</p>
-        <p class="description">
-            AI와 노코드 자동화를 활용한 개인 지식 관리<br>
-            솔로프러너를 위한 노션 활용 완전 가이드
-        </p>
-        
-        <div class="redirect-message">잠깐, 슬라이드 뷰어로 이동 중입니다...</div>
-        <a href="slides.html" class="button">슬라이드 시작하기</a>
-        
-        <div class="loading">자동 이동 중</div>
+    <h1 class="main-title">노션: 지식을 실행하는 캔버스</h1>
+    
+    <div class="presenter-info">
+        <h2 class="presenter-name">하프노마드 이석호(이모카)</h2>
+        <p class="presenter-role">AI 활용 비즈니스 운영 최적화 제품 기획자</p>
+        <p class="presenter-description">"AI와 노코드 자동화 기술로 소규모 서비스업의 운영을 최적화하는 일을 합니다"</p>
+    </div>
+    
+    <div class="contact-info">
+        <a href="mailto:contact@halfnomad.com" class="contact-item">📧 contact@halfnomad.com</a>
+        <a href="https://litt.ly/half_nomad" class="contact-item" target="_blank" onclick="handleLinkClick()">🌐 halfnomad.kr</a>
     </div>
 
+    <p class="subtitle">2025년 6월 8일 · 꿈도 환승이 되나요</p>
+
+    <!-- 🚀 Navigation System -->
+    <script src="assets/js/navigation.js"></script>
     <script>
-        // 3초 후 자동 이동
-        setTimeout(function() {
-            window.location.href = 'slides.html';
-        }, 3000);
-        
-        // 즉시 이동을 원하는 경우 클릭 이벤트
-        document.querySelector('.button').addEventListener('click', function(e) {
-            e.preventDefault();
-            window.location.href = 'slides.html';
-        });
+        // 🔥 링크 클릭 후 포커스 복구 시스템
+        function handleLinkClick() {
+            console.log('🔥 외부 링크 클릭 - 포커스 복구 시스템 활성화');
+            
+            setTimeout(() => {
+                if (window.slideNavigation) {
+                    window.slideNavigation.restoreFocus();
+                }
+            }, 500);
+        }
     </script>
 </body>
 </html>
