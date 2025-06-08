@@ -196,6 +196,73 @@
             line-height: 1.4;
         }
 
+
+        /* 클립 링크 시스템 */
+        .clip-links {
+            display: inline-flex;
+            gap: 8px;
+            margin-left: 15px;
+            align-items: center;
+        }
+
+        .clip-link {
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: transform 0.2s ease;
+            opacity: 0.8;
+        }
+
+        .clip-link:hover {
+            transform: scale(1.2);
+            opacity: 1;
+        }
+
+        /* 확대된 이미지 모달 */
+        .image-modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(8px);
+        }
+
+        .modal-content {
+            position: relative;
+            margin: 2.5% auto;
+            padding: 30px;
+            width: 95%;
+            height: 95%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-image {
+            max-width: 1200px;
+            max-height: 800px;
+            border-radius: 15px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            color: #CCCCCC;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .close-modal:hover {
+            color: var(--primary-purple);
+        }
+
         /* 반응형 */
         @media (max-width: 768px) {
             body { padding: 30px; }
@@ -239,7 +306,13 @@
         </div>
 
         <div class="demo-workflow">
-            <h3>🎬 [영상 시연 포인트]</h3>
+            <h3>🎬 [영상 시연 포인트]
+                <div class="clip-links">
+                    <span class="clip-link" onclick="openImageModal('assets/images/personal/21-1.png')">📎</span>
+                    <span class="clip-link" onclick="openImageModal('assets/images/personal/21-2.png')">📎</span>
+                    <span class="clip-link" onclick="openImageModal('assets/images/personal/21-3.png')">📎</span>
+                </div>
+            </h3>
             <div class="workflow-steps">
                 <div class="workflow-step">
                     <div class="workflow-icon">📱</div>
@@ -256,6 +329,38 @@
             </div>
         </div>
     </div>
+
+
+    <!-- 이미지 모달 -->
+    <div id="imageModal" class="image-modal" onclick="closeImageModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close-modal" onclick="closeImageModal()">&times;</span>
+            <img id="modalImage" class="modal-image" src="" alt="상세 이미지">
+        </div>
+    </div>
+
+    <script>
+        function openImageModal(imageSrc) {
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            modalImage.src = imageSrc;
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden'; // 배경 스크롤 방지
+        }
+
+        function closeImageModal() {
+            const modal = document.getElementById('imageModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto'; // 배경 스크롤 복원
+        }
+
+        // ESC 키로 모달 닫기
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeImageModal();
+            }
+        });
+    </script>
 
     <!-- Navigation System -->
     <script src="assets/js/navigation.js"></script>
