@@ -298,6 +298,22 @@
         .clip-link:hover {
             transform: scale(1.2);
             opacity: 1;
+
+        .title-clip-container {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .title-clip-container .clip-links {
+            justify-content: center;
+            margin-left: 0;
+        }
+
+        .title-clip-container .clip-link {
+            color: var(--accent-purple);
+            font-size: 1.5rem;
+        }
+
         }
 
         /* 확대된 이미지 모달 */
@@ -351,11 +367,12 @@
 <body>
     <div class="body-wrapper">
         <div class="header">
-            <h1 class="main-title">IDEA 프레임워크
+            <h1 class="main-title">IDEA 프레임워크</h1>
+            <div class="title-clip-container">
                 <div class="clip-links">
                     <span class="clip-link" onclick="openImageModal('assets/images/personal/25.png')">📎</span>
                 </div>
-            </h1>
+            </div>
             <p class="subtitle">"미래→현재→과거→미래의 순환"</p>
         </div>
         
