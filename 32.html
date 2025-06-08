@@ -16,9 +16,9 @@
             --text-white: #FFFFFF;
             --text-gray: #CCCCCC;
             --text-light: #E0E0E0;
-            --spacing-md: 2rem;
-            --spacing-lg: 3rem;
-            --spacing-xl: 4rem;
+            --spacing-md: 1.5rem;
+            --spacing-lg: 2rem;
+            --spacing-xl: 2.5rem;
             --gradient-title: linear-gradient(135deg, var(--primary-purple) 0%, var(--secondary-purple) 100%);
             --gradient-text: linear-gradient(90deg, var(--text-white) 0%, var(--accent-purple) 100%);
             --gradient-box: linear-gradient(90deg, var(--primary-purple) 0%, var(--secondary-purple) 50%, var(--tertiary-indigo) 100%);
@@ -34,59 +34,72 @@
             font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
             background: linear-gradient(135deg, var(--bg-black) 0%, var(--bg-dark) 100%);
             color: var(--text-white);
-            min-height: 100vh;
+            height: 100vh;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 30px;
             text-align: center;
         }
 
         .main-title {
-            font-size: 2.8rem;
+            font-size: 2.3rem;
             font-weight: 800;
             background: var(--gradient-title);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
             text-shadow: 0 0 50px rgba(103, 58, 183, 0.3);
         }
 
         .values-section {
             background: rgba(26, 26, 26, 0.8);
-            padding: 1.5rem;
+            padding: 1.2rem;
             border-radius: 25px;
             border: 2px solid var(--primary-purple);
             box-shadow: 0 20px 40px rgba(103, 58, 183, 0.2);
-            margin-bottom: 1.5rem;
-            max-width: 900px;
+            margin-bottom: 1.2rem;
+            max-width: 1000px;
         }
 
         .section-title {
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             font-weight: 700;
             background: var(--gradient-text);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
         }
 
         .values-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 1rem;
+            display: flex;
+            justify-content: center;
+            gap: 0.6rem;
+            margin-bottom: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .bottom-sections {
+            display: flex;
+            justify-content: space-between;
+            gap: 2rem;
+            max-width: 1200px;
+            width: 100%;
         }
 
         .value-item {
             background: var(--gradient-box);
-            padding: 1.2rem;
+            padding: 0.8rem;
             border-radius: 15px;
             box-shadow: 0 10px 25px rgba(103, 58, 183, 0.3);
             transition: transform 0.3s ease;
+            min-width: 140px;
+            max-width: 180px;
+            flex: 1;
         }
 
         .value-item:hover {
@@ -95,50 +108,49 @@
 
         .value-icon {
             font-size: 2rem;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.4rem;
             display: block;
         }
 
         .value-name {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: 700;
             color: var(--text-white);
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.2rem;
         }
 
         .value-desc {
-            font-size: 0.9rem;
+            font-size: 1rem;
             font-weight: 500;
             color: var(--text-light);
-            line-height: 1.4;
+            line-height: 1.3;
         }
 
         .core-message {
             background: rgba(26, 26, 26, 0.8);
-            padding: var(--spacing-xl);
+            padding: 1.5rem;
             border-radius: 25px;
             border-left: 8px solid var(--secondary-purple);
-            margin-bottom: var(--spacing-xl);
-            max-width: 800px;
+            flex: 1;
         }
 
         .core-title {
-            font-size: 2.2rem;
+            font-size: 1.6rem;
             font-weight: 700;
             color: var(--accent-purple);
-            margin-bottom: var(--spacing-md);
+            margin-bottom: 1rem;
         }
 
         .core-text {
-            font-size: 1.5rem;
+            font-size: 1.1rem;
             font-weight: 600;
             color: var(--text-light);
-            line-height: 1.6;
-            margin-bottom: var(--spacing-md);
+            line-height: 1.4;
+            margin-bottom: 1rem;
         }
 
         .core-highlight {
-            font-size: 1.6rem;
+            font-size: 1.2rem;
             font-weight: 700;
             background: var(--gradient-text);
             -webkit-background-clip: text;
@@ -148,37 +160,37 @@
 
         .final-message {
             background: var(--gradient-box);
-            padding: var(--spacing-xl);
+            padding: 1.5rem;
             border-radius: 30px;
             box-shadow: 0 25px 50px rgba(103, 58, 183, 0.4);
-            max-width: 900px;
+            flex: 1;
         }
 
         .final-title {
-            font-size: 2.5rem;
+            font-size: 1.8rem;
             font-weight: 800;
             color: var(--text-white);
-            margin-bottom: var(--spacing-md);
+            margin-bottom: 1rem;
         }
 
         .final-subtitle {
-            font-size: 1.8rem;
+            font-size: 1.3rem;
             font-weight: 600;
             color: var(--text-light);
-            margin-bottom: var(--spacing-md);
+            margin-bottom: 1rem;
         }
 
         .final-text {
-            font-size: 1.4rem;
+            font-size: 1rem;
             font-weight: 500;
             color: var(--text-white);
-            line-height: 1.6;
+            line-height: 1.4;
         }
 
         .thank-you {
             position: absolute;
-            bottom: 50px;
-            font-size: 1.2rem;
+            bottom: 30px;
+            font-size: 1rem;
             font-weight: 600;
             color: var(--text-gray);
             opacity: 0.8;
@@ -186,51 +198,128 @@
 
         @media (max-width: 768px) {
             body {
-                padding: 30px;
+                padding: 20px;
             }
             
             .main-title {
-                font-size: 2.8rem;
+                font-size: 2rem;
             }
             
             .section-title {
-                font-size: 1.8rem;
+                font-size: 1.3rem;
             }
             
             .values-grid {
-                grid-template-columns: 1fr;
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .bottom-sections {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            
+            .value-item {
+                max-width: 300px;
             }
             
             .value-icon {
-                font-size: 2rem;
+                font-size: 1.8rem;
             }
             
             .value-name {
                 font-size: 1.2rem;
             }
             
+            .value-desc {
+                font-size: 0.9rem;
+            }
+            
             .core-title {
-                font-size: 1.8rem;
-            }
-            
-            .core-text {
-                font-size: 1.3rem;
-            }
-            
-            .core-highlight {
                 font-size: 1.4rem;
             }
             
+            .core-text {
+                font-size: 1rem;
+            }
+            
+            .core-highlight {
+                font-size: 1.1rem;
+            }
+            
             .final-title {
-                font-size: 2rem;
+                font-size: 1.6rem;
             }
             
             .final-subtitle {
-                font-size: 1.5rem;
+                font-size: 1.2rem;
             }
             
             .final-text {
+                font-size: 0.95rem;
+            }
+        }
+
+        /* 16:9 및 4:3 화면에 최적화 */
+        @media (aspect-ratio: 16/9) {
+            .main-title {
+                font-size: 2.5rem;
+            }
+            .values-section {
+                max-width: 1100px;
+            }
+            .final-message {
+                max-width: 900px;
+            }
+        }
+
+        @media (aspect-ratio: 4/3) {
+            .main-title {
+                font-size: 2rem;
+            }
+            .values-section {
+                max-width: 1000px;
+                padding: 1rem;
+                margin-bottom: 1rem;
+            }
+            .values-grid {
+                gap: 0.5rem;
+            }
+            .bottom-sections {
+                max-width: 1000px;
+                gap: 1.5rem;
+            }
+            .value-item {
+                min-width: 120px;
+                max-width: 140px;
+                padding: 0.7rem;
+            }
+            .value-icon {
+                font-size: 1.5rem;
+            }
+            .value-name {
+                font-size: 1rem;
+            }
+            .value-desc {
+                font-size: 0.8rem;
+            }
+            .core-title {
+                font-size: 1.4rem;
+            }
+            .core-text {
+                font-size: 1rem;
+            }
+            .core-highlight {
+                font-size: 1.1rem;
+            }
+            .final-title {
+                font-size: 1.6rem;
+            }
+            .final-subtitle {
                 font-size: 1.2rem;
+            }
+            .final-text {
+                font-size: 0.9rem;
             }
         }
     </style>
@@ -269,25 +358,27 @@
         </div>
     </div>
 
-    <div class="core-message">
-        <h2 class="core-title">솔로프러너의 핵심</h2>
-        <p class="core-text">
-            자동화를 위한 자동화는 안 된다.<br>
-            중요한 것에 집중할 수 있게 해주는 것이 진짜 가치.
-        </p>
-        <p class="core-highlight">
-            복잡한 일로 시간을 낭비하지 않게 해준다.
-        </p>
-    </div>
+    <div class="bottom-sections">
+        <div class="core-message">
+            <h2 class="core-title">솔로프러너의 핵심</h2>
+            <p class="core-text">
+                자동화를 위한 자동화는 안 된다.<br>
+                중요한 것에 집중할 수 있게 해주는 것이 진짜 가치.
+            </p>
+            <p class="core-highlight">
+                복잡한 일로 시간을 낭비하지 않게 해준다.
+            </p>
+        </div>
 
-    <div class="final-message">
-        <h2 class="final-title">마지막 메시지</h2>
-        <p class="final-subtitle">"노션은 지식을 실행하는 캔버스입니다."</p>
-        <p class="final-text">
-            여러분의 아이디어와 업무를 그려나가세요.<br>
-            도구가 여러분을 위해 일하게 만드세요.<br>
-            정말 중요한 것에만 집중할 수 있는 환경을 만드세요.
-        </p>
+        <div class="final-message">
+            <h2 class="final-title">마지막 메시지</h2>
+            <p class="final-subtitle">"노션은 지식을 실행하는 캔버스입니다."</p>
+            <p class="final-text">
+                여러분의 아이디어와 업무를 그려나가세요.<br>
+                도구가 여러분을 위해 일하게 만드세요.<br>
+                정말 중요한 것에만 집중할 수 있는 환경을 만드세요.
+            </p>
+        </div>
     </div>
 
     <p class="thank-you">감사합니다! 🙏</p>
