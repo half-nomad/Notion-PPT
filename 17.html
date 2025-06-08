@@ -137,6 +137,74 @@
             text-align: center;
         }
 
+        /* 클립 이모지 및 이미지 모달 스타일 */
+        .clip-links {
+            display: inline-flex;
+            gap: var(--spacing-xs);
+            margin-left: var(--spacing-sm);
+            align-items: center;
+        }
+
+        .clip-link {
+            display: inline-block;
+            font-size: 1.6rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            vertical-align: middle;
+        }
+
+        .clip-link:hover {
+            transform: scale(1.2);
+        }
+
+        .image-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 90%;
+            max-height: 90%;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-image {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            color: var(--text-gray);
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .close-modal:hover {
+            color: var(--primary-purple);
+        }
+
         @media (max-width: 768px) {
             body {
                 padding: 30px;
@@ -172,7 +240,13 @@
 </head>
 <body>
     <div class="slide-container">
-        <h1 class="main-title">강의 대시보드 구축</h1>
+        <h1 class="main-title">강의 대시보드 구축
+            <div class="clip-links">
+                <span class="clip-link" onclick="openImageModal('assets/images/personal/17-1.png')">📎</span>
+                <span class="clip-link" onclick="openImageModal('assets/images/personal/17-2.png')">📎</span>
+                <span class="clip-link" onclick="openImageModal('assets/images/personal/17-3.png')">📎</span>
+            </div>
+        </h1>
         <h2 class="subtitle">"모든 강의 정보를 한 화면에"</h2>
         
         <div class="info-sections">
@@ -197,6 +271,37 @@
             </div>
         </div>
         
+
+    <!-- 이미지 모달 -->
+    <div id="imageModal" class="image-modal" onclick="closeImageModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close-modal" onclick="closeImageModal()">&times;</span>
+            <img id="modalImage" class="modal-image" src="" alt="상세 이미지">
+        </div>
+    </div>
+
+    <script>
+        function openImageModal(imageSrc) {
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            modalImage.src = imageSrc;
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden'; // 배경 스크롤 방지
+        }
+
+        function closeImageModal() {
+            const modal = document.getElementById('imageModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto'; // 배경 스크롤 복원
+        }
+
+        // ESC 키로 모달 닫기
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeImageModal();
+            }
+        });
+    </script>
         <div class="highlight-box">
             <div class="highlight-text">
                 노션 임베드 = 여러 도구를 하나의 대시보드로 통합

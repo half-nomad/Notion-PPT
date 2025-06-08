@@ -160,6 +160,68 @@
             line-height: 1.4;
         }
 
+        /* 클립 이모지 및 이미지 모달 스타일 */
+        .clip-link {
+            display: inline-block;
+            font-size: 1.8rem;
+            text-decoration: none;
+            margin-left: var(--spacing-sm);
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            vertical-align: middle;
+        }
+
+        .clip-link:hover {
+            transform: scale(1.2);
+        }
+
+        .image-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 90%;
+            max-height: 90%;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-image {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            color: var(--text-gray);
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .close-modal:hover {
+            color: var(--primary-purple);
+        }
+
         @media (max-width: 768px) {
             body {
                 padding: 30px;
@@ -221,7 +283,7 @@
             <div class="step-section">
                 <div class="step-header">
                     <div class="step-number">1</div>
-                    <div class="step-title">프로젝트 분해</div>
+                    <div class="step-title">프로젝트 분해<span class="clip-link" onclick="openImageModal('assets/images/personal/16-1.png')">📎</span></div>
                 </div>
                 <div class="step-description">
                     큰 목표 → 월간 목표 → 주간 태스크 → 일일 액션
@@ -234,7 +296,7 @@
             <div class="step-section">
                 <div class="step-header">
                     <div class="step-number">2</div>
-                    <div class="step-title">캘린더 동기화</div>
+                    <div class="step-title">캘린더 동기화<span class="clip-link" onclick="openImageModal('assets/images/personal/16-2.png')">📎</span></div>
                 </div>
                 <div class="step-description">
                     노션 DB 변경 → 구글 캘린더 자동 업데이트
@@ -247,7 +309,7 @@
             <div class="step-section">
                 <div class="step-header">
                     <div class="step-number">3</div>
-                    <div class="step-title">진행률 추적</div>
+                    <div class="step-title">진행률 추적<span class="clip-link" onclick="openImageModal('assets/images/personal/16-3.png')">📎</span></div>
                 </div>
                 <div class="step-description">
                     완료율 시각화 + 병목 구간 파악
@@ -273,6 +335,37 @@
             </div>
         </div>
     </div>
+
+    <!-- 이미지 모달 -->
+    <div id="imageModal" class="image-modal" onclick="closeImageModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close-modal" onclick="closeImageModal()">&times;</span>
+            <img id="modalImage" class="modal-image" src="" alt="상세 이미지">
+        </div>
+    </div>
+
+    <script>
+        function openImageModal(imageSrc) {
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            modalImage.src = imageSrc;
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden'; // 배경 스크롤 방지
+        }
+
+        function closeImageModal() {
+            const modal = document.getElementById('imageModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto'; // 배경 스크롤 복원
+        }
+
+        // ESC 키로 모달 닫기
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeImageModal();
+            }
+        });
+    </script>
 
     <!-- Navigation System -->
     <script src="assets/js/navigation.js"></script>
